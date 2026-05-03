@@ -1,44 +1,85 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import type { Product } from '../types'; // Добавлено слово type
+import type { Product, Category } from '../types';
 import { useCart } from '../context/CartContext';
+import { Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const Catalog = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [filter, setFilter] = useState('all');
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [activeCategory, setActiveCategory] = useState('all');
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // Добавлена типизация <Product[]> для axios
+    // Загрузка товаров
     axios.get<Product[]>('http://localhost:3001/api/products')
-      .then(res => setProducts(res.data))
-      .catch(err => console.error("Ошибка загрузки:", err));
+      .then(res => setProducts(res.data));
+    
+    // Загрузка категорий
+    axios.get<Category[]>('http://localhost:3001/api/categories')
+      .then(res => setCategories(res.data));
   }, []);
 
-  const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+  const filtered = activeCategory === 'all' 
+    ? products 
+    : products.filter(p => p.category_slug === activeCategory);
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Каталог</h1>
-      
-      <div className="mb-6 flex gap-4 justify-center">
-        <button onClick={() => setFilter('all')} className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Все</button>
-        <button onClick={() => setFilter('electronics')} className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Электроника</button>
-        <button onClick={() => setFilter('clothing')} className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Одежда</button>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filtered.map(product => (
-          <div key={product.id} className="border p-4 rounded shadow-sm hover:shadow-md transition-shadow">
-            <img src={product.image} alt={product.name} className="w-full h-48 object-cover mb-4 rounded" />
-            <h2 className="text-xl font-semibold">{product.name}</h2>
-            <p className="text-purple-600 font-bold mb-4">{product.price} ₽</p>
-            <button 
-              onClick={() => addToCart(product)}
-              className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition-colors"
+    <div>
+      <header className="mb-10">
+        <h1 className="text-3xl font-bold text-slate-900 mb-6">Каталог</h1>
+        
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setActiveCategory('all')}
+            className={`px-4 py-2 rounded-xl text-sm transition-all ${
+              activeCategory === 'all' ? "bg-slate-900 text-white" : "bg-white text-slate-500 border border-slate-100"
+            }`}
+          >
+            Все товары
+          </button>
+          {categories.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.slug)}
+              className={`px-4 py-2 rounded-xl text-sm transition-all ${
+                activeCategory === cat.slug ? "bg-slate-900 text-white" : "bg-white text-slate-500 border border-slate-100"
+              }`}
             >
-              В корзину
+              {cat.name}
             </button>
+          ))}
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {filtered.map(product => (
+          <div key={product.id} className="bg-white rounded-3xl border border-slate-100 p-3 hover:shadow-xl transition-all group relative">
+              <Link to={`/product/${product.id}`}>
+              <div className="aspect-square rounded-2xl overflow-hidden mb-4 bg-slate-50">
+                <img 
+                  src={product.main_image} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform" 
+                />
+              </div>
+              <div className="px-2">
+                <span className="text-[10px] uppercase font-bold text-slate-400">{product.category_name}</span>
+                <h3 className="font-semibold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">
+                  {product.name}
+                </h3>
+              </div>
+            </Link>
+            
+            <div className="px-2 flex items-center justify-between mt-3">
+              <span className="font-bold text-indigo-600">{product.price.toLocaleString()} ₽</span>
+              <button 
+                onClick={() => addToCart(product)}
+                className="bg-slate-100 text-slate-900 p-2 rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
+              >
+                <Plus size={18} />
+              </button>
+            </div>
           </div>
         ))}
       </div>
