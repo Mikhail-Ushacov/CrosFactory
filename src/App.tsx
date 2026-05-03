@@ -3,9 +3,10 @@ import { Catalog } from './pages/Catalog';
 import { Cart } from './pages/Cart';
 import { Checkout } from './pages/Checkout';
 import { CartProvider, useCart } from './context/CartContext';
-import { LayoutGrid, ShoppingBag, CreditCard, Store, FileText } from 'lucide-react';
+import { LayoutGrid, ShoppingBag, CreditCard, Store, FileText, FileCheck } from 'lucide-react'; // Додано FileCheck
 import { ProductDetails } from './pages/ProductDetails';
 import InvoiceTemplate from './pages/Invoice';
+import ProformaInvoice from './pages/Outvoice'; // Додано імпорт Outvoice
 
 const Sidebar = () => {
   const { cart } = useCart();
@@ -14,7 +15,8 @@ const Sidebar = () => {
     { to: "/", icon: <LayoutGrid size={20} />, label: "Каталог" },
     { to: "/cart", icon: <ShoppingBag size={20} />, label: "Корзина", count: cart.length },
     { to: "/checkout", icon: <CreditCard size={20} />, label: "Оплата" },
-    { to: "/invoice", icon: <FileText size={20} />, label: "Счет" },
+    { to: "/outvoice", icon: <FileText size={20} />, label: "Рахунок" }, // Новий пункт
+    { to: "/invoice", icon: <FileCheck size={20} />, label: "Накладна" }, // Змінено для ясності
   ];
 
   return (
@@ -73,6 +75,7 @@ function App() {
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/outvoice" element={<ProformaInvoice />} /> {/* Новий маршрут */}
                 <Route path="/invoice" element={<InvoiceTemplate />} />
               </Routes>
             </div>
