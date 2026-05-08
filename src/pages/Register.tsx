@@ -112,35 +112,6 @@ export const Register = () => {
             </div>
           </div>
 
-          {/* Вибір ролі */}
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-400 uppercase ml-1">Тип акаунту</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setForm({...form, role: 'user'})}
-                className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
-                  form.role === 'user' 
-                  ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold" 
-                  : "bg-white border-slate-100 text-slate-500"
-                }`}
-              >
-                <User size={16} /> Користувач
-              </button>
-              <button
-                type="button"
-                onClick={() => setForm({...form, role: 'admin'})}
-                className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
-                  form.role === 'admin' 
-                  ? "bg-orange-50 border-orange-200 text-orange-600 font-bold" 
-                  : "bg-white border-slate-100 text-slate-500"
-                }`}
-              >
-                <Shield size={16} /> Адмін
-              </button>
-            </div>
-          </div>
-
           <button 
             disabled={loading}
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-100 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
