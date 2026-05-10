@@ -1,182 +1,93 @@
+require('dotenv').config();
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { PrismaClient } = require('./prisma/generated/client');
+const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
+
+const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 const app = express();
 const PORT = 3001;
-const SECRET_KEY = 'crosfactory_secret_key_2024'; // Секретний ключ для токенів
+const SECRET_KEY = 'crosfactory_secret_key_2024';
 
 app.use(cors());
 app.use(express.json());
 
-const db = new sqlite3.Database('./shop.db');
+// --- АВТОРИЗАЦІЯ ---
 
-db.serialize(async () => {
-  // 1. Таблиця категорій
-  db.run(`CREATE TABLE IF NOT EXISTS categories (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    slug TEXT UNIQUE NOT NULL
-  )`);
-
-  // 2. Таблиця товарів
-  db.run(`CREATE TABLE IF NOT EXISTS products (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    price REAL NOT NULL,
-    description TEXT,
-    category_id INTEGER,
-    FOREIGN KEY (category_id) REFERENCES categories (id)
-  )`);
-
-  // 3. Таблиця фотографій
-  db.run(`CREATE TABLE IF NOT EXISTS product_images (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    product_id INTEGER,
-    url TEXT NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products (id)
-  )`);
-
-  // 4. Таблиця користувачів (НОВА)
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    login TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'user'
-  )`);
-
-  // --- Наповнення бази даними (Seed) ---
-
-  // Створення адміна за замовчуванням (admin / 1234)
-  db.get("SELECT * FROM users WHERE login = 'admin'", async (err, row) => {
-    if (!row) {
-      const hashedPassword = await bcrypt.hash('1234', 10);
-      db.run("INSERT INTO users (login, password, role) VALUES (?, ?, ?)", ['admin', hashedPassword, 'admin']);
-      console.log("✅ Default admin created: login: admin, password: 1234");
-    }
-  });
-
-  // Наповнення товарами, якщо база порожня
-  db.get("SELECT count(*) as count FROM products", (err, row) => {
-    if (row && row.count === 0) {
-      console.log("Populating database with seed data...");
-      
-      const categories = [
-        ['Електроніка', 'electronics'], ['Одежда', 'clothing'], ['Обувь', 'shoes'],
-        ['Дом', 'home'], ['Красота', 'beauty'], ['Спорт', 'sports'],
-        ['Книги', 'books'], ['Игрушки', 'toys'], ['Автотовары', 'auto'], ['Сад', 'garden']
-      ];
-
-      categories.forEach(([name, slug]) => {
-        db.run("INSERT INTO categories (name, slug) VALUES (?, ?)", [name, slug], function(err) {
-          const categoryId = this.lastID;
-          for (let i = 1; i <= 2; i++) {
-            const productName = `${name} Товар #${i}`;
-            const price = Math.floor(Math.random() * 10000) + 500;
-            db.run("INSERT INTO products (name, price, description, category_id) VALUES (?, ?, ?, ?)", 
-              [productName, price, `Описание для ${productName}`, categoryId], function(err) {
-                const productId = this.lastID;
-                for (let j = 0; j < 5; j++) {
-                  const imageUrl = `https://picsum.photos/seed/${productId}-${j}/400/400`;
-                  db.run("INSERT INTO product_images (product_id, url) VALUES (?, ?)", [productId, imageUrl]);
-                }
-              }
-            );
-          }
-        });
-      });
-    }
-  });
-});
-
-// --- API Ендпоінти Авторизації ---
-
-// Реєстрація нового користувача
 app.post('/api/register', async (req, res) => {
   const { login, password, role } = req.body;
-  
-  if (!login || !password) {
-    return res.status(400).json({ message: "Логін та пароль обов'язкові" });
-  }
+  if (!login || !password) return res.status(400).json({ message: "Дані обов'язкові" });
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userRole = role === 'admin' ? 'admin' : 'user'; // Обмеження ролей
-
-    db.run("INSERT INTO users (login, password, role) VALUES (?, ?, ?)", 
-      [login, hashedPassword, userRole], 
-      function(err) {
-        if (err) {
-          return res.status(400).json({ message: "Користувач з таким логіном вже існує" });
-        }
-        res.status(201).json({ id: this.lastID, login, role: userRole });
+    const user = await prisma.user.create({
+      data: {
+        login,
+        password: hashedPassword,
+        role: role === 'admin' ? 'admin' : 'user'
       }
-    );
+    });
+    res.status(201).json({ id: user.id, login: user.login, role: user.role });
   } catch (error) {
-    res.status(500).json({ message: "Помилка сервера" });
+    res.status(400).json({ message: "Користувач вже існує" });
   }
 });
 
-// Логін
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { login, password } = req.body;
+  const user = await prisma.user.findUnique({ where: { login } });
 
-  db.get("SELECT * FROM users WHERE login = ?", [login], async (err, user) => {
-    if (err || !user) {
-      return res.status(401).json({ message: "Користувача не знайдено" });
-    }
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return res.status(401).json({ message: "Невірний логін або пароль" });
+  }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Невірний пароль" });
-    }
-
-    const token = jwt.sign(
-      { id: user.id, login: user.login, role: user.role }, 
-      SECRET_KEY, 
-      { expiresIn: '24h' }
-    );
-
-    res.json({
-      token,
-      user: { id: user.id, login: user.login, role: user.role }
-    });
-  });
+  const token = jwt.sign({ id: user.id, login: user.login, role: user.role }, SECRET_KEY, { expiresIn: '24h' });
+  res.json({ token, user: { id: user.id, login: user.login, role: user.role } });
 });
 
-// --- API Ендпоінти Магазину ---
+// --- МАГАЗИН ---
 
-app.get('/api/categories', (req, res) => {
-  db.all("SELECT * FROM categories", [], (err, rows) => {
-    res.json(rows);
-  });
+app.get('/api/categories', async (req, res) => {
+  const categories = await prisma.category.findMany();
+  res.json(categories);
 });
 
-app.get('/api/products', (req, res) => {
-  const query = `
-    SELECT p.*, c.name as category_name, c.slug as category_slug, 
-    (SELECT url FROM product_images WHERE product_id = p.id LIMIT 1) as main_image
-    FROM products p
-    JOIN categories c ON p.category_id = c.id
-  `;
-  db.all(query, [], (err, rows) => {
-    res.json(rows);
-  });
-});
-
-app.get('/api/products/:id', (req, res) => {
-  db.get("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.id = ?", [req.params.id], (err, product) => {
-    if (product) {
-      db.all("SELECT url FROM product_images WHERE product_id = ?", [product.id], (err, images) => {
-        product.images = images.map(img => img.url);
-        product.main_image = product.images[0] || '';
-        res.json(product);
-      });
-    } else {
-      res.status(404).json({ message: "Not found" });
+app.get('/api/products', async (req, res) => {
+  const products = await prisma.product.findMany({
+    include: {
+      category: true,
+      images: { take: 1 } // Беремо тільки перше фото як головне
     }
+  });
+  
+  // Трансформуємо дані під формат фронтенда
+  const result = products.map(p => ({
+    ...p,
+    category_name: p.category.name,
+    category_slug: p.category.slug,
+    main_image: p.images[0]?.url || ''
+  }));
+  
+  res.json(result);
+});
+
+app.get('/api/products/:id', async (req, res) => {
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: { category: true, images: true }
+  });
+
+  if (!product) return res.status(404).json({ message: "Не знайдено" });
+
+  res.json({
+    ...product,
+    category_name: product.category.name,
+    images: product.images.map(img => img.url),
+    main_image: product.images[0]?.url || ''
   });
 });
 
@@ -184,48 +95,54 @@ app.post('/api/orders', (req, res) => {
   res.status(201).json({ message: "Order created", id: Date.now() });
 });
 
-// --- Адмін-панель: CRUD товарів ---
+// --- АДМІН-ПАНЕЛЬ ---
 
-// Створити товар
-app.post('/api/products', (req, res) => {
+app.post('/api/products', async (req, res) => {
   const { name, price, description, category_id, main_image } = req.body;
-  db.run(
-    "INSERT INTO products (name, price, description, category_id) VALUES (?, ?, ?, ?)",
-    [name, price, description, category_id],
-    function(err) {
-      if (err) return res.status(400).json({ message: err.message });
-      const productId = this.lastID;
-      
-      // Додаємо головне фото
-      if (main_image) {
-        db.run("INSERT INTO product_images (product_id, url) VALUES (?, ?)", [productId, main_image]);
+  try {
+    const product = await prisma.product.create({
+      data: {
+        name,
+        price: parseFloat(price),
+        description,
+        categoryId: parseInt(category_id),
+        images: main_image ? { create: { url: main_image } } : undefined
       }
-      res.status(201).json({ id: productId });
-    }
-  );
-});
-
-// Редагувати товар
-app.put('/api/products/:id', (req, res) => {
-  const { name, price, description, category_id } = req.body;
-  db.run(
-    "UPDATE products SET name = ?, price = ?, description = ?, category_id = ? WHERE id = ?",
-    [name, price, description, category_id, req.params.id],
-    function(err) {
-      if (err) return res.status(400).json({ message: err.message });
-      res.json({ message: "Updated successfully" });
-    }
-  );
-});
-
-// Видалити товар
-app.delete('/api/products/:id', (req, res) => {
-  db.run("DELETE FROM product_images WHERE product_id = ?", [req.params.id], () => {
-    db.run("DELETE FROM products WHERE id = ?", [req.params.id], (err) => {
-      if (err) return res.status(400).json({ message: err.message });
-      res.json({ message: "Deleted successfully" });
     });
-  });
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.put('/api/products/:id', async (req, res) => {
+  const { name, price, description, category_id } = req.body;
+  try {
+    await prisma.product.update({
+      where: { id: parseInt(req.params.id) },
+      data: {
+        name,
+        price: parseFloat(price),
+        description,
+        categoryId: parseInt(category_id)
+      }
+    });
+    res.json({ message: "Updated" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.delete('/api/products/:id', async (req, res) => {
+  try {
+    // Завдяки onDelete: Cascade у схемі, картинки видаляться автоматично
+    await prisma.product.delete({
+      where: { id: parseInt(req.params.id) }
+    });
+    res.json({ message: "Deleted" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.listen(PORT, () => console.log(`🚀 Prisma Server running on http://localhost:${PORT}`));
