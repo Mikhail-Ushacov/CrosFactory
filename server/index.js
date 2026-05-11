@@ -18,9 +18,9 @@ const app = express();
 // --- КОНФІГУРАЦІЯ З .ENV ---
 const PORT = process.env.PORT || 3001;
 const SERVER_IP = process.env.SERVER_IP || 'localhost';
-const SECRET_KEY = 'crosfactory_secret_key_2024';
+const SECRET_KEY = process.env.SECRET_KEY || 'crosfactory_secret_key_2024';
 
-// Базовий URL для зображень (тепер залежить від IP)
+// Базовий URL для зображень
 const BASE_URL = `http://${SERVER_IP}:${PORT}`;
 
 // --- MIDDLEWARE ---
@@ -33,14 +33,33 @@ if (!fs.existsSync(contentDir)) {
   fs.mkdirSync(contentDir);
 }
 
-// Налаштування Multer для завантаження файлів
+// --- НАЛАШТУВАННЯ MULTER (ЗАХИСТ ТА ФІЛЬТРАЦІЯ) ---
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'content/'),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
-const upload = multer({ storage });
 
-// Робимо папку статичною (щоб картинки відкривались у браузері)
+const fileFilter = (req, file, cb) => {
+  // Дозволені MIME-типи
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+  
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Недопустимий формат файлу. Дозволені лише зображення (jpg, png, gif, webp)'), false);
+  }
+};
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // Ліміт 5 МБ на один файл
+  }
+});
+
+// Робимо папку статичною
 app.use('/content', express.static(path.join(__dirname, 'content')));
 
 // --- АВТОРИЗАЦІЯ ---
@@ -87,90 +106,112 @@ app.get('/api/products', async (req, res) => {
 });
 
 app.get('/api/products/:id', async (req, res) => {
-  const product = await prisma.product.findUnique({
-    where: { id: parseInt(req.params.id) },
-    include: { category: true, images: true }
-  });
-  if (!product) return res.status(404).send();
-  res.json({
-    ...product,
-    category_name: product.category.name,
-    images: product.images.map(img => img.url),
-    main_image: product.images[0]?.url || ''
-  });
-});
-
-// --- АДМІН-ПАНЕЛЬ ---
-
-app.post('/api/products', upload.array('files'), async (req, res) => {
   try {
-    const { name, price, description, category_id, existing_urls } = req.body;
-    
-    const urls = JSON.parse(existing_urls || '[]');
-    // Використовуємо динамічний BASE_URL замість localhost
-    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
-    const allImages = [...urls, ...fileUrls];
-
-    const validCategoryId = parseInt(category_id) || 1;
-
-    const product = await prisma.product.create({
-      data: {
-        name,
-        price: parseFloat(price) || 0,
-        description: description || "",
-        category: {
-          connect: { id: validCategoryId }
-        },
-        images: {
-          create: allImages.map(url => ({ url }))
-        }
-      }
+    const product = await prisma.product.findUnique({
+      where: { id: parseInt(req.params.id) },
+      include: { category: true, images: true }
     });
-    res.status(201).json(product);
-  } catch (error) {
-    console.error("Помилка створення:", error);
-    res.status(400).json({ message: error.message });
+    if (!product) return res.status(404).json({ message: "Товар не знайдено" });
+    res.json({
+      ...product,
+      category_name: product.category.name,
+      images: product.images.map(img => img.url),
+      main_image: product.images[0]?.url || ''
+    });
+  } catch (e) {
+    res.status(500).json({ message: "Помилка сервера" });
   }
 });
 
-app.put('/api/products/:id', upload.array('files'), async (req, res) => {
-  const productId = parseInt(req.params.id);
-  try {
-    const { name, price, description, category_id, existing_urls } = req.body;
-    
-    const urls = JSON.parse(existing_urls || '[]');
-    // Використовуємо динамічний BASE_URL замість localhost
-    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
-    const allImages = [...urls, ...fileUrls];
+// --- АДМІН-ПАНЕЛЬ (З ОБРОБКОЮ ПОМИЛОК MULTER) ---
 
-    const validCategoryId = parseInt(category_id) || 1;
+app.post('/api/products', (req, res) => {
+  upload.array('files')(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
 
-    await prisma.productImage.deleteMany({ where: { productId } });
+    try {
+      const { name, price, description, category_id, existing_urls } = req.body;
+      
+      const urls = JSON.parse(existing_urls || '[]');
+      const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
+      const allImages = [...urls, ...fileUrls];
 
-    const product = await prisma.product.update({
-      where: { id: productId },
-      data: {
-        name,
-        price: parseFloat(price) || 0,
-        description: description || "",
-        category: {
-          connect: { id: validCategoryId }
-        },
-        images: {
-          create: allImages.map(url => ({ url }))
+      const validCategoryId = parseInt(category_id) || 1;
+
+      const product = await prisma.product.create({
+        data: {
+          name,
+          price: parseFloat(price) || 0,
+          description: description || "",
+          category: {
+            connect: { id: validCategoryId }
+          },
+          images: {
+            create: allImages.map(url => ({ url }))
+          }
         }
-      }
-    });
-    res.json(product);
-  } catch (error) {
-    console.error("Помилка оновлення:", error);
-    res.status(400).json({ message: error.message });
-  }
+      });
+      res.status(201).json(product);
+    } catch (error) {
+      console.error("Помилка створення:", error);
+      res.status(400).json({ message: error.message });
+    }
+  });
+});
+
+app.put('/api/products/:id', (req, res) => {
+  upload.array('files')(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    const productId = parseInt(req.params.id);
+    try {
+      const { name, price, description, category_id, existing_urls } = req.body;
+      
+      const urls = JSON.parse(existing_urls || '[]');
+      const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
+      const allImages = [...urls, ...fileUrls];
+
+      const validCategoryId = parseInt(category_id) || 1;
+
+      // Видаляємо старі посилання на фото в БД (самі файли залишаються в папці)
+      await prisma.productImage.deleteMany({ where: { productId } });
+
+      const product = await prisma.product.update({
+        where: { id: productId },
+        data: {
+          name,
+          price: parseFloat(price) || 0,
+          description: description || "",
+          category: {
+            connect: { id: validCategoryId }
+          },
+          images: {
+            create: allImages.map(url => ({ url }))
+          }
+        }
+      });
+      res.json(product);
+    } catch (error) {
+      console.error("Помилка оновлення:", error);
+      res.status(400).json({ message: error.message });
+    }
+  });
 });
 
 app.delete('/api/products/:id', async (req, res) => {
-  await prisma.product.delete({ where: { id: parseInt(req.params.id) } });
-  res.json({ message: "Deleted" });
+  try {
+    const id = parseInt(req.params.id);
+    // Спочатку видаляємо картинки, потім товар (залежить від налаштувань каскаду в Prisma)
+    await prisma.productImage.deleteMany({ where: { productId: id } });
+    await prisma.product.delete({ where: { id: id } });
+    res.json({ message: "Deleted" });
+  } catch (error) {
+    res.status(400).json({ message: "Помилка при видаленні" });
+  }
 });
 
 // Слухаємо на 0.0.0.0, щоб сервер був доступний у локальній мережі

@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import api from '../api';
 
 export const Login = () => {
   const [form, setForm] = useState({ login: '', password: '' });
-  const { login } = useAuth();
+  const { login, user, isLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      navigate('/');
+    }
+  }, [user, isLoading, navigate]);
+
+  if (isLoading) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

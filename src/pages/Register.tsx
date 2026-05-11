@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserPlus, User, Lock, Shield, ArrowRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import api from '../api';
 
 export const Register = () => {
@@ -13,6 +15,16 @@ export const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  
+  const {user, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      navigate('/');
+    }
+  }, [user, isLoading, navigate]);
+
+  if (isLoading) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
