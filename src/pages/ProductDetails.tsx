@@ -21,6 +21,16 @@ export const ProductDetails = () => {
       .catch(err => console.error("Ошибка загрузки товара:", err));
   }, [id]);
 
+  useEffect(() => {
+    if (product) {
+      const viewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+      // Видаляємо дублікат, якщо він є, і додаємо в початок
+      const updatedViewed = [product.id, ...viewed.filter((id: number) => id !== product.id)].slice(0, 5);
+      localStorage.setItem('recentlyViewed', JSON.stringify(updatedViewed));
+    }
+  }, [product]);
+
+
   if (!product) return <div className="p-10 text-center">Загрузка...</div>;
 
   const handleAddToCart = () => {
@@ -31,7 +41,7 @@ export const ProductDetails = () => {
 
   return (
     <div className="max-w-5xl">
-      <Link to="/" className="inline-flex items-center text-slate-500 hover:text-indigo-600 mb-8 transition-colors">
+      <Link to="/catalog" className="inline-flex items-center text-slate-500 hover:text-indigo-600 mb-8 transition-colors">
         <ChevronLeft size={20} />
         <span>Назад к каталогу</span>
       </Link>

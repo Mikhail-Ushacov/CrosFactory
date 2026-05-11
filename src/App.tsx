@@ -22,7 +22,8 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { UserProfile } from './pages/UserProfile';
 import { AdminProfile } from './pages/AdminProfile';
-import { AdminProductForm } from './pages/AdminProductForm'; // Додано імпорт
+import { AdminProductForm } from './pages/AdminProductForm';
+import { Home } from './pages/Home';
 
 const PrivateRoute = ({ children, role }: { children: React.ReactNode, role?: 'user' | 'admin' }) => {
   const { user } = useAuth();
@@ -41,13 +42,13 @@ const Sidebar = () => {
         <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
           <Store size={24} />
         </div>
-        <span className="text-xl font-bold tracking-tight text-slate-900">CrosFactory</span>
+        <span className="text-xl font-bold tracking-tight text-slate-900">Запоріжжя Метиз</span>
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto">
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-4">Меню</p>
         
-        <NavLink to="/" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
+        <NavLink to="/catalog" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
           <LayoutGrid size={20} />
           <span>Каталог</span>
         </NavLink>
@@ -102,8 +103,8 @@ function App() {
             <main className="ml-64 flex-1 p-8">
               <div className="max-w-6xl mx-auto">
                 <Routes>
-                  <Route path="/" element={<Catalog />} />
-                  <Route path="/product/:id" element={<ProductDetails />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/catalog" element={<Catalog />} />                  <Route path="/product/:id" element={<ProductDetails />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />

@@ -37,7 +37,7 @@ export const Catalog = () => {
               activeCategory === 'all' ? "bg-slate-900 text-white" : "bg-white text-slate-500 border border-slate-100"
             }`}
           >
-            Все товары
+            Всі товари
           </button>
           {categories.map(cat => (
             <button
