@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
 import { ChevronLeft, ShoppingBag, Check } from 'lucide-react';
 import type { Product } from '../types';
 import { useCart } from '../context/CartContext';
+import api from '../api';
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -13,7 +13,7 @@ export const ProductDetails = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios.get<Product>(`http://localhost:3001/api/products/${id}`)
+    api.get<Product>(`/products/${id}`)
       .then(res => {
         setProduct(res.data);
         setActiveImage(res.data.main_image);

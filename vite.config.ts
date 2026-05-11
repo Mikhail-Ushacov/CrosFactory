@@ -8,4 +8,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    host: true, // Це дозволить доступ по IP
+    port: 5173,
+  }
 })

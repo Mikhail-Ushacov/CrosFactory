@@ -14,8 +14,14 @@ const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 const app = express();
-const PORT = 3001;
+
+// --- КОНФІГУРАЦІЯ З .ENV ---
+const PORT = process.env.PORT || 3001;
+const SERVER_IP = process.env.SERVER_IP || 'localhost';
 const SECRET_KEY = 'crosfactory_secret_key_2024';
+
+// Базовий URL для зображень (тепер залежить від IP)
+const BASE_URL = `http://${SERVER_IP}:${PORT}`;
 
 // --- MIDDLEWARE ---
 app.use(cors());
@@ -56,7 +62,7 @@ app.post('/api/login', async (req, res) => {
   const { login, password } = req.body;
   const user = await prisma.user.findUnique({ where: { login } });
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: "Невірний" });
+    return res.status(401).json({ message: "Невірний логін або пароль" });
   }
   const token = jwt.sign({ id: user.id, login: user.login, role: user.role }, SECRET_KEY);
   res.json({ token, user: { login: user.login, role: user.role } });
@@ -101,10 +107,10 @@ app.post('/api/products', upload.array('files'), async (req, res) => {
     const { name, price, description, category_id, existing_urls } = req.body;
     
     const urls = JSON.parse(existing_urls || '[]');
-    const fileUrls = req.files.map(file => `http://localhost:3001/content/${file.filename}`);
+    // Використовуємо динамічний BASE_URL замість localhost
+    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
     const allImages = [...urls, ...fileUrls];
 
-    // Перевіряємо ID категорії (якщо NaN або порожньо - ставимо 1)
     const validCategoryId = parseInt(category_id) || 1;
 
     const product = await prisma.product.create({
@@ -112,7 +118,6 @@ app.post('/api/products', upload.array('files'), async (req, res) => {
         name,
         price: parseFloat(price) || 0,
         description: description || "",
-        // ВИПРАВЛЕНО: використовуємо connect для зв'язку з категорією
         category: {
           connect: { id: validCategoryId }
         },
@@ -134,22 +139,20 @@ app.put('/api/products/:id', upload.array('files'), async (req, res) => {
     const { name, price, description, category_id, existing_urls } = req.body;
     
     const urls = JSON.parse(existing_urls || '[]');
-    const fileUrls = req.files.map(file => `http://localhost:3001/content/${file.filename}`);
+    // Використовуємо динамічний BASE_URL замість localhost
+    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
     const allImages = [...urls, ...fileUrls];
 
     const validCategoryId = parseInt(category_id) || 1;
 
-    // 1. Спочатку чистимо старі картинки
     await prisma.productImage.deleteMany({ where: { productId } });
 
-    // 2. Оновлюємо товар
     const product = await prisma.product.update({
       where: { id: productId },
       data: {
         name,
         price: parseFloat(price) || 0,
         description: description || "",
-        // ВИПРАВЛЕНО: використовуємо connect для оновлення зв'язку
         category: {
           connect: { id: validCategoryId }
         },
@@ -170,4 +173,7 @@ app.delete('/api/products/:id', async (req, res) => {
   res.json({ message: "Deleted" });
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+// Слухаємо на 0.0.0.0, щоб сервер був доступний у локальній мережі
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on ${BASE_URL}`);
+});

@@ -1,8 +1,8 @@
 import { useState, useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Save, ArrowLeft, Package, Upload, X, Link as LinkIcon, ImagePlus } from 'lucide-react';
 import type { Category } from '../types';
+import api from '../api';
 
 interface ImageItem {
   id: string;
@@ -28,10 +28,10 @@ export const AdminProductForm = () => {
   const [images, setImages] = useState<ImageItem[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/categories').then(res => setCategories(res.data));
+    api.get('/categories').then(res => setCategories(res.data));
     
     if (id) {
-      axios.get(`http://localhost:3001/api/products/${id}`).then(res => {
+      api.get(`/products/${id}`).then(res => {
         setForm({
           name: res.data.name,
           price: res.data.price,
@@ -110,9 +110,9 @@ export const AdminProductForm = () => {
 
     try {
       if (id) {
-        await axios.put(`http://localhost:3001/api/products/${id}`, formData);
+        await api.put(`/products/${id}`, formData);
       } else {
-        await axios.post('http://localhost:3001/api/products', formData);
+        await api.post('/products', formData);
       }
       navigate('/admin');
     } catch (err) {

@@ -38,12 +38,12 @@ const Sidebar = () => {
   
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-100 p-6 flex flex-col shadow-sm z-50">
-      <div className="flex items-center gap-3 mb-10 px-2">
+      <NavLink to="/" className="flex items-center gap-3 mb-10 px-2">
         <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
           <Store size={24} />
         </div>
         <span className="text-xl font-bold tracking-tight text-slate-900">Запоріжжя Метиз</span>
-      </div>
+      </NavLink>
 
       <nav className="flex-1 space-y-1 overflow-y-auto">
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-4">Меню</p>

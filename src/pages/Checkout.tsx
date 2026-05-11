@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
-import axios from 'axios';
 import { User, Building2, CreditCard, ArrowRight, Truck, Mail, Phone, Hash, Landmark, FileText, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../api';
 
 type CustomerType = 'individual' | 'business';
 
@@ -45,7 +45,7 @@ export const Checkout = () => {
     };
 
     try {
-      await axios.post('http://localhost:3001/api/orders', orderData);
+      await api.post('/orders', orderData);
       clearCart();
       setOrdered(true);
     } catch (err) {

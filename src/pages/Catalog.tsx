@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import type { Product, Category } from '../types';
 import { useCart } from '../context/CartContext';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../api';
 
 export const Catalog = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -13,11 +13,11 @@ export const Catalog = () => {
 
   useEffect(() => {
     // Загрузка товаров
-    axios.get<Product[]>('http://localhost:3001/api/products')
+    api.get('/products')
       .then(res => setProducts(res.data));
     
     // Загрузка категорий
-    axios.get<Category[]>('http://localhost:3001/api/categories')
+    api.get('/categories')
       .then(res => setCategories(res.data));
   }, []);
 

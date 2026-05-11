@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { 
   ChevronLeft, ChevronRight, Star, Clock, 
@@ -8,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import type { Product } from '../types';
+import api from '../api';
 
 // Створюємо маленькі компоненти для брендів, якщо Lucide їх не експортує
 const FacebookIcon = () => (
@@ -46,7 +46,7 @@ export const Home = () => {
   ];
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/products').then(res => {
+    api.get('/products').then(res => {
       setProducts(res.data);
       const viewedIds = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
       const filtered = res.data.filter((p: Product) => viewedIds.includes(p.id));

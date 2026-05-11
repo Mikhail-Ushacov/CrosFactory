@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserPlus, User, Lock, Shield, ArrowRight } from 'lucide-react';
+import api from '../api';
 
 export const Register = () => {
   const [form, setForm] = useState({ 
@@ -30,7 +30,7 @@ export const Register = () => {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:3001/api/register', {
+      await api.post('/register', {
         login: form.login,
         password: form.password,
         role: form.role

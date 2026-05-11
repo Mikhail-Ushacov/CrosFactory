@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Edit2, Trash2, PlusCircle, ShoppingCart, Users, TrendingUp, Shield } from 'lucide-react';
 import type { Product } from '../types';
+import api from '../api';
 
 export const AdminProfile = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   const fetchProducts = () => {
-    axios.get('http://localhost:3001/api/products')
+    api.get('/products')
       .then(res => setProducts(res.data))
       .catch(err => console.error(err));
   };
@@ -18,7 +18,7 @@ export const AdminProfile = () => {
   const handleDelete = async (id: number) => {
     if (window.confirm("Видалити цей товар безповоротно?")) {
       try {
-        await axios.delete(`http://localhost:3001/api/products/${id}`);
+        await api.delete(`/products/${id}`);
         fetchProducts();
       } catch (err) {
         alert("Помилка при видаленні");
