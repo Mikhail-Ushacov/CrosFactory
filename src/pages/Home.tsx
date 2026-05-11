@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, ChevronRight, Star, Clock, 
   Phone, Mail, ShoppingBag, 
-  Newspaper, Send,
-} from 'lucide-react';
+  Newspaper, Search, X, ArrowRight, Layers 
+} from 'lucide-react'; // Виправлено імпорт
 import { useCart } from '../context/CartContext';
-import type { Product } from '../types';
+import type { Product, Category } from '../types';
 import api from '../api';
 
 const FacebookIcon = () => (
@@ -19,8 +19,14 @@ const InstagramIcon = () => (
 
 export const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  
+  const navigate = useNavigate();
   const { addToCart } = useCart();
 
   const slides = [
@@ -44,26 +50,168 @@ export const Home = () => {
   ];
 
   useEffect(() => {
-    api.get('/products').then(res => {
-      setProducts(res.data);
+    // Одночасно завантажуємо товари та категорії
+    Promise.all([
+      api.get('/products'),
+      api.get('/categories')
+    ]).then(([resProducts, resCategories]) => {
+      setProducts(resProducts.data);
+      setCategories(resCategories.data);
+      
       const viewedIds = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
-      const filtered = res.data.filter((p: Product) => viewedIds.includes(p.id));
+      const filtered = resProducts.data.filter((p: Product) => viewedIds.includes(p.id));
       setRecentlyViewed(filtered);
-    });
+    }).catch(err => console.error("Loading error:", err));
 
     const timer = setInterval(() => {
       setCurrentSlide(s => (s === slides.length - 1 ? 0 : s + 1));
     }, 5000);
-    return () => clearInterval(timer);
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [slides.length]);
+
+  // Пошук товарів
+  const suggestedProducts = searchQuery.trim().length > 1
+    ? products
+        .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(0, 5)
+    : [];
+
+  // Пошук категорій
+  const suggestedCategories = searchQuery.trim().length > 1
+    ? categories
+        .filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(0, 3)
+    : [];
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setIsSearchOpen(false);
+      navigate(`/catalog?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const productOfTheDay = products[0];
 
   return (
-    <div className="space-y-8 md:space-y-16 pb-10">
+    <div className="space-y-8 md:space-y-12 pb-10">
       
-      {/* 1. Карусель - Адаптивна висота */}
-      <section className="relative h-64 md:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg">
+      {/* Пошукова секція */}
+      <section className="max-w-2xl mx-auto px-4 w-full relative z-20" ref={searchRef}>
+        <form onSubmit={handleSearchSubmit} className="relative group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={20} />
+          <input
+            type="text"
+            placeholder="Швидкий пошук товарів або категорій..."
+            value={searchQuery}
+            onFocus={() => setIsSearchOpen(true)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setIsSearchOpen(true);
+            }}
+            className="w-full pl-12 pr-12 py-4 bg-white border border-slate-200 rounded-2xl text-base shadow-sm focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all"
+          />
+          {searchQuery && (
+            <button 
+              type="button"
+              onClick={() => { setSearchQuery(''); setIsSearchOpen(false); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            >
+              <X size={20} />
+            </button>
+          )}
+        </form>
+
+        {/* Випадаючий список результатів */}
+        {isSearchOpen && searchQuery.trim().length > 1 && (
+          <div className="absolute top-full left-4 right-4 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+            {(suggestedProducts.length > 0 || suggestedCategories.length > 0) ? (
+              <div className="py-2">
+                
+                {/* Секція Категорій */}
+                {suggestedCategories.length > 0 && (
+                  <div className="mb-2">
+                    <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Категорії</div>
+                    {suggestedCategories.map((category) => (
+                      <button
+                        key={category.id}
+                        onClick={() => {
+                          navigate(`/catalog?category=${category.id}`);
+                          setIsSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                        className="w-full flex items-center gap-4 px-4 py-3 hover:bg-indigo-50 transition-colors text-left group"
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
+                          <Layers size={18} />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-sm font-bold text-slate-900 leading-tight">
+                            Подивитися в категорії <span className="text-indigo-600 group-hover:text-indigo-700">"{category.name}"</span>
+                          </h4>
+                        </div>
+                        <ArrowRight size={16} className="text-slate-300" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Секція Товарів */}
+                {suggestedProducts.length > 0 && (
+                  <div>
+                    <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-t border-slate-50">Товари</div>
+                    {suggestedProducts.map((product) => (
+                      <button
+                        key={product.id}
+                        onClick={() => {
+                          navigate(`/product/${product.id}`);
+                          setIsSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                        className="w-full flex items-center gap-4 px-4 py-3 hover:bg-indigo-50 transition-colors text-left"
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-slate-100 shrink-0 overflow-hidden">
+                          <img src={product.main_image} alt={product.name} className="w-full h-full object-contain p-1" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-bold text-slate-900 truncate">{product.name}</h4>
+                          <p className="text-xs text-indigo-600 font-bold">{product.price} ₴</p>
+                        </div>
+                        <ArrowRight size={16} className="text-slate-300" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                <button 
+                  onClick={handleSearchSubmit}
+                  className="w-full mt-2 py-3 px-4 bg-slate-50 text-indigo-600 text-sm font-bold hover:bg-indigo-100 transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
+                >
+                  Показати всі результати для "{searchQuery}"
+                </button>
+              </div>
+            ) : (
+              <div className="p-8 text-center">
+                <p className="text-slate-500 text-sm">Нічого не знайдено за запитом "{searchQuery}"</p>
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Карусель */}
+      <section className="relative h-64 md:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg z-0">
         {slides.map((slide, index) => (
           <div key={index} className={`absolute inset-0 transition-opacity duration-1000 flex items-center ${index === currentSlide ? "opacity-100" : "opacity-0"}`}>
             <div className={`absolute inset-0 ${slide.bg} opacity-70 z-0`}></div>
@@ -77,15 +225,15 @@ export const Home = () => {
             </div>
           </div>
         ))}
-        <button onClick={() => setCurrentSlide(s => s === 0 ? slides.length - 1 : s - 1)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 p-2 rounded-full text-white backdrop-blur-sm z-20">
+        <button onClick={() => setCurrentSlide(s => s === 0 ? slides.length - 1 : s - 1)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 p-2 rounded-full text-white backdrop-blur-sm z-20 hover:bg-white/40 transition-colors">
           <ChevronLeft size={20} />
         </button>
-        <button onClick={() => setCurrentSlide(s => s === slides.length - 1 ? 0 : s + 1)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 p-2 rounded-full text-white backdrop-blur-sm z-20">
+        <button onClick={() => setCurrentSlide(s => s === slides.length - 1 ? 0 : s + 1)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 p-2 rounded-full text-white backdrop-blur-sm z-20 hover:bg-white/40 transition-colors">
           <ChevronRight size={20} />
         </button>
       </section>
 
-      {/* 2. Товар дня - Стек на мобільних */}
+      {/* Товар дня */}
       {productOfTheDay && (
         <section className="bg-white rounded-2xl md:rounded-3xl border border-slate-100 overflow-hidden shadow-sm">
           <div className="flex flex-col md:grid md:grid-cols-2">
@@ -116,7 +264,23 @@ export const Home = () => {
         </section>
       )}
 
-      {/* 3. Контакти - Стек на мобільних */}
+      {/* Нещодавно переглянуті (якщо є) */}
+      {recentlyViewed.length > 0 && (
+        <section className="px-2">
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Clock size={20} className="text-indigo-600" /> Ви нещодавно дивились</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {recentlyViewed.slice(0, 5).map(product => (
+              <Link key={product.id} to={`/product/${product.id}`} className="bg-white p-3 rounded-xl border border-slate-100 hover:shadow-md transition-all">
+                <img src={product.main_image} className="w-full aspect-square object-contain mb-2" alt={product.name} />
+                <h4 className="text-xs font-bold truncate">{product.name}</h4>
+                <p className="text-indigo-600 font-black text-sm">{product.price} ₴</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Контакти та новини */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div className="lg:col-span-1 space-y-4">
           <h3 className="text-xl font-bold flex items-center gap-2 px-2"><Newspaper size={20} className="text-indigo-600" /> Останні новини</h3>
@@ -130,6 +294,10 @@ export const Home = () => {
                 <h4 className="text-sm font-semibold text-slate-900 leading-snug">{item.title}</h4>
               </div>
             ))}
+          </div>
+          <div className="flex gap-4 px-2 pt-2">
+            <a href="#" className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><FacebookIcon /></a>
+            <a href="#" className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><InstagramIcon /></a>
           </div>
         </div>
 

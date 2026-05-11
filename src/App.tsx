@@ -155,7 +155,7 @@ function App() {
                 <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-600">
                   <Menu size={24} />
                 </button>
-                <div className="font-bold text-slate-900">Запоріжжя Метиз</div>
+                <NavLink to="/" className="font-bold text-slate-900">Запоріжжя Метиз</NavLink>
                 <NavLink to="/cart" className="p-2 text-slate-600 relative">
                   <ShoppingBag size={24} />
                 </NavLink>
