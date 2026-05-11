@@ -3,9 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const { PrismaClient } = require('./prisma/generated/client');
 const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 
+// --- НАЛАШТУВАННЯ PRISMA ---
 const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
@@ -13,23 +17,34 @@ const app = express();
 const PORT = 3001;
 const SECRET_KEY = 'crosfactory_secret_key_2024';
 
+// --- MIDDLEWARE ---
 app.use(cors());
 app.use(express.json());
+
+// Створюємо папку для завантажень, якщо її немає
+const contentDir = path.join(__dirname, 'content');
+if (!fs.existsSync(contentDir)) {
+  fs.mkdirSync(contentDir);
+}
+
+// Налаштування Multer для завантаження файлів
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'content/'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+});
+const upload = multer({ storage });
+
+// Робимо папку статичною (щоб картинки відкривались у браузері)
+app.use('/content', express.static(path.join(__dirname, 'content')));
 
 // --- АВТОРИЗАЦІЯ ---
 
 app.post('/api/register', async (req, res) => {
   const { login, password, role } = req.body;
-  if (!login || !password) return res.status(400).json({ message: "Дані обов'язкові" });
-
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
-      data: {
-        login,
-        password: hashedPassword,
-        role: role === 'admin' ? 'admin' : 'user'
-      }
+      data: { login, password: hashedPassword, role: role === 'admin' ? 'admin' : 'user' }
     });
     res.status(201).json({ id: user.id, login: user.login, role: user.role });
   } catch (error) {
@@ -40,39 +55,29 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   const { login, password } = req.body;
   const user = await prisma.user.findUnique({ where: { login } });
-
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: "Невірний логін або пароль" });
+    return res.status(401).json({ message: "Невірний" });
   }
-
-  const token = jwt.sign({ id: user.id, login: user.login, role: user.role }, SECRET_KEY, { expiresIn: '24h' });
-  res.json({ token, user: { id: user.id, login: user.login, role: user.role } });
+  const token = jwt.sign({ id: user.id, login: user.login, role: user.role }, SECRET_KEY);
+  res.json({ token, user: { login: user.login, role: user.role } });
 });
 
 // --- МАГАЗИН ---
 
 app.get('/api/categories', async (req, res) => {
-  const categories = await prisma.category.findMany();
-  res.json(categories);
+  res.json(await prisma.category.findMany());
 });
 
 app.get('/api/products', async (req, res) => {
   const products = await prisma.product.findMany({
-    include: {
-      category: true,
-      images: { take: 1 } // Беремо тільки перше фото як головне
-    }
+    include: { category: true, images: { take: 1 } }
   });
-  
-  // Трансформуємо дані під формат фронтенда
-  const result = products.map(p => ({
+  res.json(products.map(p => ({
     ...p,
     category_name: p.category.name,
     category_slug: p.category.slug,
     main_image: p.images[0]?.url || ''
-  }));
-  
-  res.json(result);
+  })));
 });
 
 app.get('/api/products/:id', async (req, res) => {
@@ -80,9 +85,7 @@ app.get('/api/products/:id', async (req, res) => {
     where: { id: parseInt(req.params.id) },
     include: { category: true, images: true }
   });
-
-  if (!product) return res.status(404).json({ message: "Не знайдено" });
-
+  if (!product) return res.status(404).send();
   res.json({
     ...product,
     category_name: product.category.name,
@@ -91,58 +94,80 @@ app.get('/api/products/:id', async (req, res) => {
   });
 });
 
-app.post('/api/orders', (req, res) => {
-  res.status(201).json({ message: "Order created", id: Date.now() });
-});
-
 // --- АДМІН-ПАНЕЛЬ ---
 
-app.post('/api/products', async (req, res) => {
-  const { name, price, description, category_id, main_image } = req.body;
+app.post('/api/products', upload.array('files'), async (req, res) => {
   try {
+    const { name, price, description, category_id, existing_urls } = req.body;
+    
+    const urls = JSON.parse(existing_urls || '[]');
+    const fileUrls = req.files.map(file => `http://localhost:3001/content/${file.filename}`);
+    const allImages = [...urls, ...fileUrls];
+
+    // Перевіряємо ID категорії (якщо NaN або порожньо - ставимо 1)
+    const validCategoryId = parseInt(category_id) || 1;
+
     const product = await prisma.product.create({
       data: {
         name,
-        price: parseFloat(price),
-        description,
-        categoryId: parseInt(category_id),
-        images: main_image ? { create: { url: main_image } } : undefined
+        price: parseFloat(price) || 0,
+        description: description || "",
+        // ВИПРАВЛЕНО: використовуємо connect для зв'язку з категорією
+        category: {
+          connect: { id: validCategoryId }
+        },
+        images: {
+          create: allImages.map(url => ({ url }))
+        }
       }
     });
     res.status(201).json(product);
   } catch (error) {
+    console.error("Помилка створення:", error);
     res.status(400).json({ message: error.message });
   }
 });
 
-app.put('/api/products/:id', async (req, res) => {
-  const { name, price, description, category_id } = req.body;
+app.put('/api/products/:id', upload.array('files'), async (req, res) => {
+  const productId = parseInt(req.params.id);
   try {
-    await prisma.product.update({
-      where: { id: parseInt(req.params.id) },
+    const { name, price, description, category_id, existing_urls } = req.body;
+    
+    const urls = JSON.parse(existing_urls || '[]');
+    const fileUrls = req.files.map(file => `http://localhost:3001/content/${file.filename}`);
+    const allImages = [...urls, ...fileUrls];
+
+    const validCategoryId = parseInt(category_id) || 1;
+
+    // 1. Спочатку чистимо старі картинки
+    await prisma.productImage.deleteMany({ where: { productId } });
+
+    // 2. Оновлюємо товар
+    const product = await prisma.product.update({
+      where: { id: productId },
       data: {
         name,
-        price: parseFloat(price),
-        description,
-        categoryId: parseInt(category_id)
+        price: parseFloat(price) || 0,
+        description: description || "",
+        // ВИПРАВЛЕНО: використовуємо connect для оновлення зв'язку
+        category: {
+          connect: { id: validCategoryId }
+        },
+        images: {
+          create: allImages.map(url => ({ url }))
+        }
       }
     });
-    res.json({ message: "Updated" });
+    res.json(product);
   } catch (error) {
+    console.error("Помилка оновлення:", error);
     res.status(400).json({ message: error.message });
   }
 });
 
 app.delete('/api/products/:id', async (req, res) => {
-  try {
-    // Завдяки onDelete: Cascade у схемі, картинки видаляться автоматично
-    await prisma.product.delete({
-      where: { id: parseInt(req.params.id) }
-    });
-    res.json({ message: "Deleted" });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+  await prisma.product.delete({ where: { id: parseInt(req.params.id) } });
+  res.json({ message: "Deleted" });
 });
 
-app.listen(PORT, () => console.log(`🚀 Prisma Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

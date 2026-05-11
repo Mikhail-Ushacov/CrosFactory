@@ -34,3 +34,4 @@ dist-ssr
 server1/
 
 /generated/prisma
+content/
