@@ -1,11 +1,12 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('./generated/client'); // Зверніть увагу на шлях, якщо генеруєте в окрему папку
 const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 const bcrypt = require('bcrypt');
 
-const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
-
 async function main() {
+  // Налаштування адаптера як у основному файлі
+  const adapter = new PrismaBetterSqlite3({ url: 'file:./dev.db' });
+  const prisma = new PrismaClient({ adapter });
+
   // 1. Створення адміна
   const adminPassword = await bcrypt.hash('1234', 10);
   await prisma.user.upsert({
@@ -28,7 +29,7 @@ async function main() {
   ];
 
   for (const cat of categoriesData) {
-    const category = await prisma.category.upsert({
+    await prisma.category.upsert({
       where: { slug: cat.slug },
       update: {},
       create: {
@@ -42,7 +43,11 @@ async function main() {
               description: `Опис для ${cat.name} #1`,
               images: {
                 create: Array.from({ length: 3 }).map((_, i) => ({
-                  url: `https://picsum.photos/seed/${cat.slug}${i}/400/400`
+                  image: {
+                    create: {
+                      url: `https://picsum.photos/seed/${cat.slug}${i}/400/400`
+                    }
+                  }
                 }))
               }
             }
@@ -53,8 +58,10 @@ async function main() {
   }
 
   console.log('✅ Database seeded!');
+  await prisma.$disconnect();
 }
 
-main()
-  .catch((e) => console.error(e))
-  .finally(async () => await prisma.$disconnect());
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
