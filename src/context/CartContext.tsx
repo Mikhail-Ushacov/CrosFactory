@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import type { CartItem, Product } from '../types'; // Добавлено слово type
+import type { CartItem, Product } from '../types';
 
 interface CartContextType {
   cart: CartItem[];
@@ -7,6 +7,7 @@ interface CartContextType {
   removeFromCart: (id: number) => void;
   clearCart: () => void;
   total: number;
+  totalItems: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -27,10 +28,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const clearCart = () => setCart([]);
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  // ВИПРАВЛЕНО: Розраховуємо значення один раз
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, total }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, total, totalItems }}>
       {children}
     </CartContext.Provider>
   );

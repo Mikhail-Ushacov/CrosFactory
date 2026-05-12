@@ -29,7 +29,7 @@ import { AdminProfile } from './pages/AdminProfile';
 import { AdminProductForm } from './pages/AdminProductForm';
 import { Home } from './pages/Home';
 
-// Оновлений PrivateRoute всередині App.tsx
+// Оновлений PrivateRoute
 const PrivateRoute = ({ children, role }: { children: React.ReactNode, role?: 'user' | 'admin' }) => {
   const { user, isLoading } = useAuth();
 
@@ -52,12 +52,12 @@ const PrivateRoute = ({ children, role }: { children: React.ReactNode, role?: 'u
   return <>{children}</>;
 };
 
+// Компонент бічного меню (Sidebar)
 const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolean) => void }) => {
-  const { cart } = useCart();
+  const { totalItems } = useCart(); 
   const { user, logout } = useAuth();
   const location = useLocation();
 
-  // Закриваємо меню при переході на іншу сторінку (для мобілок)
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname, setIsOpen]);
@@ -100,7 +100,8 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
 
           <NavLink to="/cart" className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
             <div className="flex items-center gap-3"><ShoppingBag size={20} /><span>Кошик</span></div>
-            {cart.length > 0 && <span className="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{cart.length}</span>}
+            {/* ВИПРАВЛЕНО: використовуємо totalItems */}
+            {totalItems > 0 && <span className="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{totalItems}</span>}
           </NavLink>
 
           {user?.role === 'admin' && (
@@ -139,6 +140,29 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
   );
 };
 
+// Новий компонент мобільного хедера
+const MobileHeader = ({ onMenuOpen }: { onMenuOpen: () => void }) => {
+  const { totalItems } = useCart();
+  
+  return (
+    <header className="lg:hidden bg-white border-b border-slate-100 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
+      <button onClick={onMenuOpen} className="p-2 text-slate-600 outline-none">
+        <Menu size={24} />
+      </button>
+      <NavLink to="/" className="font-bold text-slate-900">Запоріжжя Метиз</NavLink>
+      <NavLink to="/cart" className="p-2 text-slate-600 relative">
+        <ShoppingBag size={24} />
+        {/* Бейдж з кількістю товарів */}
+        {totalItems > 0 && (
+          <span className="absolute top-1 right-1 bg-indigo-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white flex items-center justify-center min-w-[18px] h-[18px]">
+            {totalItems}
+          </span>
+        )}
+      </NavLink>
+    </header>
+  );
+};
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -150,16 +174,8 @@ function App() {
             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
             
             <main className="flex-1 lg:ml-64 w-full">
-              {/* Мобільний хедер */}
-              <header className="lg:hidden bg-white border-b border-slate-100 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
-                <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-600">
-                  <Menu size={24} />
-                </button>
-                <NavLink to="/" className="font-bold text-slate-900">Запоріжжя Метиз</NavLink>
-                <NavLink to="/cart" className="p-2 text-slate-600 relative">
-                  <ShoppingBag size={24} />
-                </NavLink>
-              </header>
+              {/* Мобільний хедер тепер має доступ до контексту кошика */}
+              <MobileHeader onMenuOpen={() => setIsSidebarOpen(true)} />
 
               <div className="p-4 md:p-8 max-w-6xl mx-auto">
                 <Routes>
