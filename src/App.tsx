@@ -176,6 +176,8 @@ function App() {
                   <Route path="/admin/product/edit/:id" element={<PrivateRoute role="admin"><AdminProductForm /></PrivateRoute>} />
                   <Route path="/outvoice" element={<PrivateRoute role="admin"><ProformaInvoice /></PrivateRoute>} />
                   <Route path="/invoice" element={<PrivateRoute role="admin"><InvoiceTemplate /></PrivateRoute>} />
+                  <Route path="/outvoice/:id" element={<PrivateRoute><ProformaInvoice /></PrivateRoute>} />
+                  <Route path="/invoice/:id" element={<PrivateRoute><InvoiceTemplate /></PrivateRoute>} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </div>

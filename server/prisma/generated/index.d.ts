@@ -9521,18 +9521,48 @@ export namespace Prisma {
     id: number | null
     userId: number | null
     sum: number | null
+    date: Date | null
+    customerType: string | null
+    customerName: string | null
+    email: string | null
+    phone: string | null
+    address: string | null
+    edrpou: string | null
+    iban: string | null
+    bank: string | null
+    taxStatus: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
     id: number | null
     userId: number | null
     sum: number | null
+    date: Date | null
+    customerType: string | null
+    customerName: string | null
+    email: string | null
+    phone: string | null
+    address: string | null
+    edrpou: string | null
+    iban: string | null
+    bank: string | null
+    taxStatus: string | null
   }
 
   export type OrderCountAggregateOutputType = {
     id: number
     userId: number
     sum: number
+    date: number
+    customerType: number
+    customerName: number
+    email: number
+    phone: number
+    address: number
+    edrpou: number
+    iban: number
+    bank: number
+    taxStatus: number
     _all: number
   }
 
@@ -9553,18 +9583,48 @@ export namespace Prisma {
     id?: true
     userId?: true
     sum?: true
+    date?: true
+    customerType?: true
+    customerName?: true
+    email?: true
+    phone?: true
+    address?: true
+    edrpou?: true
+    iban?: true
+    bank?: true
+    taxStatus?: true
   }
 
   export type OrderMaxAggregateInputType = {
     id?: true
     userId?: true
     sum?: true
+    date?: true
+    customerType?: true
+    customerName?: true
+    email?: true
+    phone?: true
+    address?: true
+    edrpou?: true
+    iban?: true
+    bank?: true
+    taxStatus?: true
   }
 
   export type OrderCountAggregateInputType = {
     id?: true
     userId?: true
     sum?: true
+    date?: true
+    customerType?: true
+    customerName?: true
+    email?: true
+    phone?: true
+    address?: true
+    edrpou?: true
+    iban?: true
+    bank?: true
+    taxStatus?: true
     _all?: true
   }
 
@@ -9658,6 +9718,16 @@ export namespace Prisma {
     id: number
     userId: number
     sum: number
+    date: Date
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou: string | null
+    iban: string | null
+    bank: string | null
+    taxStatus: string | null
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -9683,6 +9753,16 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     sum?: boolean
+    date?: boolean
+    customerType?: boolean
+    customerName?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    edrpou?: boolean
+    iban?: boolean
+    bank?: boolean
+    taxStatus?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -9692,6 +9772,16 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     sum?: boolean
+    date?: boolean
+    customerType?: boolean
+    customerName?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    edrpou?: boolean
+    iban?: boolean
+    bank?: boolean
+    taxStatus?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -9699,6 +9789,16 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     sum?: boolean
+    date?: boolean
+    customerType?: boolean
+    customerName?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    edrpou?: boolean
+    iban?: boolean
+    bank?: boolean
+    taxStatus?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -9706,9 +9806,19 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     sum?: boolean
+    date?: boolean
+    customerType?: boolean
+    customerName?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    edrpou?: boolean
+    iban?: boolean
+    bank?: boolean
+    taxStatus?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sum", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sum" | "date" | "customerType" | "customerName" | "email" | "phone" | "address" | "edrpou" | "iban" | "bank" | "taxStatus", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
@@ -9731,6 +9841,16 @@ export namespace Prisma {
       id: number
       userId: number
       sum: number
+      date: Date
+      customerType: string
+      customerName: string
+      email: string
+      phone: string
+      address: string
+      edrpou: string | null
+      iban: string | null
+      bank: string | null
+      taxStatus: string | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -10159,6 +10279,16 @@ export namespace Prisma {
     readonly id: FieldRef<"Order", 'Int'>
     readonly userId: FieldRef<"Order", 'Int'>
     readonly sum: FieldRef<"Order", 'Float'>
+    readonly date: FieldRef<"Order", 'DateTime'>
+    readonly customerType: FieldRef<"Order", 'String'>
+    readonly customerName: FieldRef<"Order", 'String'>
+    readonly email: FieldRef<"Order", 'String'>
+    readonly phone: FieldRef<"Order", 'String'>
+    readonly address: FieldRef<"Order", 'String'>
+    readonly edrpou: FieldRef<"Order", 'String'>
+    readonly iban: FieldRef<"Order", 'String'>
+    readonly bank: FieldRef<"Order", 'String'>
+    readonly taxStatus: FieldRef<"Order", 'String'>
   }
     
 
@@ -11782,7 +11912,17 @@ export namespace Prisma {
   export const OrderScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    sum: 'sum'
+    sum: 'sum',
+    date: 'date',
+    customerType: 'customerType',
+    customerName: 'customerName',
+    email: 'email',
+    phone: 'phone',
+    address: 'address',
+    edrpou: 'edrpou',
+    iban: 'iban',
+    bank: 'bank',
+    taxStatus: 'taxStatus'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -11837,6 +11977,13 @@ export namespace Prisma {
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
   /**
    * Deep Input Types
@@ -12211,6 +12358,16 @@ export namespace Prisma {
     id?: IntFilter<"Order"> | number
     userId?: IntFilter<"Order"> | number
     sum?: FloatFilter<"Order"> | number
+    date?: DateTimeFilter<"Order"> | Date | string
+    customerType?: StringFilter<"Order"> | string
+    customerName?: StringFilter<"Order"> | string
+    email?: StringFilter<"Order"> | string
+    phone?: StringFilter<"Order"> | string
+    address?: StringFilter<"Order"> | string
+    edrpou?: StringNullableFilter<"Order"> | string | null
+    iban?: StringNullableFilter<"Order"> | string | null
+    bank?: StringNullableFilter<"Order"> | string | null
+    taxStatus?: StringNullableFilter<"Order"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: ItemListRelationFilter
   }
@@ -12219,6 +12376,16 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     sum?: SortOrder
+    date?: SortOrder
+    customerType?: SortOrder
+    customerName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    edrpou?: SortOrderInput | SortOrder
+    iban?: SortOrderInput | SortOrder
+    bank?: SortOrderInput | SortOrder
+    taxStatus?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     items?: ItemOrderByRelationAggregateInput
   }
@@ -12230,6 +12397,16 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     userId?: IntFilter<"Order"> | number
     sum?: FloatFilter<"Order"> | number
+    date?: DateTimeFilter<"Order"> | Date | string
+    customerType?: StringFilter<"Order"> | string
+    customerName?: StringFilter<"Order"> | string
+    email?: StringFilter<"Order"> | string
+    phone?: StringFilter<"Order"> | string
+    address?: StringFilter<"Order"> | string
+    edrpou?: StringNullableFilter<"Order"> | string | null
+    iban?: StringNullableFilter<"Order"> | string | null
+    bank?: StringNullableFilter<"Order"> | string | null
+    taxStatus?: StringNullableFilter<"Order"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: ItemListRelationFilter
   }, "id">
@@ -12238,6 +12415,16 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     sum?: SortOrder
+    date?: SortOrder
+    customerType?: SortOrder
+    customerName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    edrpou?: SortOrderInput | SortOrder
+    iban?: SortOrderInput | SortOrder
+    bank?: SortOrderInput | SortOrder
+    taxStatus?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -12252,6 +12439,16 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Order"> | number
     userId?: IntWithAggregatesFilter<"Order"> | number
     sum?: FloatWithAggregatesFilter<"Order"> | number
+    date?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    customerType?: StringWithAggregatesFilter<"Order"> | string
+    customerName?: StringWithAggregatesFilter<"Order"> | string
+    email?: StringWithAggregatesFilter<"Order"> | string
+    phone?: StringWithAggregatesFilter<"Order"> | string
+    address?: StringWithAggregatesFilter<"Order"> | string
+    edrpou?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    iban?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    bank?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    taxStatus?: StringNullableWithAggregatesFilter<"Order"> | string | null
   }
 
   export type ItemWhereInput = {
@@ -12631,6 +12828,16 @@ export namespace Prisma {
 
   export type OrderCreateInput = {
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
     user: UserCreateNestedOneWithoutOrdersInput
     items?: ItemCreateNestedManyWithoutOrderInput
   }
@@ -12639,11 +12846,31 @@ export namespace Prisma {
     id?: number
     userId: number
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
     items?: ItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUpdateInput = {
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
     items?: ItemUpdateManyWithoutOrderNestedInput
   }
@@ -12652,6 +12879,16 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
     items?: ItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -12659,16 +12896,46 @@ export namespace Prisma {
     id?: number
     userId: number
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
   }
 
   export type OrderUpdateManyMutationInput = {
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ItemCreateInput = {
@@ -13119,6 +13386,17 @@ export namespace Prisma {
     imageId?: SortOrder
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -13128,6 +13406,16 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     sum?: SortOrder
+    date?: SortOrder
+    customerType?: SortOrder
+    customerName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    edrpou?: SortOrder
+    iban?: SortOrder
+    bank?: SortOrder
+    taxStatus?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -13140,18 +13428,52 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     sum?: SortOrder
+    date?: SortOrder
+    customerType?: SortOrder
+    customerName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    edrpou?: SortOrder
+    iban?: SortOrder
+    bank?: SortOrder
+    taxStatus?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     sum?: SortOrder
+    date?: SortOrder
+    customerType?: SortOrder
+    customerName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    edrpou?: SortOrder
+    iban?: SortOrder
+    bank?: SortOrder
+    taxStatus?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     sum?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type OrderScalarRelationFilter = {
@@ -13607,6 +13929,10 @@ export namespace Prisma {
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type UserUpdateOneRequiredWithoutOrdersNestedInput = {
     create?: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: UserCreateOrConnectWithoutOrdersInput
@@ -13798,14 +14124,59 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type OrderCreateWithoutUserInput = {
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
     items?: ItemCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUncheckedCreateWithoutUserInput = {
     id?: number
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
     items?: ItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -13841,6 +14212,16 @@ export namespace Prisma {
     id?: IntFilter<"Order"> | number
     userId?: IntFilter<"Order"> | number
     sum?: FloatFilter<"Order"> | number
+    date?: DateTimeFilter<"Order"> | Date | string
+    customerType?: StringFilter<"Order"> | string
+    customerName?: StringFilter<"Order"> | string
+    email?: StringFilter<"Order"> | string
+    phone?: StringFilter<"Order"> | string
+    address?: StringFilter<"Order"> | string
+    edrpou?: StringNullableFilter<"Order"> | string | null
+    iban?: StringNullableFilter<"Order"> | string | null
+    bank?: StringNullableFilter<"Order"> | string | null
+    taxStatus?: StringNullableFilter<"Order"> | string | null
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -14382,6 +14763,16 @@ export namespace Prisma {
 
   export type OrderCreateWithoutItemsInput = {
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
     user: UserCreateNestedOneWithoutOrdersInput
   }
 
@@ -14389,6 +14780,16 @@ export namespace Prisma {
     id?: number
     userId: number
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
   }
 
   export type OrderCreateOrConnectWithoutItemsInput = {
@@ -14431,6 +14832,16 @@ export namespace Prisma {
 
   export type OrderUpdateWithoutItemsInput = {
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
   }
 
@@ -14438,6 +14849,16 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProductUpsertWithoutItemsInput = {
@@ -14471,22 +14892,62 @@ export namespace Prisma {
   export type OrderCreateManyUserInput = {
     id?: number
     sum: number
+    date?: Date | string
+    customerType: string
+    customerName: string
+    email: string
+    phone: string
+    address: string
+    edrpou?: string | null
+    iban?: string | null
+    bank?: string | null
+    taxStatus?: string | null
   }
 
   export type OrderUpdateWithoutUserInput = {
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
     items?: ItemUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
     items?: ItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     sum?: FloatFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerType?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    edrpou?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    bank?: NullableStringFieldUpdateOperationsInput | string | null
+    taxStatus?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProductCreateManyCategoryInput = {

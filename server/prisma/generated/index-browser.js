@@ -165,7 +165,17 @@ exports.Prisma.BannerImageScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  sum: 'sum'
+  sum: 'sum',
+  date: 'date',
+  customerType: 'customerType',
+  customerName: 'customerName',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  edrpou: 'edrpou',
+  iban: 'iban',
+  bank: 'bank',
+  taxStatus: 'taxStatus'
 };
 
 exports.Prisma.ItemScalarFieldEnum = {

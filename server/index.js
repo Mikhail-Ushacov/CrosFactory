@@ -183,6 +183,91 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
+app.post('/api/orders', async (req, res) => {
+  const { cartItems, totalPrice, userData, type, details } = req.body;
+  const authHeader = req.headers.authorization;
+
+  try {
+    let userId;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      // КЕЙС 1: Користувач авторизований
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, SECRET_KEY);
+      userId = decoded.id;
+    } else {
+      // КЕЙС 2: Гість (створюємо новий аккаунт)
+      if (!userData || !userData.login || !userData.password) {
+        return res.status(400).json({ message: "Необхідно авторизуватися або вказати дані для реєстрації" });
+      }
+
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      const newUser = await prisma.user.create({
+        data: {
+          login: userData.login,
+          password: hashedPassword,
+          role: 'user'
+        }
+      });
+      userId = newUser.id;
+    }
+
+    // 2. Створити замовлення
+    const order = await prisma.order.create({
+      data: {
+        userId: userId,
+        sum: parseFloat(totalPrice),
+        customerType: type,
+        customerName: type === 'individual' ? details.fullName : details.companyName,
+        email: details.email,
+        phone: details.phone,
+        address: details.address,
+        edrpou: details.edrpou || null,
+        iban: details.iban || null,
+        bank: details.bank || null,
+        taxStatus: details.taxStatus || null,
+        items: {
+          create: cartItems.map(item => ({
+            productId: item.id,
+            quantity: item.quantity
+          }))
+        }
+      },
+       include: { items: true }
+    });
+
+    res.status(201).json({ message: "Замовлення успішно створено", orderId: order.id });
+  } catch (error) {
+    console.error(error);
+    if (error.name === 'JsonWebTokenError') return res.status(401).json({ message: "Сесія застаріла" });
+    res.status(500).json({ message: "Помилка при оформленні замовлення" });
+  }
+});
+
+// Отримання списку замовлень користувача
+app.get('/api/my-orders', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "Unauthorized" });
+  
+  const token = authHeader.split(' ')[1];
+  const decoded = jwt.verify(token, SECRET_KEY);
+
+  const orders = await prisma.order.findMany({
+    where: { userId: decoded.id },
+    orderBy: { id: 'desc' }
+  });
+  res.json(orders);
+});
+
+// Отримання конкретного замовлення для накладної
+app.get('/api/orders/:id', async (req, res) => {
+  const order = await prisma.order.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: { items: { include: { product: true } } }
+  });
+  res.json(order);
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on ${BASE_URL}`);
 });

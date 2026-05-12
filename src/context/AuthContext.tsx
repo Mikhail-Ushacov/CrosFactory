@@ -7,7 +7,8 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  isLoading: boolean; // Додано
+  token: string | null; // Додано
+  isLoading: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
 }
@@ -16,34 +17,40 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Додано
+  const [token, setToken] = useState<string | null>(null); // Додано
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
-    if (savedUser) {
+    const savedToken = localStorage.getItem('token'); // Отримуємо токен
+    if (savedUser && savedToken) {
       try {
         setUser(JSON.parse(savedUser));
+        setToken(savedToken);
       } catch (e) {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
       }
     }
-    setIsLoading(false); // Завершили перевірку
+    setIsLoading(false);
   }, []);
 
-  const login = (token: string, userData: User) => {
-    localStorage.setItem('token', token);
+  const login = (newToken: string, userData: User) => {
+    localStorage.setItem('token', newToken);
     localStorage.setItem('user', JSON.stringify(userData));
+    setToken(newToken);
     setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setToken(null);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

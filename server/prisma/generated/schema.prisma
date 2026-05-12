@@ -85,12 +85,24 @@ model BannerImage {
 }
 
 model Order {
-  id Int @id @default(autoincrement())
-
+  id     Int      @id @default(autoincrement())
   userId Int
-  user   User @relation(fields: [userId], references: [id])
+  user   User     @relation(fields: [userId], references: [id])
+  sum    Float
+  date   DateTime @default(now())
 
-  sum Float
+  // Поля для документів
+  customerType String // 'individual' | 'business'
+  customerName String
+  email        String
+  phone        String
+  address      String
+
+  // Додаткові поля для бізнесу (опціонально)
+  edrpou    String?
+  iban      String?
+  bank      String?
+  taxStatus String?
 
   items Item[]
 }
