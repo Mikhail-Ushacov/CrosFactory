@@ -272,3 +272,72 @@ app.get('/api/orders/:id', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on ${BASE_URL}`);
 });
+
+// --- КЕРУВАННЯ КОНТЕНТОМ (БАНЕРИ ТА НОВИНИ) ---
+
+// Отримання банерів (для головної)
+app.get('/api/banners', async (req, res) => {
+  const banners = await prisma.banner.findMany({
+    include: { images: { include: { image: true } } }
+  });
+  res.json(banners.map(b => ({
+    ...b,
+    images: b.images.map(img => img.image.url)
+  })));
+});
+
+// Створення банера
+app.post('/api/banners', upload.array('files'), async (req, res) => {
+  try {
+    const { title, description, text, existing_urls } = req.body;
+    const urls = JSON.parse(existing_urls || '[]');
+    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
+    const allImages = [...urls, ...fileUrls];
+
+    const banner = await prisma.banner.create({
+      data: {
+        title, description, text,
+        images: { create: allImages.map(url => ({ image: { create: { url } } })) }
+      }
+    });
+    res.status(201).json(banner);
+  } catch (error) { res.status(400).json({ message: error.message }); }
+});
+
+app.delete('/api/banners/:id', async (req, res) => {
+  await prisma.banner.delete({ where: { id: parseInt(req.params.id) } });
+  res.json({ message: "Deleted" });
+});
+
+// Аналогічно для Новин
+app.get('/api/news', async (req, res) => {
+  const news = await prisma.news.findMany({
+    orderBy: { date: 'desc' },
+    include: { images: { include: { image: true } } }
+  });
+  res.json(news.map(n => ({
+    ...n,
+    images: n.images.map(img => img.image.url)
+  })));
+});
+
+app.post('/api/news', upload.array('files'), async (req, res) => {
+  try {
+    const { title, description, text, tag, existing_urls } = req.body;
+    const urls = JSON.parse(existing_urls || '[]');
+    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
+    
+    const news = await prisma.news.create({
+      data: {
+        title, description, text, tag: tag || 'Новини',
+        images: { create: [...urls, ...fileUrls].map(url => ({ image: { create: { url } } })) }
+      }
+    });
+    res.status(201).json(news);
+  } catch (error) { res.status(400).json({ message: error.message }); }
+});
+
+app.delete('/api/news/:id', async (req, res) => {
+  await prisma.news.delete({ where: { id: parseInt(req.params.id) } });
+  res.json({ message: "Deleted" });
+});

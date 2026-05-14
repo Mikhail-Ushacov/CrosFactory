@@ -52,6 +52,13 @@ export const AdminProfile = () => {
           <PlusCircle size={20} /> Додати новий
         </Link>
       </div>
+      
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-slate-900">Усі товари</h2>
+        <Link to="/admin/content" className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2">
+          <PlusCircle size={20} /> Керування контентом
+        </Link>
+      </div>
 
       <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">

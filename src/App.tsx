@@ -27,6 +27,8 @@ import { Register } from './pages/Register';
 import { UserProfile } from './pages/UserProfile';
 import { AdminProfile } from './pages/AdminProfile';
 import { AdminProductForm } from './pages/AdminProductForm';
+import { AdminContentForm } from './pages/AdminContentForm';
+import { AdminContentManager } from './pages/AdminContentManager';
 import { Home } from './pages/Home';
 
 // Оновлений PrivateRoute
@@ -194,6 +196,8 @@ function App() {
                   <Route path="/invoice" element={<PrivateRoute role="admin"><InvoiceTemplate /></PrivateRoute>} />
                   <Route path="/outvoice/:id" element={<PrivateRoute><ProformaInvoice /></PrivateRoute>} />
                   <Route path="/invoice/:id" element={<PrivateRoute><InvoiceTemplate /></PrivateRoute>} />
+                  <Route path="/admin/content" element={<PrivateRoute role="admin"><AdminContentManager /></PrivateRoute>} />
+                  <Route path="/admin/content/new" element={<PrivateRoute role="admin"><AdminContentForm /></PrivateRoute>} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </div>

@@ -49,6 +49,7 @@ model Image {
 
   productImages ProductImage[]
   bannerImages  BannerImage[]
+  newsImages    NewsImage[]
 }
 
 model ProductImage {
@@ -82,6 +83,29 @@ model BannerImage {
   image  Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
 
   @@unique([bannerId, imageId])
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  text        String   @default("")
+  date        DateTime @default(now())
+  tag         String   @default("Новини")
+
+  images NewsImage[]
+}
+
+model NewsImage {
+  id Int @id @default(autoincrement())
+
+  newsId  Int
+  imageId Int
+
+  news  News  @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@unique([newsId, imageId])
 }
 
 model Order {
