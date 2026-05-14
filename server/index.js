@@ -78,6 +78,7 @@ app.get('/api/products', async (req, res) => {
   
   res.json(products.map(p => ({
     ...p,
+    category_id: p.categoryId,
     category_name: p.category.name,
     category_slug: p.category.slug,
     main_image: p.images[0]?.image.url || '' // Звернення до Image.url

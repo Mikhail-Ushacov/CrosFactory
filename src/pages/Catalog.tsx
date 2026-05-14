@@ -44,12 +44,12 @@ export const Catalog = () => {
   }, [searchParams]);
 
   // Функція для зміни категорії (оновлює і стан, і URL)
-  const handleCategoryChange = (slug: string) => {
-    setActiveCategory(slug);
-    if (slug === 'all') {
+  const handleCategoryChange = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    if (categoryId === 'all') {
       searchParams.delete('category');
     } else {
-      searchParams.set('category', slug);
+      searchParams.set('category', categoryId);
     }
     setSearchParams(searchParams);
   };
@@ -70,8 +70,8 @@ export const Catalog = () => {
     return products.filter(p => {
       // Перевіряємо категорію (по ID або по Slug)
       const matchesCategory = activeCategory === 'all' || 
-                              p.category_slug === activeCategory || 
-                              String(p.category_id) === activeCategory;
+                              String(p.category_id) === String(activeCategory) || 
+                              p.category_slug === activeCategory;
       
       const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             p.category_name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -174,9 +174,9 @@ export const Catalog = () => {
             <button
               key={cat.id}
               // Перевіряємо або по slug, або по id для активного стану
-              onClick={() => handleCategoryChange(cat.slug)}
+              onClick={() => handleCategoryChange(String(cat.id))}
               className={`whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-medium transition-all flex-shrink-0 ${
-                (activeCategory === cat.slug || activeCategory === String(cat.id)) ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-500 border border-slate-100 hover:bg-slate-50"
+                activeCategory === String(cat.id) ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-500 border border-slate-100 hover:bg-slate-50"
               }`}
             >
               {cat.name}
