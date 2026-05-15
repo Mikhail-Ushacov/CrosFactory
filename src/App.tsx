@@ -16,7 +16,8 @@ import {
   UserCircle,
   Menu,
   X,
-  Home as HomeIcon
+  Home as HomeIcon,
+  Database
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { ProductDetails } from './pages/ProductDetails';
@@ -29,6 +30,7 @@ import { AdminProfile } from './pages/AdminProfile';
 import { AdminProductForm } from './pages/AdminProductForm';
 import { AdminContentForm } from './pages/AdminContentForm';
 import { AdminContentManager } from './pages/AdminContentManager';
+import { AdminDatabaseManager } from './pages/AdminDatabaseManager';
 import { Home } from './pages/Home';
 
 // Оновлений PrivateRoute
@@ -102,7 +104,6 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
 
           <NavLink to="/cart" className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
             <div className="flex items-center gap-3"><ShoppingBag size={20} /><span>Кошик</span></div>
-            {/* ВИПРАВЛЕНО: використовуємо totalItems */}
             {totalItems > 0 && <span className="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{totalItems}</span>}
           </NavLink>
 
@@ -112,11 +113,8 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
               <NavLink to="/admin" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-orange-50 text-orange-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
                 <ShieldCheck size={20} /><span>Управління</span>
               </NavLink>
-              <NavLink to="/outvoice" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-slate-100 text-slate-900 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
-                <FileText size={20} /><span>Рахунки</span>
-              </NavLink>
-              <NavLink to="/invoice" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-slate-100 text-slate-900 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
-                <FileCheck size={20} /><span>Накладні</span>
+              <NavLink to="/admin/database" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-red-50 text-red-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
+                <Database size={20} /><span>База даних</span>
               </NavLink>
             </>
           )}
@@ -198,6 +196,7 @@ function App() {
                   <Route path="/invoice/:id" element={<PrivateRoute><InvoiceTemplate /></PrivateRoute>} />
                   <Route path="/admin/content" element={<PrivateRoute role="admin"><AdminContentManager /></PrivateRoute>} />
                   <Route path="/admin/content/new" element={<PrivateRoute role="admin"><AdminContentForm /></PrivateRoute>} />
+                  <Route path="/admin/database" element={<PrivateRoute role="admin"><AdminDatabaseManager /></PrivateRoute>} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Edit2, Trash2, PlusCircle, ShoppingCart, Users, TrendingUp, Shield } from 'lucide-react';
+import { Edit2, Trash2, PlusCircle, ShoppingCart, Users, TrendingUp, Shield, Layout } from 'lucide-react';
 import type { Product } from '../types';
 import api from '../api';
 
@@ -56,7 +56,7 @@ export const AdminProfile = () => {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-slate-900">Усі товари</h2>
         <Link to="/admin/content" className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2">
-          <PlusCircle size={20} /> Керування контентом
+          <Layout size={20} /> Керування контентом
         </Link>
       </div>
 

@@ -341,3 +341,103 @@ app.delete('/api/news/:id', async (req, res) => {
   await prisma.news.delete({ where: { id: parseInt(req.params.id) } });
   res.json({ message: "Deleted" });
 });
+
+// --- УНІВЕРСАЛЬНИЙ CRUD ДЛЯ АДМІНІСТРАТОРА ---
+
+// Список доступних моделей (для безпеки)
+const models = [
+  'user', 'category', 'product', 'image', 'productImage', 
+  'banner', 'bannerImage', 'news', 'newsImage', 'order', 'item'
+];
+
+// Middleware для перевірки ролі адміна
+const isAdmin = (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = jwt.verify(token, SECRET_KEY);
+    if (decoded.role !== 'admin') throw new Error();
+    req.adminId = decoded.id;
+    next();
+  } catch (e) {
+    res.status(403).json({ message: "Доступ заборонено" });
+  }
+};
+
+// Отримати всі записи таблиці
+app.get('/api/admin/db/:model', isAdmin, async (req, res) => {
+  const { model } = req.params;
+  if (!models.includes(model)) return res.status(400).json({ message: "Invalid model" });
+  
+  try {
+    const data = await prisma[model].findMany();
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// Створити запис (з автоматичним приведенням типів)
+app.post('/api/admin/db/:model', isAdmin, async (req, res) => {
+  const { model } = req.params;
+  try {
+    // Конвертуємо рядки в числа там, де це можливо, щоб Prisma не лаялась
+    const data = Object.keys(req.body).reduce((acc, key) => {
+      const val = req.body[key];
+      // Якщо це число в рядку (і не порожній рядок) - конвертуємо
+      if (typeof val === 'string' && val.trim() !== '' && !isNaN(val) && key !== 'login' && key !== 'password') {
+        acc[key] = val.includes('.') ? parseFloat(val) : parseInt(val);
+      } else {
+        acc[key] = val;
+      }
+      return acc;
+    }, {});
+
+    const newItem = await prisma[model].create({ data });
+    res.status(201).json(newItem);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+// Оновити запис (з автоматичним приведенням типів)
+app.put('/api/admin/db/:model/:id', isAdmin, async (req, res) => {
+  const { model, id } = req.params;
+  try {
+    const data = Object.keys(req.body).reduce((acc, key) => {
+      const val = req.body[key];
+      if (typeof val === 'string' && val.trim() !== '' && !isNaN(val) && key !== 'login' && key !== 'password') {
+        acc[key] = val.includes('.') ? parseFloat(val) : parseInt(val);
+      } else {
+        acc[key] = val;
+      }
+      return acc;
+    }, {});
+
+    const updated = await prisma[model].update({
+      where: { id: parseInt(id) },
+      data
+    });
+    res.json(updated);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+// Видалити запис
+app.delete('/api/admin/db/:model/:id', isAdmin, async (req, res) => {
+  const { model, id } = req.params;
+  try {
+    await prisma[model].delete({ where: { id: parseInt(id) } });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+app.post('/api/upload', isAdmin, upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "Файл не завантажено" });
+  }
+  const fileUrl = `${BASE_URL}/content/${req.file.filename}`;
+  res.json({ url: fileUrl });
+});
