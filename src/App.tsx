@@ -8,8 +8,6 @@ import {
   LayoutGrid, 
   ShoppingBag, 
   Store, 
-  FileText, 
-  FileCheck, 
   ShieldCheck, 
   LogIn, 
   LogOut,
@@ -31,25 +29,19 @@ import { AdminProductForm } from './pages/AdminProductForm';
 import { AdminContentForm } from './pages/AdminContentForm';
 import { AdminContentManager } from './pages/AdminContentManager';
 import { AdminDatabaseManager } from './pages/AdminDatabaseManager';
+import { NewsList } from './pages/NewsList';
+import { NewsDetails } from './pages/NewsDetails';
 import { Home } from './pages/Home';
 
 // Оновлений PrivateRoute
-const PrivateRoute = ({ children, role }: { children: React.ReactNode, role?: 'user' | 'admin' }) => {
+const PrivateRoute = ({ children, roles }: { children: React.ReactNode, roles?: ('user' | 'admin' | 'moderator')[] }) => {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (role && user.role !== role) {
+  if (isLoading) return <div className="animate-spin ..."></div>;
+  if (!user) return <Navigate to="/login" replace />;
+  
+  // Якщо вказані дозволені ролі і роль користувача не в списку
+  if (roles && !roles.includes(user.role)) {
     return <Navigate to="/" replace />;
   }
 
@@ -61,6 +53,7 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
   const { totalItems } = useCart(); 
   const { user, logout } = useAuth();
   const location = useLocation();
+  const isStaff = user?.role === 'admin' || user?.role === 'moderator';
 
   useEffect(() => {
     setIsOpen(false);
@@ -107,7 +100,7 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
             {totalItems > 0 && <span className="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{totalItems}</span>}
           </NavLink>
 
-          {user?.role === 'admin' && (
+          {isStaff && (
             <>
               <div className="pt-4 pb-2"><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">Адмін</p></div>
               <NavLink 
@@ -117,13 +110,22 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
               >
                 <ShieldCheck size={20} /><span>Управління</span>
               </NavLink>
-              <NavLink 
+              {/* <NavLink 
                 to="/admin/database" 
                 className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-red-50 text-red-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}
               >
                 <Database size={20} /><span>База даних</span>
-              </NavLink>
+              </NavLink> */}
             </>
+          )}
+
+          {user?.role === 'admin' && (
+            <NavLink 
+              to="/admin/database" 
+              className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-red-50 text-red-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}
+            >
+              <Database size={20} /><span>База даних</span>
+            </NavLink>
           )}
 
           <div className="pt-4 pb-2"><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">Акаунт</p></div>
@@ -181,7 +183,6 @@ function App() {
             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
             
             <main className="flex-1 lg:ml-64 w-full">
-              {/* Мобільний хедер тепер має доступ до контексту кошика */}
               <MobileHeader onMenuOpen={() => setIsSidebarOpen(true)} />
 
               <div className="p-4 md:p-8 max-w-6xl mx-auto">
@@ -192,18 +193,29 @@ function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  
+                  {/* ВИПРАВЛЕНО: Використовуємо roles={['...']} замість role="..." */}
                   <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
                   <Route path="/profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
-                  <Route path="/admin" element={<PrivateRoute role="admin"><AdminProfile /></PrivateRoute>} />
-                  <Route path="/admin/product/new" element={<PrivateRoute role="admin"><AdminProductForm /></PrivateRoute>} />
-                  <Route path="/admin/product/edit/:id" element={<PrivateRoute role="admin"><AdminProductForm /></PrivateRoute>} />
-                  <Route path="/outvoice" element={<PrivateRoute role="admin"><ProformaInvoice /></PrivateRoute>} />
-                  <Route path="/invoice" element={<PrivateRoute role="admin"><InvoiceTemplate /></PrivateRoute>} />
+                  
+                  <Route path="/admin" element={<PrivateRoute roles={['admin', 'moderator']}><AdminProfile /></PrivateRoute>} />
+                  <Route path="/admin/product/new" element={<PrivateRoute roles={['admin', 'moderator']}><AdminProductForm /></PrivateRoute>} />
+                  <Route path="/admin/product/edit/:id" element={<PrivateRoute roles={['admin', 'moderator']}><AdminProductForm /></PrivateRoute>} />
+                  
+                  <Route path="/admin/content" element={<PrivateRoute roles={['admin', 'moderator']}><AdminContentManager /></PrivateRoute>} />
+                  <Route path="/admin/content/new" element={<PrivateRoute roles={['admin', 'moderator']}><AdminContentForm /></PrivateRoute>} />
+                  
+                  <Route path="/admin/database" element={<PrivateRoute roles={['admin']}><AdminDatabaseManager /></PrivateRoute>} />
+                  
+                  {/* Документи зазвичай доступні стафу */}
+                  <Route path="/outvoice" element={<PrivateRoute roles={['admin', 'moderator']}><ProformaInvoice /></PrivateRoute>} />
+                  <Route path="/invoice" element={<PrivateRoute roles={['admin', 'moderator']}><InvoiceTemplate /></PrivateRoute>} />
                   <Route path="/outvoice/:id" element={<PrivateRoute><ProformaInvoice /></PrivateRoute>} />
                   <Route path="/invoice/:id" element={<PrivateRoute><InvoiceTemplate /></PrivateRoute>} />
-                  <Route path="/admin/content" element={<PrivateRoute role="admin"><AdminContentManager /></PrivateRoute>} />
-                  <Route path="/admin/content/new" element={<PrivateRoute role="admin"><AdminContentForm /></PrivateRoute>} />
-                  <Route path="/admin/database" element={<PrivateRoute role="admin"><AdminDatabaseManager /></PrivateRoute>} />
+
+                  <Route path="/news" element={<NewsList />} />
+                  <Route path="/news/:id" element={<NewsDetails />} />
+
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </div>

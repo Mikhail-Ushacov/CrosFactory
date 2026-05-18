@@ -2,7 +2,7 @@
 export interface User {
   id: number;
   login: string;
-  role: 'admin' | 'user';
+  role: 'admin'| 'moderator' | 'user';
 }
 
 // --- Категорії ---

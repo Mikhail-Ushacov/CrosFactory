@@ -114,16 +114,37 @@ app.post('/api/products', (req, res) => {
 
     try {
       const { name, price, description, category_id, existing_urls } = req.body;
+      
+      // 1. Перевірка, чи передано ID категорії
+      if (!category_id) {
+        return res.status(400).json({ message: "Виберіть категорію" });
+      }
+
+      const catId = parseInt(category_id);
+
+      // 2. Перевірка, чи існує така категорія в БД
+      const categoryExists = await prisma.category.findUnique({
+        where: { id: catId }
+      });
+
+      if (!categoryExists) {
+        return res.status(400).json({ message: `Категорії з ID ${catId} не існує. Створіть категорію спочатку.` });
+      }
+
       const urls = JSON.parse(existing_urls || '[]');
       const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
       const allImages = [...urls, ...fileUrls];
+
+      if (!category_id) {
+        return res.status(400).json({ message: "Категорія обов'язкова" });
+      }
 
       const product = await prisma.product.create({
         data: {
           name,
           price: parseFloat(price) || 0,
           description: description || "",
-          category: { connect: { id: parseInt(category_id) || 1 } },
+          category: { connect: { id: catId } },
           images: {
             create: allImages.map(url => ({
               image: { create: { url } } // Створення запису в Image та зв'язку
@@ -133,6 +154,12 @@ app.post('/api/products', (req, res) => {
       });
       res.status(201).json(product);
     } catch (error) {
+      console.error(error);
+      // Якщо помилка Prisma P2025 (Record not found)
+      if (error.code === 'P2025') {
+        return res.status(400).json({ message: "Вказаної категорії не існує" });
+      }
+      
       res.status(400).json({ message: error.message });
     }
   });
@@ -342,6 +369,23 @@ app.delete('/api/news/:id', async (req, res) => {
   res.json({ message: "Deleted" });
 });
 
+app.get('/api/news/:id', async (req, res) => {
+  try {
+    const item = await prisma.news.findUnique({
+      where: { id: parseInt(req.params.id) },
+      include: { images: { include: { image: true } } }
+    });
+    if (!item) return res.status(404).json({ message: "Новину не знайдено" });
+    
+    res.json({
+      ...item,
+      images: item.images.map(img => img.image.url)
+    });
+  } catch (e) {
+    res.status(500).json({ message: "Помилка сервера" });
+  }
+});
+
 // --- УНІВЕРСАЛЬНИЙ CRUD ДЛЯ АДМІНІСТРАТОРА ---
 
 // Список доступних моделей (для безпеки)
@@ -350,21 +394,34 @@ const models = [
   'banner', 'bannerImage', 'news', 'newsImage', 'order', 'item'
 ];
 
-// Middleware для перевірки ролі адміна
-const isAdmin = (req, res, next) => {
+// Middleware для перевірки ролі (адмін або модератор)
+const isStaff = (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     const decoded = jwt.verify(token, SECRET_KEY);
-    if (decoded.role !== 'admin') throw new Error();
-    req.adminId = decoded.id;
+    if (decoded.role !== 'admin' && decoded.role !== 'moderator') throw new Error();
+    req.userRole = decoded.role;
+    req.userId = decoded.id;
     next();
   } catch (e) {
     res.status(403).json({ message: "Доступ заборонено" });
   }
 };
 
+// Middleware тільки для повного адміна (для БД)
+const isStrictAdmin = (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = jwt.verify(token, SECRET_KEY);
+    if (decoded.role !== 'admin') throw new Error();
+    next();
+  } catch (e) {
+    res.status(403).json({ message: "Тільки для адміністратора бази даних" });
+  }
+};
+
 // Отримати всі записи таблиці
-app.get('/api/admin/db/:model', isAdmin, async (req, res) => {
+app.get('/api/admin/db/:model', isStrictAdmin, async (req, res) => {
   const { model } = req.params;
   if (!models.includes(model)) return res.status(400).json({ message: "Invalid model" });
   
@@ -377,7 +434,7 @@ app.get('/api/admin/db/:model', isAdmin, async (req, res) => {
 });
 
 // Створити запис (з автоматичним приведенням типів)
-app.post('/api/admin/db/:model', isAdmin, async (req, res) => {
+app.post('/api/admin/db/:model', isStrictAdmin, async (req, res) => {
   const { model } = req.params;
   try {
     // Конвертуємо рядки в числа там, де це можливо, щоб Prisma не лаялась
@@ -400,7 +457,7 @@ app.post('/api/admin/db/:model', isAdmin, async (req, res) => {
 });
 
 // Оновити запис (з автоматичним приведенням типів)
-app.put('/api/admin/db/:model/:id', isAdmin, async (req, res) => {
+app.put('/api/admin/db/:model/:id', isStrictAdmin, async (req, res) => {
   const { model, id } = req.params;
   try {
     const data = Object.keys(req.body).reduce((acc, key) => {
@@ -424,7 +481,7 @@ app.put('/api/admin/db/:model/:id', isAdmin, async (req, res) => {
 });
 
 // Видалити запис
-app.delete('/api/admin/db/:model/:id', isAdmin, async (req, res) => {
+app.delete('/api/admin/db/:model/:id', isStrictAdmin, async (req, res) => {
   const { model, id } = req.params;
   try {
     await prisma[model].delete({ where: { id: parseInt(id) } });
@@ -434,10 +491,18 @@ app.delete('/api/admin/db/:model/:id', isAdmin, async (req, res) => {
   }
 });
 
-app.post('/api/upload', isAdmin, upload.single('file'), (req, res) => {
+app.post('/api/upload', isStrictAdmin, upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "Файл не завантажено" });
   }
   const fileUrl = `${BASE_URL}/content/${req.file.filename}`;
   res.json({ url: fileUrl });
+});
+
+// Окремий роут для статистики, доступний модератору
+app.get('/api/admin/stats', isStaff, async (req, res) => {
+  const orders = await prisma.order.findMany(); // Модератор отримає всі замовлення тут
+  const productsCount = await prisma.product.count();
+  const usersCount = await prisma.user.count();
+  res.json({ orders, productsCount, usersCount });
 });

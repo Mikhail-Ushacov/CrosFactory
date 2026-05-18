@@ -13,19 +13,19 @@ export const AdminProfile = () => {
     try {
       setLoading(true);
       // Отримуємо тільки товари та замовлення
-      const [prodRes, orderRes] = await Promise.all([
+      const [prodRes, statsRes] = await Promise.all([
         api.get('/products'),
-        api.get('/admin/db/order')
+        api.get('/admin/stats')
       ]);
 
       setProducts(prodRes.data);
-      setOrders(orderRes.data);
-    } catch (err) {
-      console.error("Помилка:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+          setOrders(statsRes.data.orders);
+        } catch (err) {
+          console.error("Помилка:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
 
   useEffect(() => { fetchData(); }, []);
 

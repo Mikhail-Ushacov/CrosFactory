@@ -24,13 +24,18 @@ export const AdminProductForm = () => {
     name: '',
     price: 0,
     description: '',
-    category_id: 1,
+    category_id: 0,
   });
 
   const [images, setImages] = useState<ImageItem[]>([]);
 
   useEffect(() => {
-    api.get('/categories').then(res => setCategories(res.data));
+    api.get('/categories').then(res => {
+    setCategories(res.data);
+    if (res.data.length > 0 && !id) { // Якщо це створення нового товару
+      setForm(prev => ({ ...prev, category_id: res.data[0].id }));
+    }
+  });
     
     if (id) {
       api.get(`/products/${id}`).then(res => {

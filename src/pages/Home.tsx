@@ -371,19 +371,55 @@ export const Home = () => {
       {/* 5. Контакти та Новини */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
-          <h3 className="text-xl font-bold flex items-center gap-2 px-2">
-            <Newspaper size={20} className="text-indigo-600" /> Новини компанії
+          <h3 className="flex items-center justify-between rounded-2xl bg-gradient-to-r from-indigo-50 via-white to-indigo-100 px-5 py-4 shadow-sm border border-indigo-100">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 shadow-md">
+                <Newspaper size={24} className="text-white" />
+              </div>
+
+              <div>
+                <span className="text-xl font-bold text-gray-800">
+                  Новини компанії
+                </span>
+              </div>
+            </div>
+
+            <Link
+              to="/news"
+              className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-lg"
+            >
+              Переглянути
+              <span className="transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
           </h3>
           <div className="space-y-4">
             {news.length > 0 ? news.slice(0, 3).map(item => (
-              <div key={item.id} className="bg-white p-5 rounded-2xl border border-slate-100 hover:shadow-md transition-all group cursor-default">
+              <Link 
+                key={item.id} 
+                to={`/news/${item.id}`} 
+                className="block bg-white p-5 rounded-2xl border border-slate-100 hover:shadow-md hover:border-indigo-100 transition-all group"
+              >
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg uppercase tracking-wider">{item.tag}</span>
-                  <span className="text-[10px] text-slate-400 font-medium">{new Date(item.date).toLocaleDateString()}</span>
+                  <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg uppercase tracking-wider">
+                    {item.tag}
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium">
+                    {new Date(item.date).toLocaleDateString()}
+                  </span>
                 </div>
-                <h4 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-indigo-600 transition-colors">{item.title}</h4>
-                <p className="text-xs text-slate-500 line-clamp-2">{item.description}</p>
-              </div>
+                <h4 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-indigo-600 transition-colors">
+                  {item.title}
+                </h4>
+                <p className="text-xs text-slate-500 line-clamp-2">
+                  {item.description}
+                </p>
+                {/* Додаємо візуальний підказку, що це посилання */}
+                <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider">
+                  Читати далі <ArrowRight size={12} />
+                </div>
+              </Link>
             )) : (
               <p className="text-slate-400 text-sm px-2">Новин поки немає</p>
             )}
