@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   ChevronLeft, ChevronRight, Star, Clock, 
@@ -9,7 +9,7 @@ import { useCart } from '../context/CartContext';
 import type { Product, Category } from '../types';
 import api from '../api';
 
-// Інтерфейси для нових даних
+// Інтерфейси даних
 interface Banner {
   id: number;
   title: string;
@@ -49,9 +49,28 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   const searchRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
+  // --- ЛОГІКА СЛАЙДЕРА ---
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((s) => (banners.length > 0 ? (s === banners.length - 1 ? 0 : s + 1) : 0));
+  }, [banners.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((s) => (banners.length > 0 ? (s === 0 ? banners.length - 1 : s - 1) : 0));
+  }, [banners.length]);
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (banners.length > 1) {
+      timerRef.current = setInterval(nextSlide, 6000);
+    }
+  }, [banners.length, nextSlide]);
+
+  // Завантаження даних
   useEffect(() => {
     const loadAllData = async () => {
       try {
@@ -67,7 +86,6 @@ export const Home = () => {
         setBanners(resBanners.data);
         setNews(resNews.data);
 
-        // Завантаження нещодавно переглянутих
         const viewedIds = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
         const filtered = resProducts.data.filter((p: Product) => viewedIds.includes(p.id));
         setRecentlyViewed(filtered);
@@ -80,27 +98,52 @@ export const Home = () => {
 
     loadAllData();
 
-    // Клік поза пошуком для закриття
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
-  // Автоперемикання слайдів
+  // Запуск таймера при зміні банерів
   useEffect(() => {
-    if (banners.length > 1) {
-      const timer = setInterval(() => {
-        setCurrentSlide(s => (s === banners.length - 1 ? 0 : s + 1));
-      }, 6000);
-      return () => clearInterval(timer);
-    }
-  }, [banners.length]);
+    startTimer();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [banners, startTimer]);
 
-  // Логіка пошуку
+  // --- ЛОГІКА СВАЙПІВ ---
+  const touchStart = useRef<number>(0);
+  const touchEnd = useRef<number>(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.targetTouches[0].clientX;
+    touchEnd.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEnd.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStart.current - touchEnd.current;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(distance) > minSwipeDistance) {
+      if (distance > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+      startTimer();
+    }
+  };
+
+  // --- ПОШУК ---
   const suggestedProducts = searchQuery.trim().length > 1
     ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5)
     : [];
@@ -157,7 +200,6 @@ export const Home = () => {
           )}
         </form>
 
-        {/* Результати пошуку (dropdown) */}
         {isSearchOpen && searchQuery.trim().length > 1 && (
           <div className="absolute top-full left-4 right-4 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
             {(suggestedProducts.length > 0 || suggestedCategories.length > 0) ? (
@@ -216,11 +258,23 @@ export const Home = () => {
 
       {/* 2. Карусель Банерів */}
       {banners.length > 0 && (
-        <section className="relative h-64 md:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg group">
+        <section 
+          className="relative h-64 md:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg group"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{ touchAction: 'pan-y' }}
+        >
           {banners.map((slide, index) => (
             <div 
               key={slide.id} 
-              className={`absolute inset-0 transition-all duration-1000 flex items-center ${index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105 pointer-events-none"}`}
+              className={`absolute inset-0 transition-all duration-700 ease-in-out flex items-center ${
+                index === currentSlide 
+                  ? "opacity-100 translate-x-0 z-20" 
+                  : index < currentSlide 
+                    ? "opacity-0 -translate-x-full z-10" 
+                    : "opacity-0 translate-x-full z-10"
+              }`}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
               <img src={slide.images[0]} className="absolute inset-0 w-full h-full object-cover" alt={slide.title} />
@@ -241,15 +295,15 @@ export const Home = () => {
           
           {banners.length > 1 && (
             <>
-              <button onClick={() => setCurrentSlide(s => s === 0 ? banners.length - 1 : s - 1)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 p-3 rounded-full text-white backdrop-blur-md z-30 transition-all opacity-0 group-hover:opacity-100">
+              <button onClick={() => { prevSlide(); startTimer(); }} className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 p-3 rounded-full text-white backdrop-blur-md z-30 transition-all opacity-0 group-hover:opacity-100">
                 <ChevronLeft size={24} />
               </button>
-              <button onClick={() => setCurrentSlide(s => s === banners.length - 1 ? 0 : s + 1)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 p-3 rounded-full text-white backdrop-blur-md z-30 transition-all opacity-0 group-hover:opacity-100">
+              <button onClick={() => { nextSlide(); startTimer(); }} className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 p-3 rounded-full text-white backdrop-blur-md z-30 transition-all opacity-0 group-hover:opacity-100">
                 <ChevronRight size={24} />
               </button>
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-30">
                 {banners.map((_, i) => (
-                  <button key={i} onClick={() => setCurrentSlide(i)} className={`h-1.5 rounded-full transition-all ${i === currentSlide ? "w-8 bg-indigo-500" : "w-2 bg-white/50"}`} />
+                  <button key={i} onClick={() => { setCurrentSlide(i); startTimer(); }} className={`h-1.5 rounded-full transition-all ${i === currentSlide ? "w-8 bg-indigo-500" : "w-2 bg-white/50"}`} />
                 ))}
               </div>
             </>
@@ -275,7 +329,7 @@ export const Home = () => {
               
               <button 
                 onClick={() => addToCart(productOfTheDay)}
-                className="bg-slate-900 text-white px-10 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-200 w-fit"
+                className="bg-slate-900 text-white px-10 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-200 w-fit cursor-pointer"
               >
                 <ShoppingBag size={20} /> Додати в кошик
               </button>
@@ -298,7 +352,7 @@ export const Home = () => {
             <h3 className="text-xl font-bold flex items-center gap-2">
               <Clock size={20} className="text-indigo-600" /> Ви нещодавно дивились
             </h3>
-            <button onClick={() => {localStorage.removeItem('recentlyViewed'); setRecentlyViewed([])}} className="text-xs font-bold text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors">Очистити</button>
+            <button onClick={() => {localStorage.removeItem('recentlyViewed'); setRecentlyViewed([])}} className="text-xs font-bold text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors cursor-pointer">Очистити</button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {recentlyViewed.slice(0, 6).map(p => (
@@ -316,7 +370,6 @@ export const Home = () => {
 
       {/* 5. Контакти та Новини */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Секція новин */}
         <div className="lg:col-span-1 space-y-6">
           <h3 className="text-xl font-bold flex items-center gap-2 px-2">
             <Newspaper size={20} className="text-indigo-600" /> Новини компанії
@@ -342,7 +395,6 @@ export const Home = () => {
           </div>
         </div>
 
-        {/* Секція контактів */}
         <div className="lg:col-span-2 bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/20 blur-[100px] -z-0" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
@@ -378,7 +430,7 @@ export const Home = () => {
                       <input className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3 text-sm outline-none focus:border-indigo-500 focus:bg-white/10 transition-all" placeholder="Ваше ім'я" />
                       <input className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3 text-sm outline-none focus:border-indigo-500 focus:bg-white/10 transition-all" placeholder="Телефон або Email" />
                       <textarea className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3 text-sm h-28 resize-none outline-none focus:border-indigo-500 focus:bg-white/10 transition-all" placeholder="Чим ми можемо допомогти?"></textarea>
-                      <button className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95">
+                      <button className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 cursor-pointer">
                         Надіслати запит
                       </button>
                     </div>

@@ -110,10 +110,17 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
           {user?.role === 'admin' && (
             <>
               <div className="pt-4 pb-2"><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">Адмін</p></div>
-              <NavLink to="/admin" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-orange-50 text-orange-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
+              <NavLink 
+                to="/admin" 
+                end
+                className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-orange-50 text-orange-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}
+              >
                 <ShieldCheck size={20} /><span>Управління</span>
               </NavLink>
-              <NavLink to="/admin/database" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-red-50 text-red-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
+              <NavLink 
+                to="/admin/database" 
+                className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-red-50 text-red-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}
+              >
                 <Database size={20} /><span>База даних</span>
               </NavLink>
             </>
