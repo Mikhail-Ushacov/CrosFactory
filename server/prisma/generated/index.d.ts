@@ -44,6 +44,11 @@ export type ProductImage = $Result.DefaultSelection<Prisma.$ProductImagePayload>
  */
 export type Banner = $Result.DefaultSelection<Prisma.$BannerPayload>
 /**
+ * Model BannerProduct
+ * 
+ */
+export type BannerProduct = $Result.DefaultSelection<Prisma.$BannerProductPayload>
+/**
  * Model BannerImage
  * 
  */
@@ -53,6 +58,21 @@ export type BannerImage = $Result.DefaultSelection<Prisma.$BannerImagePayload>
  * 
  */
 export type News = $Result.DefaultSelection<Prisma.$NewsPayload>
+/**
+ * Model NewsBlock
+ * 
+ */
+export type NewsBlock = $Result.DefaultSelection<Prisma.$NewsBlockPayload>
+/**
+ * Model NewsBlockImage
+ * 
+ */
+export type NewsBlockImage = $Result.DefaultSelection<Prisma.$NewsBlockImagePayload>
+/**
+ * Model NewsBlockProduct
+ * 
+ */
+export type NewsBlockProduct = $Result.DefaultSelection<Prisma.$NewsBlockProductPayload>
 /**
  * Model NewsImage
  * 
@@ -251,6 +271,16 @@ export class PrismaClient<
   get banner(): Prisma.BannerDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.bannerProduct`: Exposes CRUD operations for the **BannerProduct** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BannerProducts
+    * const bannerProducts = await prisma.bannerProduct.findMany()
+    * ```
+    */
+  get bannerProduct(): Prisma.BannerProductDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.bannerImage`: Exposes CRUD operations for the **BannerImage** model.
     * Example usage:
     * ```ts
@@ -269,6 +299,36 @@ export class PrismaClient<
     * ```
     */
   get news(): Prisma.NewsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsBlock`: Exposes CRUD operations for the **NewsBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsBlocks
+    * const newsBlocks = await prisma.newsBlock.findMany()
+    * ```
+    */
+  get newsBlock(): Prisma.NewsBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsBlockImage`: Exposes CRUD operations for the **NewsBlockImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsBlockImages
+    * const newsBlockImages = await prisma.newsBlockImage.findMany()
+    * ```
+    */
+  get newsBlockImage(): Prisma.NewsBlockImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.newsBlockProduct`: Exposes CRUD operations for the **NewsBlockProduct** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NewsBlockProducts
+    * const newsBlockProducts = await prisma.newsBlockProduct.findMany()
+    * ```
+    */
+  get newsBlockProduct(): Prisma.NewsBlockProductDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.newsImage`: Exposes CRUD operations for the **NewsImage** model.
@@ -739,8 +799,12 @@ export namespace Prisma {
     Image: 'Image',
     ProductImage: 'ProductImage',
     Banner: 'Banner',
+    BannerProduct: 'BannerProduct',
     BannerImage: 'BannerImage',
     News: 'News',
+    NewsBlock: 'NewsBlock',
+    NewsBlockImage: 'NewsBlockImage',
+    NewsBlockProduct: 'NewsBlockProduct',
     NewsImage: 'NewsImage',
     Order: 'Order',
     Item: 'Item'
@@ -759,7 +823,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "product" | "image" | "productImage" | "banner" | "bannerImage" | "news" | "newsImage" | "order" | "item"
+      modelProps: "user" | "category" | "product" | "image" | "productImage" | "banner" | "bannerProduct" | "bannerImage" | "news" | "newsBlock" | "newsBlockImage" | "newsBlockProduct" | "newsImage" | "order" | "item"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1207,6 +1271,80 @@ export namespace Prisma {
           }
         }
       }
+      BannerProduct: {
+        payload: Prisma.$BannerProductPayload<ExtArgs>
+        fields: Prisma.BannerProductFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BannerProductFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BannerProductFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>
+          }
+          findFirst: {
+            args: Prisma.BannerProductFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BannerProductFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>
+          }
+          findMany: {
+            args: Prisma.BannerProductFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>[]
+          }
+          create: {
+            args: Prisma.BannerProductCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>
+          }
+          createMany: {
+            args: Prisma.BannerProductCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BannerProductCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>[]
+          }
+          delete: {
+            args: Prisma.BannerProductDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>
+          }
+          update: {
+            args: Prisma.BannerProductUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>
+          }
+          deleteMany: {
+            args: Prisma.BannerProductDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BannerProductUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BannerProductUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>[]
+          }
+          upsert: {
+            args: Prisma.BannerProductUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BannerProductPayload>
+          }
+          aggregate: {
+            args: Prisma.BannerProductAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBannerProduct>
+          }
+          groupBy: {
+            args: Prisma.BannerProductGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BannerProductGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BannerProductCountArgs<ExtArgs>
+            result: $Utils.Optional<BannerProductCountAggregateOutputType> | number
+          }
+        }
+      }
       BannerImage: {
         payload: Prisma.$BannerImagePayload<ExtArgs>
         fields: Prisma.BannerImageFieldRefs
@@ -1352,6 +1490,228 @@ export namespace Prisma {
           count: {
             args: Prisma.NewsCountArgs<ExtArgs>
             result: $Utils.Optional<NewsCountAggregateOutputType> | number
+          }
+        }
+      }
+      NewsBlock: {
+        payload: Prisma.$NewsBlockPayload<ExtArgs>
+        fields: Prisma.NewsBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.NewsBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>
+          }
+          findMany: {
+            args: Prisma.NewsBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>[]
+          }
+          create: {
+            args: Prisma.NewsBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>
+          }
+          createMany: {
+            args: Prisma.NewsBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.NewsBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>
+          }
+          update: {
+            args: Prisma.NewsBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.NewsBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsBlock>
+          }
+          groupBy: {
+            args: Prisma.NewsBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsBlockCountAggregateOutputType> | number
+          }
+        }
+      }
+      NewsBlockImage: {
+        payload: Prisma.$NewsBlockImagePayload<ExtArgs>
+        fields: Prisma.NewsBlockImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsBlockImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsBlockImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>
+          }
+          findFirst: {
+            args: Prisma.NewsBlockImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsBlockImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>
+          }
+          findMany: {
+            args: Prisma.NewsBlockImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>[]
+          }
+          create: {
+            args: Prisma.NewsBlockImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>
+          }
+          createMany: {
+            args: Prisma.NewsBlockImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsBlockImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>[]
+          }
+          delete: {
+            args: Prisma.NewsBlockImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>
+          }
+          update: {
+            args: Prisma.NewsBlockImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsBlockImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsBlockImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsBlockImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsBlockImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockImagePayload>
+          }
+          aggregate: {
+            args: Prisma.NewsBlockImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsBlockImage>
+          }
+          groupBy: {
+            args: Prisma.NewsBlockImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsBlockImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsBlockImageCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsBlockImageCountAggregateOutputType> | number
+          }
+        }
+      }
+      NewsBlockProduct: {
+        payload: Prisma.$NewsBlockProductPayload<ExtArgs>
+        fields: Prisma.NewsBlockProductFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NewsBlockProductFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NewsBlockProductFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>
+          }
+          findFirst: {
+            args: Prisma.NewsBlockProductFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NewsBlockProductFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>
+          }
+          findMany: {
+            args: Prisma.NewsBlockProductFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>[]
+          }
+          create: {
+            args: Prisma.NewsBlockProductCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>
+          }
+          createMany: {
+            args: Prisma.NewsBlockProductCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NewsBlockProductCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>[]
+          }
+          delete: {
+            args: Prisma.NewsBlockProductDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>
+          }
+          update: {
+            args: Prisma.NewsBlockProductUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>
+          }
+          deleteMany: {
+            args: Prisma.NewsBlockProductDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NewsBlockProductUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NewsBlockProductUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>[]
+          }
+          upsert: {
+            args: Prisma.NewsBlockProductUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NewsBlockProductPayload>
+          }
+          aggregate: {
+            args: Prisma.NewsBlockProductAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNewsBlockProduct>
+          }
+          groupBy: {
+            args: Prisma.NewsBlockProductGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NewsBlockProductGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NewsBlockProductCountArgs<ExtArgs>
+            result: $Utils.Optional<NewsBlockProductCountAggregateOutputType> | number
           }
         }
       }
@@ -1691,8 +2051,12 @@ export namespace Prisma {
     image?: ImageOmit
     productImage?: ProductImageOmit
     banner?: BannerOmit
+    bannerProduct?: BannerProductOmit
     bannerImage?: BannerImageOmit
     news?: NewsOmit
+    newsBlock?: NewsBlockOmit
+    newsBlockImage?: NewsBlockImageOmit
+    newsBlockProduct?: NewsBlockProductOmit
     newsImage?: NewsImageOmit
     order?: OrderOmit
     item?: ItemOmit
@@ -1840,11 +2204,15 @@ export namespace Prisma {
   export type ProductCountOutputType = {
     images: number
     items: number
+    bannerProducts: number
+    newsBlockProducts: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | ProductCountOutputTypeCountImagesArgs
     items?: boolean | ProductCountOutputTypeCountItemsArgs
+    bannerProducts?: boolean | ProductCountOutputTypeCountBannerProductsArgs
+    newsBlockProducts?: boolean | ProductCountOutputTypeCountNewsBlockProductsArgs
   }
 
   // Custom InputTypes
@@ -1872,6 +2240,20 @@ export namespace Prisma {
     where?: ItemWhereInput
   }
 
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountBannerProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BannerProductWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountNewsBlockProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockProductWhereInput
+  }
+
 
   /**
    * Count Type ImageCountOutputType
@@ -1881,12 +2263,14 @@ export namespace Prisma {
     productImages: number
     bannerImages: number
     newsImages: number
+    newsBlockImages: number
   }
 
   export type ImageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     productImages?: boolean | ImageCountOutputTypeCountProductImagesArgs
     bannerImages?: boolean | ImageCountOutputTypeCountBannerImagesArgs
     newsImages?: boolean | ImageCountOutputTypeCountNewsImagesArgs
+    newsBlockImages?: boolean | ImageCountOutputTypeCountNewsBlockImagesArgs
   }
 
   // Custom InputTypes
@@ -1921,6 +2305,13 @@ export namespace Prisma {
     where?: NewsImageWhereInput
   }
 
+  /**
+   * ImageCountOutputType without action
+   */
+  export type ImageCountOutputTypeCountNewsBlockImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockImageWhereInput
+  }
+
 
   /**
    * Count Type BannerCountOutputType
@@ -1928,10 +2319,12 @@ export namespace Prisma {
 
   export type BannerCountOutputType = {
     images: number
+    products: number
   }
 
   export type BannerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | BannerCountOutputTypeCountImagesArgs
+    products?: boolean | BannerCountOutputTypeCountProductsArgs
   }
 
   // Custom InputTypes
@@ -1952,16 +2345,25 @@ export namespace Prisma {
     where?: BannerImageWhereInput
   }
 
+  /**
+   * BannerCountOutputType without action
+   */
+  export type BannerCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BannerProductWhereInput
+  }
+
 
   /**
    * Count Type NewsCountOutputType
    */
 
   export type NewsCountOutputType = {
+    contentBlocks: number
     images: number
   }
 
   export type NewsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlocks?: boolean | NewsCountOutputTypeCountContentBlocksArgs
     images?: boolean | NewsCountOutputTypeCountImagesArgs
   }
 
@@ -1979,8 +2381,55 @@ export namespace Prisma {
   /**
    * NewsCountOutputType without action
    */
+  export type NewsCountOutputTypeCountContentBlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockWhereInput
+  }
+
+  /**
+   * NewsCountOutputType without action
+   */
   export type NewsCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NewsImageWhereInput
+  }
+
+
+  /**
+   * Count Type NewsBlockCountOutputType
+   */
+
+  export type NewsBlockCountOutputType = {
+    images: number
+    products: number
+  }
+
+  export type NewsBlockCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    images?: boolean | NewsBlockCountOutputTypeCountImagesArgs
+    products?: boolean | NewsBlockCountOutputTypeCountProductsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * NewsBlockCountOutputType without action
+   */
+  export type NewsBlockCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockCountOutputType
+     */
+    select?: NewsBlockCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlockCountOutputType without action
+   */
+  export type NewsBlockCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockImageWhereInput
+  }
+
+  /**
+   * NewsBlockCountOutputType without action
+   */
+  export type NewsBlockCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockProductWhereInput
   }
 
 
@@ -4403,6 +4852,8 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     items?: boolean | Product$itemsArgs<ExtArgs>
+    bannerProducts?: boolean | Product$bannerProductsArgs<ExtArgs>
+    newsBlockProducts?: boolean | Product$newsBlockProductsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -4437,6 +4888,8 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     items?: boolean | Product$itemsArgs<ExtArgs>
+    bannerProducts?: boolean | Product$bannerProductsArgs<ExtArgs>
+    newsBlockProducts?: boolean | Product$newsBlockProductsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4452,6 +4905,8 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs>
       images: Prisma.$ProductImagePayload<ExtArgs>[]
       items: Prisma.$ItemPayload<ExtArgs>[]
+      bannerProducts: Prisma.$BannerProductPayload<ExtArgs>[]
+      newsBlockProducts: Prisma.$NewsBlockProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4856,6 +5311,8 @@ export namespace Prisma {
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     images<T extends Product$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Product$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     items<T extends Product$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bannerProducts<T extends Product$bannerProductsArgs<ExtArgs> = {}>(args?: Subset<T, Product$bannerProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    newsBlockProducts<T extends Product$newsBlockProductsArgs<ExtArgs> = {}>(args?: Subset<T, Product$newsBlockProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5337,6 +5794,54 @@ export namespace Prisma {
   }
 
   /**
+   * Product.bannerProducts
+   */
+  export type Product$bannerProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    where?: BannerProductWhereInput
+    orderBy?: BannerProductOrderByWithRelationInput | BannerProductOrderByWithRelationInput[]
+    cursor?: BannerProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BannerProductScalarFieldEnum | BannerProductScalarFieldEnum[]
+  }
+
+  /**
+   * Product.newsBlockProducts
+   */
+  export type Product$newsBlockProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    where?: NewsBlockProductWhereInput
+    orderBy?: NewsBlockProductOrderByWithRelationInput | NewsBlockProductOrderByWithRelationInput[]
+    cursor?: NewsBlockProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsBlockProductScalarFieldEnum | NewsBlockProductScalarFieldEnum[]
+  }
+
+  /**
    * Product without action
    */
   export type ProductDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5532,6 +6037,7 @@ export namespace Prisma {
     productImages?: boolean | Image$productImagesArgs<ExtArgs>
     bannerImages?: boolean | Image$bannerImagesArgs<ExtArgs>
     newsImages?: boolean | Image$newsImagesArgs<ExtArgs>
+    newsBlockImages?: boolean | Image$newsBlockImagesArgs<ExtArgs>
     _count?: boolean | ImageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["image"]>
 
@@ -5555,6 +6061,7 @@ export namespace Prisma {
     productImages?: boolean | Image$productImagesArgs<ExtArgs>
     bannerImages?: boolean | Image$bannerImagesArgs<ExtArgs>
     newsImages?: boolean | Image$newsImagesArgs<ExtArgs>
+    newsBlockImages?: boolean | Image$newsBlockImagesArgs<ExtArgs>
     _count?: boolean | ImageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5566,6 +6073,7 @@ export namespace Prisma {
       productImages: Prisma.$ProductImagePayload<ExtArgs>[]
       bannerImages: Prisma.$BannerImagePayload<ExtArgs>[]
       newsImages: Prisma.$NewsImagePayload<ExtArgs>[]
+      newsBlockImages: Prisma.$NewsBlockImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5967,6 +6475,7 @@ export namespace Prisma {
     productImages<T extends Image$productImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$productImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bannerImages<T extends Image$bannerImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$bannerImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     newsImages<T extends Image$newsImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$newsImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    newsBlockImages<T extends Image$newsBlockImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$newsBlockImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6458,6 +6967,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NewsImageScalarFieldEnum | NewsImageScalarFieldEnum[]
+  }
+
+  /**
+   * Image.newsBlockImages
+   */
+  export type Image$newsBlockImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    where?: NewsBlockImageWhereInput
+    orderBy?: NewsBlockImageOrderByWithRelationInput | NewsBlockImageOrderByWithRelationInput[]
+    cursor?: NewsBlockImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsBlockImageScalarFieldEnum | NewsBlockImageScalarFieldEnum[]
   }
 
   /**
@@ -7578,10 +8111,12 @@ export namespace Prisma {
 
   export type BannerAvgAggregateOutputType = {
     id: number | null
+    order: number | null
   }
 
   export type BannerSumAggregateOutputType = {
     id: number | null
+    order: number | null
   }
 
   export type BannerMinAggregateOutputType = {
@@ -7589,6 +8124,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     text: string | null
+    order: number | null
   }
 
   export type BannerMaxAggregateOutputType = {
@@ -7596,6 +8132,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     text: string | null
+    order: number | null
   }
 
   export type BannerCountAggregateOutputType = {
@@ -7603,16 +8140,19 @@ export namespace Prisma {
     title: number
     description: number
     text: number
+    order: number
     _all: number
   }
 
 
   export type BannerAvgAggregateInputType = {
     id?: true
+    order?: true
   }
 
   export type BannerSumAggregateInputType = {
     id?: true
+    order?: true
   }
 
   export type BannerMinAggregateInputType = {
@@ -7620,6 +8160,7 @@ export namespace Prisma {
     title?: true
     description?: true
     text?: true
+    order?: true
   }
 
   export type BannerMaxAggregateInputType = {
@@ -7627,6 +8168,7 @@ export namespace Prisma {
     title?: true
     description?: true
     text?: true
+    order?: true
   }
 
   export type BannerCountAggregateInputType = {
@@ -7634,6 +8176,7 @@ export namespace Prisma {
     title?: true
     description?: true
     text?: true
+    order?: true
     _all?: true
   }
 
@@ -7728,6 +8271,7 @@ export namespace Prisma {
     title: string
     description: string
     text: string
+    order: number
     _count: BannerCountAggregateOutputType | null
     _avg: BannerAvgAggregateOutputType | null
     _sum: BannerSumAggregateOutputType | null
@@ -7754,7 +8298,9 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     text?: boolean
+    order?: boolean
     images?: boolean | Banner$imagesArgs<ExtArgs>
+    products?: boolean | Banner$productsArgs<ExtArgs>
     _count?: boolean | BannerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["banner"]>
 
@@ -7763,6 +8309,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     text?: boolean
+    order?: boolean
   }, ExtArgs["result"]["banner"]>
 
   export type BannerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7770,6 +8317,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     text?: boolean
+    order?: boolean
   }, ExtArgs["result"]["banner"]>
 
   export type BannerSelectScalar = {
@@ -7777,11 +8325,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     text?: boolean
+    order?: boolean
   }
 
-  export type BannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "text", ExtArgs["result"]["banner"]>
+  export type BannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "text" | "order", ExtArgs["result"]["banner"]>
   export type BannerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | Banner$imagesArgs<ExtArgs>
+    products?: boolean | Banner$productsArgs<ExtArgs>
     _count?: boolean | BannerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BannerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7791,12 +8341,14 @@ export namespace Prisma {
     name: "Banner"
     objects: {
       images: Prisma.$BannerImagePayload<ExtArgs>[]
+      products: Prisma.$BannerProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
       description: string
       text: string
+      order: number
     }, ExtArgs["result"]["banner"]>
     composites: {}
   }
@@ -8192,6 +8744,7 @@ export namespace Prisma {
   export interface Prisma__BannerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     images<T extends Banner$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Banner$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    products<T extends Banner$productsArgs<ExtArgs> = {}>(args?: Subset<T, Banner$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8225,6 +8778,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Banner", 'String'>
     readonly description: FieldRef<"Banner", 'String'>
     readonly text: FieldRef<"Banner", 'String'>
+    readonly order: FieldRef<"Banner", 'Int'>
   }
     
 
@@ -8640,6 +9194,30 @@ export namespace Prisma {
   }
 
   /**
+   * Banner.products
+   */
+  export type Banner$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    where?: BannerProductWhereInput
+    orderBy?: BannerProductOrderByWithRelationInput | BannerProductOrderByWithRelationInput[]
+    cursor?: BannerProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BannerProductScalarFieldEnum | BannerProductScalarFieldEnum[]
+  }
+
+  /**
    * Banner without action
    */
   export type BannerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8655,6 +9233,1074 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BannerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BannerProduct
+   */
+
+  export type AggregateBannerProduct = {
+    _count: BannerProductCountAggregateOutputType | null
+    _avg: BannerProductAvgAggregateOutputType | null
+    _sum: BannerProductSumAggregateOutputType | null
+    _min: BannerProductMinAggregateOutputType | null
+    _max: BannerProductMaxAggregateOutputType | null
+  }
+
+  export type BannerProductAvgAggregateOutputType = {
+    bannerId: number | null
+    productId: number | null
+  }
+
+  export type BannerProductSumAggregateOutputType = {
+    bannerId: number | null
+    productId: number | null
+  }
+
+  export type BannerProductMinAggregateOutputType = {
+    bannerId: number | null
+    productId: number | null
+  }
+
+  export type BannerProductMaxAggregateOutputType = {
+    bannerId: number | null
+    productId: number | null
+  }
+
+  export type BannerProductCountAggregateOutputType = {
+    bannerId: number
+    productId: number
+    _all: number
+  }
+
+
+  export type BannerProductAvgAggregateInputType = {
+    bannerId?: true
+    productId?: true
+  }
+
+  export type BannerProductSumAggregateInputType = {
+    bannerId?: true
+    productId?: true
+  }
+
+  export type BannerProductMinAggregateInputType = {
+    bannerId?: true
+    productId?: true
+  }
+
+  export type BannerProductMaxAggregateInputType = {
+    bannerId?: true
+    productId?: true
+  }
+
+  export type BannerProductCountAggregateInputType = {
+    bannerId?: true
+    productId?: true
+    _all?: true
+  }
+
+  export type BannerProductAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BannerProduct to aggregate.
+     */
+    where?: BannerProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BannerProducts to fetch.
+     */
+    orderBy?: BannerProductOrderByWithRelationInput | BannerProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BannerProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BannerProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BannerProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BannerProducts
+    **/
+    _count?: true | BannerProductCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BannerProductAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BannerProductSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BannerProductMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BannerProductMaxAggregateInputType
+  }
+
+  export type GetBannerProductAggregateType<T extends BannerProductAggregateArgs> = {
+        [P in keyof T & keyof AggregateBannerProduct]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBannerProduct[P]>
+      : GetScalarType<T[P], AggregateBannerProduct[P]>
+  }
+
+
+
+
+  export type BannerProductGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BannerProductWhereInput
+    orderBy?: BannerProductOrderByWithAggregationInput | BannerProductOrderByWithAggregationInput[]
+    by: BannerProductScalarFieldEnum[] | BannerProductScalarFieldEnum
+    having?: BannerProductScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BannerProductCountAggregateInputType | true
+    _avg?: BannerProductAvgAggregateInputType
+    _sum?: BannerProductSumAggregateInputType
+    _min?: BannerProductMinAggregateInputType
+    _max?: BannerProductMaxAggregateInputType
+  }
+
+  export type BannerProductGroupByOutputType = {
+    bannerId: number
+    productId: number
+    _count: BannerProductCountAggregateOutputType | null
+    _avg: BannerProductAvgAggregateOutputType | null
+    _sum: BannerProductSumAggregateOutputType | null
+    _min: BannerProductMinAggregateOutputType | null
+    _max: BannerProductMaxAggregateOutputType | null
+  }
+
+  type GetBannerProductGroupByPayload<T extends BannerProductGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BannerProductGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BannerProductGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BannerProductGroupByOutputType[P]>
+            : GetScalarType<T[P], BannerProductGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BannerProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    bannerId?: boolean
+    productId?: boolean
+    banner?: boolean | BannerDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bannerProduct"]>
+
+  export type BannerProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    bannerId?: boolean
+    productId?: boolean
+    banner?: boolean | BannerDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bannerProduct"]>
+
+  export type BannerProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    bannerId?: boolean
+    productId?: boolean
+    banner?: boolean | BannerDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bannerProduct"]>
+
+  export type BannerProductSelectScalar = {
+    bannerId?: boolean
+    productId?: boolean
+  }
+
+  export type BannerProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"bannerId" | "productId", ExtArgs["result"]["bannerProduct"]>
+  export type BannerProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    banner?: boolean | BannerDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type BannerProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    banner?: boolean | BannerDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type BannerProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    banner?: boolean | BannerDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $BannerProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BannerProduct"
+    objects: {
+      banner: Prisma.$BannerPayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      bannerId: number
+      productId: number
+    }, ExtArgs["result"]["bannerProduct"]>
+    composites: {}
+  }
+
+  type BannerProductGetPayload<S extends boolean | null | undefined | BannerProductDefaultArgs> = $Result.GetResult<Prisma.$BannerProductPayload, S>
+
+  type BannerProductCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BannerProductFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BannerProductCountAggregateInputType | true
+    }
+
+  export interface BannerProductDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BannerProduct'], meta: { name: 'BannerProduct' } }
+    /**
+     * Find zero or one BannerProduct that matches the filter.
+     * @param {BannerProductFindUniqueArgs} args - Arguments to find a BannerProduct
+     * @example
+     * // Get one BannerProduct
+     * const bannerProduct = await prisma.bannerProduct.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BannerProductFindUniqueArgs>(args: SelectSubset<T, BannerProductFindUniqueArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BannerProduct that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BannerProductFindUniqueOrThrowArgs} args - Arguments to find a BannerProduct
+     * @example
+     * // Get one BannerProduct
+     * const bannerProduct = await prisma.bannerProduct.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BannerProductFindUniqueOrThrowArgs>(args: SelectSubset<T, BannerProductFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BannerProduct that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductFindFirstArgs} args - Arguments to find a BannerProduct
+     * @example
+     * // Get one BannerProduct
+     * const bannerProduct = await prisma.bannerProduct.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BannerProductFindFirstArgs>(args?: SelectSubset<T, BannerProductFindFirstArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BannerProduct that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductFindFirstOrThrowArgs} args - Arguments to find a BannerProduct
+     * @example
+     * // Get one BannerProduct
+     * const bannerProduct = await prisma.bannerProduct.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BannerProductFindFirstOrThrowArgs>(args?: SelectSubset<T, BannerProductFindFirstOrThrowArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BannerProducts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BannerProducts
+     * const bannerProducts = await prisma.bannerProduct.findMany()
+     * 
+     * // Get first 10 BannerProducts
+     * const bannerProducts = await prisma.bannerProduct.findMany({ take: 10 })
+     * 
+     * // Only select the `bannerId`
+     * const bannerProductWithBannerIdOnly = await prisma.bannerProduct.findMany({ select: { bannerId: true } })
+     * 
+     */
+    findMany<T extends BannerProductFindManyArgs>(args?: SelectSubset<T, BannerProductFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BannerProduct.
+     * @param {BannerProductCreateArgs} args - Arguments to create a BannerProduct.
+     * @example
+     * // Create one BannerProduct
+     * const BannerProduct = await prisma.bannerProduct.create({
+     *   data: {
+     *     // ... data to create a BannerProduct
+     *   }
+     * })
+     * 
+     */
+    create<T extends BannerProductCreateArgs>(args: SelectSubset<T, BannerProductCreateArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BannerProducts.
+     * @param {BannerProductCreateManyArgs} args - Arguments to create many BannerProducts.
+     * @example
+     * // Create many BannerProducts
+     * const bannerProduct = await prisma.bannerProduct.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BannerProductCreateManyArgs>(args?: SelectSubset<T, BannerProductCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BannerProducts and returns the data saved in the database.
+     * @param {BannerProductCreateManyAndReturnArgs} args - Arguments to create many BannerProducts.
+     * @example
+     * // Create many BannerProducts
+     * const bannerProduct = await prisma.bannerProduct.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BannerProducts and only return the `bannerId`
+     * const bannerProductWithBannerIdOnly = await prisma.bannerProduct.createManyAndReturn({
+     *   select: { bannerId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BannerProductCreateManyAndReturnArgs>(args?: SelectSubset<T, BannerProductCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BannerProduct.
+     * @param {BannerProductDeleteArgs} args - Arguments to delete one BannerProduct.
+     * @example
+     * // Delete one BannerProduct
+     * const BannerProduct = await prisma.bannerProduct.delete({
+     *   where: {
+     *     // ... filter to delete one BannerProduct
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BannerProductDeleteArgs>(args: SelectSubset<T, BannerProductDeleteArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BannerProduct.
+     * @param {BannerProductUpdateArgs} args - Arguments to update one BannerProduct.
+     * @example
+     * // Update one BannerProduct
+     * const bannerProduct = await prisma.bannerProduct.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BannerProductUpdateArgs>(args: SelectSubset<T, BannerProductUpdateArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BannerProducts.
+     * @param {BannerProductDeleteManyArgs} args - Arguments to filter BannerProducts to delete.
+     * @example
+     * // Delete a few BannerProducts
+     * const { count } = await prisma.bannerProduct.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BannerProductDeleteManyArgs>(args?: SelectSubset<T, BannerProductDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BannerProducts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BannerProducts
+     * const bannerProduct = await prisma.bannerProduct.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BannerProductUpdateManyArgs>(args: SelectSubset<T, BannerProductUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BannerProducts and returns the data updated in the database.
+     * @param {BannerProductUpdateManyAndReturnArgs} args - Arguments to update many BannerProducts.
+     * @example
+     * // Update many BannerProducts
+     * const bannerProduct = await prisma.bannerProduct.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BannerProducts and only return the `bannerId`
+     * const bannerProductWithBannerIdOnly = await prisma.bannerProduct.updateManyAndReturn({
+     *   select: { bannerId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BannerProductUpdateManyAndReturnArgs>(args: SelectSubset<T, BannerProductUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BannerProduct.
+     * @param {BannerProductUpsertArgs} args - Arguments to update or create a BannerProduct.
+     * @example
+     * // Update or create a BannerProduct
+     * const bannerProduct = await prisma.bannerProduct.upsert({
+     *   create: {
+     *     // ... data to create a BannerProduct
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BannerProduct we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BannerProductUpsertArgs>(args: SelectSubset<T, BannerProductUpsertArgs<ExtArgs>>): Prisma__BannerProductClient<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BannerProducts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductCountArgs} args - Arguments to filter BannerProducts to count.
+     * @example
+     * // Count the number of BannerProducts
+     * const count = await prisma.bannerProduct.count({
+     *   where: {
+     *     // ... the filter for the BannerProducts we want to count
+     *   }
+     * })
+    **/
+    count<T extends BannerProductCountArgs>(
+      args?: Subset<T, BannerProductCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BannerProductCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BannerProduct.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BannerProductAggregateArgs>(args: Subset<T, BannerProductAggregateArgs>): Prisma.PrismaPromise<GetBannerProductAggregateType<T>>
+
+    /**
+     * Group by BannerProduct.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BannerProductGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BannerProductGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BannerProductGroupByArgs['orderBy'] }
+        : { orderBy?: BannerProductGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BannerProductGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBannerProductGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BannerProduct model
+   */
+  readonly fields: BannerProductFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BannerProduct.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BannerProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    banner<T extends BannerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BannerDefaultArgs<ExtArgs>>): Prisma__BannerClient<$Result.GetResult<Prisma.$BannerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BannerProduct model
+   */
+  interface BannerProductFieldRefs {
+    readonly bannerId: FieldRef<"BannerProduct", 'Int'>
+    readonly productId: FieldRef<"BannerProduct", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BannerProduct findUnique
+   */
+  export type BannerProductFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * Filter, which BannerProduct to fetch.
+     */
+    where: BannerProductWhereUniqueInput
+  }
+
+  /**
+   * BannerProduct findUniqueOrThrow
+   */
+  export type BannerProductFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * Filter, which BannerProduct to fetch.
+     */
+    where: BannerProductWhereUniqueInput
+  }
+
+  /**
+   * BannerProduct findFirst
+   */
+  export type BannerProductFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * Filter, which BannerProduct to fetch.
+     */
+    where?: BannerProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BannerProducts to fetch.
+     */
+    orderBy?: BannerProductOrderByWithRelationInput | BannerProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BannerProducts.
+     */
+    cursor?: BannerProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BannerProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BannerProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BannerProducts.
+     */
+    distinct?: BannerProductScalarFieldEnum | BannerProductScalarFieldEnum[]
+  }
+
+  /**
+   * BannerProduct findFirstOrThrow
+   */
+  export type BannerProductFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * Filter, which BannerProduct to fetch.
+     */
+    where?: BannerProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BannerProducts to fetch.
+     */
+    orderBy?: BannerProductOrderByWithRelationInput | BannerProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BannerProducts.
+     */
+    cursor?: BannerProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BannerProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BannerProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BannerProducts.
+     */
+    distinct?: BannerProductScalarFieldEnum | BannerProductScalarFieldEnum[]
+  }
+
+  /**
+   * BannerProduct findMany
+   */
+  export type BannerProductFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * Filter, which BannerProducts to fetch.
+     */
+    where?: BannerProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BannerProducts to fetch.
+     */
+    orderBy?: BannerProductOrderByWithRelationInput | BannerProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BannerProducts.
+     */
+    cursor?: BannerProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BannerProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BannerProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BannerProducts.
+     */
+    distinct?: BannerProductScalarFieldEnum | BannerProductScalarFieldEnum[]
+  }
+
+  /**
+   * BannerProduct create
+   */
+  export type BannerProductCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BannerProduct.
+     */
+    data: XOR<BannerProductCreateInput, BannerProductUncheckedCreateInput>
+  }
+
+  /**
+   * BannerProduct createMany
+   */
+  export type BannerProductCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BannerProducts.
+     */
+    data: BannerProductCreateManyInput | BannerProductCreateManyInput[]
+  }
+
+  /**
+   * BannerProduct createManyAndReturn
+   */
+  export type BannerProductCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * The data used to create many BannerProducts.
+     */
+    data: BannerProductCreateManyInput | BannerProductCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BannerProduct update
+   */
+  export type BannerProductUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BannerProduct.
+     */
+    data: XOR<BannerProductUpdateInput, BannerProductUncheckedUpdateInput>
+    /**
+     * Choose, which BannerProduct to update.
+     */
+    where: BannerProductWhereUniqueInput
+  }
+
+  /**
+   * BannerProduct updateMany
+   */
+  export type BannerProductUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BannerProducts.
+     */
+    data: XOR<BannerProductUpdateManyMutationInput, BannerProductUncheckedUpdateManyInput>
+    /**
+     * Filter which BannerProducts to update
+     */
+    where?: BannerProductWhereInput
+    /**
+     * Limit how many BannerProducts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BannerProduct updateManyAndReturn
+   */
+  export type BannerProductUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * The data used to update BannerProducts.
+     */
+    data: XOR<BannerProductUpdateManyMutationInput, BannerProductUncheckedUpdateManyInput>
+    /**
+     * Filter which BannerProducts to update
+     */
+    where?: BannerProductWhereInput
+    /**
+     * Limit how many BannerProducts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BannerProduct upsert
+   */
+  export type BannerProductUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BannerProduct to update in case it exists.
+     */
+    where: BannerProductWhereUniqueInput
+    /**
+     * In case the BannerProduct found by the `where` argument doesn't exist, create a new BannerProduct with this data.
+     */
+    create: XOR<BannerProductCreateInput, BannerProductUncheckedCreateInput>
+    /**
+     * In case the BannerProduct was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BannerProductUpdateInput, BannerProductUncheckedUpdateInput>
+  }
+
+  /**
+   * BannerProduct delete
+   */
+  export type BannerProductDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
+    /**
+     * Filter which BannerProduct to delete.
+     */
+    where: BannerProductWhereUniqueInput
+  }
+
+  /**
+   * BannerProduct deleteMany
+   */
+  export type BannerProductDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BannerProducts to delete
+     */
+    where?: BannerProductWhereInput
+    /**
+     * Limit how many BannerProducts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BannerProduct without action
+   */
+  export type BannerProductDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BannerProduct
+     */
+    select?: BannerProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BannerProduct
+     */
+    omit?: BannerProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BannerProductInclude<ExtArgs> | null
   }
 
 
@@ -9767,27 +11413,24 @@ export namespace Prisma {
     id: number | null
     title: string | null
     description: string | null
-    text: string | null
-    date: Date | null
     tag: string | null
+    date: Date | null
   }
 
   export type NewsMaxAggregateOutputType = {
     id: number | null
     title: string | null
     description: string | null
-    text: string | null
-    date: Date | null
     tag: string | null
+    date: Date | null
   }
 
   export type NewsCountAggregateOutputType = {
     id: number
     title: number
     description: number
-    text: number
-    date: number
     tag: number
+    date: number
     _all: number
   }
 
@@ -9804,27 +11447,24 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    text?: true
-    date?: true
     tag?: true
+    date?: true
   }
 
   export type NewsMaxAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    text?: true
-    date?: true
     tag?: true
+    date?: true
   }
 
   export type NewsCountAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    text?: true
-    date?: true
     tag?: true
+    date?: true
     _all?: true
   }
 
@@ -9918,9 +11558,8 @@ export namespace Prisma {
     id: number
     title: string
     description: string
-    text: string
-    date: Date
     tag: string
+    date: Date
     _count: NewsCountAggregateOutputType | null
     _avg: NewsAvgAggregateOutputType | null
     _sum: NewsSumAggregateOutputType | null
@@ -9946,9 +11585,9 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    text?: boolean
-    date?: boolean
     tag?: boolean
+    date?: boolean
+    contentBlocks?: boolean | News$contentBlocksArgs<ExtArgs>
     images?: boolean | News$imagesArgs<ExtArgs>
     _count?: boolean | NewsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["news"]>
@@ -9957,31 +11596,29 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    text?: boolean
-    date?: boolean
     tag?: boolean
+    date?: boolean
   }, ExtArgs["result"]["news"]>
 
   export type NewsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     description?: boolean
-    text?: boolean
-    date?: boolean
     tag?: boolean
+    date?: boolean
   }, ExtArgs["result"]["news"]>
 
   export type NewsSelectScalar = {
     id?: boolean
     title?: boolean
     description?: boolean
-    text?: boolean
-    date?: boolean
     tag?: boolean
+    date?: boolean
   }
 
-  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "text" | "date" | "tag", ExtArgs["result"]["news"]>
+  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "tag" | "date", ExtArgs["result"]["news"]>
   export type NewsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlocks?: boolean | News$contentBlocksArgs<ExtArgs>
     images?: boolean | News$imagesArgs<ExtArgs>
     _count?: boolean | NewsCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -9991,15 +11628,15 @@ export namespace Prisma {
   export type $NewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "News"
     objects: {
+      contentBlocks: Prisma.$NewsBlockPayload<ExtArgs>[]
       images: Prisma.$NewsImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
       description: string
-      text: string
-      date: Date
       tag: string
+      date: Date
     }, ExtArgs["result"]["news"]>
     composites: {}
   }
@@ -10394,6 +12031,7 @@ export namespace Prisma {
    */
   export interface Prisma__NewsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlocks<T extends News$contentBlocksArgs<ExtArgs> = {}>(args?: Subset<T, News$contentBlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     images<T extends News$imagesArgs<ExtArgs> = {}>(args?: Subset<T, News$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10427,9 +12065,8 @@ export namespace Prisma {
     readonly id: FieldRef<"News", 'Int'>
     readonly title: FieldRef<"News", 'String'>
     readonly description: FieldRef<"News", 'String'>
-    readonly text: FieldRef<"News", 'String'>
-    readonly date: FieldRef<"News", 'DateTime'>
     readonly tag: FieldRef<"News", 'String'>
+    readonly date: FieldRef<"News", 'DateTime'>
   }
     
 
@@ -10821,6 +12458,30 @@ export namespace Prisma {
   }
 
   /**
+   * News.contentBlocks
+   */
+  export type News$contentBlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    where?: NewsBlockWhereInput
+    orderBy?: NewsBlockOrderByWithRelationInput | NewsBlockOrderByWithRelationInput[]
+    cursor?: NewsBlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsBlockScalarFieldEnum | NewsBlockScalarFieldEnum[]
+  }
+
+  /**
    * News.images
    */
   export type News$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10860,6 +12521,3320 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: NewsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model NewsBlock
+   */
+
+  export type AggregateNewsBlock = {
+    _count: NewsBlockCountAggregateOutputType | null
+    _avg: NewsBlockAvgAggregateOutputType | null
+    _sum: NewsBlockSumAggregateOutputType | null
+    _min: NewsBlockMinAggregateOutputType | null
+    _max: NewsBlockMaxAggregateOutputType | null
+  }
+
+  export type NewsBlockAvgAggregateOutputType = {
+    id: number | null
+    order: number | null
+    newsId: number | null
+  }
+
+  export type NewsBlockSumAggregateOutputType = {
+    id: number | null
+    order: number | null
+    newsId: number | null
+  }
+
+  export type NewsBlockMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    text: string | null
+    order: number | null
+    newsId: number | null
+  }
+
+  export type NewsBlockMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    text: string | null
+    order: number | null
+    newsId: number | null
+  }
+
+  export type NewsBlockCountAggregateOutputType = {
+    id: number
+    title: number
+    text: number
+    order: number
+    newsId: number
+    _all: number
+  }
+
+
+  export type NewsBlockAvgAggregateInputType = {
+    id?: true
+    order?: true
+    newsId?: true
+  }
+
+  export type NewsBlockSumAggregateInputType = {
+    id?: true
+    order?: true
+    newsId?: true
+  }
+
+  export type NewsBlockMinAggregateInputType = {
+    id?: true
+    title?: true
+    text?: true
+    order?: true
+    newsId?: true
+  }
+
+  export type NewsBlockMaxAggregateInputType = {
+    id?: true
+    title?: true
+    text?: true
+    order?: true
+    newsId?: true
+  }
+
+  export type NewsBlockCountAggregateInputType = {
+    id?: true
+    title?: true
+    text?: true
+    order?: true
+    newsId?: true
+    _all?: true
+  }
+
+  export type NewsBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsBlock to aggregate.
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlocks to fetch.
+     */
+    orderBy?: NewsBlockOrderByWithRelationInput | NewsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsBlocks
+    **/
+    _count?: true | NewsBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NewsBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NewsBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsBlockMaxAggregateInputType
+  }
+
+  export type GetNewsBlockAggregateType<T extends NewsBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsBlock[P]>
+      : GetScalarType<T[P], AggregateNewsBlock[P]>
+  }
+
+
+
+
+  export type NewsBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockWhereInput
+    orderBy?: NewsBlockOrderByWithAggregationInput | NewsBlockOrderByWithAggregationInput[]
+    by: NewsBlockScalarFieldEnum[] | NewsBlockScalarFieldEnum
+    having?: NewsBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsBlockCountAggregateInputType | true
+    _avg?: NewsBlockAvgAggregateInputType
+    _sum?: NewsBlockSumAggregateInputType
+    _min?: NewsBlockMinAggregateInputType
+    _max?: NewsBlockMaxAggregateInputType
+  }
+
+  export type NewsBlockGroupByOutputType = {
+    id: number
+    title: string | null
+    text: string | null
+    order: number
+    newsId: number
+    _count: NewsBlockCountAggregateOutputType | null
+    _avg: NewsBlockAvgAggregateOutputType | null
+    _sum: NewsBlockSumAggregateOutputType | null
+    _min: NewsBlockMinAggregateOutputType | null
+    _max: NewsBlockMaxAggregateOutputType | null
+  }
+
+  type GetNewsBlockGroupByPayload<T extends NewsBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    text?: boolean
+    order?: boolean
+    newsId?: boolean
+    news?: boolean | NewsDefaultArgs<ExtArgs>
+    images?: boolean | NewsBlock$imagesArgs<ExtArgs>
+    products?: boolean | NewsBlock$productsArgs<ExtArgs>
+    _count?: boolean | NewsBlockCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlock"]>
+
+  export type NewsBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    text?: boolean
+    order?: boolean
+    newsId?: boolean
+    news?: boolean | NewsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlock"]>
+
+  export type NewsBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    text?: boolean
+    order?: boolean
+    newsId?: boolean
+    news?: boolean | NewsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlock"]>
+
+  export type NewsBlockSelectScalar = {
+    id?: boolean
+    title?: boolean
+    text?: boolean
+    order?: boolean
+    newsId?: boolean
+  }
+
+  export type NewsBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "text" | "order" | "newsId", ExtArgs["result"]["newsBlock"]>
+  export type NewsBlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    news?: boolean | NewsDefaultArgs<ExtArgs>
+    images?: boolean | NewsBlock$imagesArgs<ExtArgs>
+    products?: boolean | NewsBlock$productsArgs<ExtArgs>
+    _count?: boolean | NewsBlockCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type NewsBlockIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    news?: boolean | NewsDefaultArgs<ExtArgs>
+  }
+  export type NewsBlockIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    news?: boolean | NewsDefaultArgs<ExtArgs>
+  }
+
+  export type $NewsBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsBlock"
+    objects: {
+      news: Prisma.$NewsPayload<ExtArgs>
+      images: Prisma.$NewsBlockImagePayload<ExtArgs>[]
+      products: Prisma.$NewsBlockProductPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string | null
+      text: string | null
+      order: number
+      newsId: number
+    }, ExtArgs["result"]["newsBlock"]>
+    composites: {}
+  }
+
+  type NewsBlockGetPayload<S extends boolean | null | undefined | NewsBlockDefaultArgs> = $Result.GetResult<Prisma.$NewsBlockPayload, S>
+
+  type NewsBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsBlockCountAggregateInputType | true
+    }
+
+  export interface NewsBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsBlock'], meta: { name: 'NewsBlock' } }
+    /**
+     * Find zero or one NewsBlock that matches the filter.
+     * @param {NewsBlockFindUniqueArgs} args - Arguments to find a NewsBlock
+     * @example
+     * // Get one NewsBlock
+     * const newsBlock = await prisma.newsBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsBlockFindUniqueArgs>(args: SelectSubset<T, NewsBlockFindUniqueArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsBlockFindUniqueOrThrowArgs} args - Arguments to find a NewsBlock
+     * @example
+     * // Get one NewsBlock
+     * const newsBlock = await prisma.newsBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockFindFirstArgs} args - Arguments to find a NewsBlock
+     * @example
+     * // Get one NewsBlock
+     * const newsBlock = await prisma.newsBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsBlockFindFirstArgs>(args?: SelectSubset<T, NewsBlockFindFirstArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockFindFirstOrThrowArgs} args - Arguments to find a NewsBlock
+     * @example
+     * // Get one NewsBlock
+     * const newsBlock = await prisma.newsBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsBlocks
+     * const newsBlocks = await prisma.newsBlock.findMany()
+     * 
+     * // Get first 10 NewsBlocks
+     * const newsBlocks = await prisma.newsBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const newsBlockWithIdOnly = await prisma.newsBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NewsBlockFindManyArgs>(args?: SelectSubset<T, NewsBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsBlock.
+     * @param {NewsBlockCreateArgs} args - Arguments to create a NewsBlock.
+     * @example
+     * // Create one NewsBlock
+     * const NewsBlock = await prisma.newsBlock.create({
+     *   data: {
+     *     // ... data to create a NewsBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsBlockCreateArgs>(args: SelectSubset<T, NewsBlockCreateArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsBlocks.
+     * @param {NewsBlockCreateManyArgs} args - Arguments to create many NewsBlocks.
+     * @example
+     * // Create many NewsBlocks
+     * const newsBlock = await prisma.newsBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsBlockCreateManyArgs>(args?: SelectSubset<T, NewsBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsBlocks and returns the data saved in the database.
+     * @param {NewsBlockCreateManyAndReturnArgs} args - Arguments to create many NewsBlocks.
+     * @example
+     * // Create many NewsBlocks
+     * const newsBlock = await prisma.newsBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsBlocks and only return the `id`
+     * const newsBlockWithIdOnly = await prisma.newsBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsBlock.
+     * @param {NewsBlockDeleteArgs} args - Arguments to delete one NewsBlock.
+     * @example
+     * // Delete one NewsBlock
+     * const NewsBlock = await prisma.newsBlock.delete({
+     *   where: {
+     *     // ... filter to delete one NewsBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsBlockDeleteArgs>(args: SelectSubset<T, NewsBlockDeleteArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsBlock.
+     * @param {NewsBlockUpdateArgs} args - Arguments to update one NewsBlock.
+     * @example
+     * // Update one NewsBlock
+     * const newsBlock = await prisma.newsBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsBlockUpdateArgs>(args: SelectSubset<T, NewsBlockUpdateArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsBlocks.
+     * @param {NewsBlockDeleteManyArgs} args - Arguments to filter NewsBlocks to delete.
+     * @example
+     * // Delete a few NewsBlocks
+     * const { count } = await prisma.newsBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsBlockDeleteManyArgs>(args?: SelectSubset<T, NewsBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsBlocks
+     * const newsBlock = await prisma.newsBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsBlockUpdateManyArgs>(args: SelectSubset<T, NewsBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsBlocks and returns the data updated in the database.
+     * @param {NewsBlockUpdateManyAndReturnArgs} args - Arguments to update many NewsBlocks.
+     * @example
+     * // Update many NewsBlocks
+     * const newsBlock = await prisma.newsBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsBlocks and only return the `id`
+     * const newsBlockWithIdOnly = await prisma.newsBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsBlock.
+     * @param {NewsBlockUpsertArgs} args - Arguments to update or create a NewsBlock.
+     * @example
+     * // Update or create a NewsBlock
+     * const newsBlock = await prisma.newsBlock.upsert({
+     *   create: {
+     *     // ... data to create a NewsBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsBlockUpsertArgs>(args: SelectSubset<T, NewsBlockUpsertArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockCountArgs} args - Arguments to filter NewsBlocks to count.
+     * @example
+     * // Count the number of NewsBlocks
+     * const count = await prisma.newsBlock.count({
+     *   where: {
+     *     // ... the filter for the NewsBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsBlockCountArgs>(
+      args?: Subset<T, NewsBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsBlockAggregateArgs>(args: Subset<T, NewsBlockAggregateArgs>): Prisma.PrismaPromise<GetNewsBlockAggregateType<T>>
+
+    /**
+     * Group by NewsBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsBlockGroupByArgs['orderBy'] }
+        : { orderBy?: NewsBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsBlock model
+   */
+  readonly fields: NewsBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    news<T extends NewsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NewsDefaultArgs<ExtArgs>>): Prisma__NewsClient<$Result.GetResult<Prisma.$NewsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    images<T extends NewsBlock$imagesArgs<ExtArgs> = {}>(args?: Subset<T, NewsBlock$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    products<T extends NewsBlock$productsArgs<ExtArgs> = {}>(args?: Subset<T, NewsBlock$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsBlock model
+   */
+  interface NewsBlockFieldRefs {
+    readonly id: FieldRef<"NewsBlock", 'Int'>
+    readonly title: FieldRef<"NewsBlock", 'String'>
+    readonly text: FieldRef<"NewsBlock", 'String'>
+    readonly order: FieldRef<"NewsBlock", 'Int'>
+    readonly newsId: FieldRef<"NewsBlock", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsBlock findUnique
+   */
+  export type NewsBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlock to fetch.
+     */
+    where: NewsBlockWhereUniqueInput
+  }
+
+  /**
+   * NewsBlock findUniqueOrThrow
+   */
+  export type NewsBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlock to fetch.
+     */
+    where: NewsBlockWhereUniqueInput
+  }
+
+  /**
+   * NewsBlock findFirst
+   */
+  export type NewsBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlock to fetch.
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlocks to fetch.
+     */
+    orderBy?: NewsBlockOrderByWithRelationInput | NewsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsBlocks.
+     */
+    cursor?: NewsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlocks.
+     */
+    distinct?: NewsBlockScalarFieldEnum | NewsBlockScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlock findFirstOrThrow
+   */
+  export type NewsBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlock to fetch.
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlocks to fetch.
+     */
+    orderBy?: NewsBlockOrderByWithRelationInput | NewsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsBlocks.
+     */
+    cursor?: NewsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlocks.
+     */
+    distinct?: NewsBlockScalarFieldEnum | NewsBlockScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlock findMany
+   */
+  export type NewsBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlocks to fetch.
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlocks to fetch.
+     */
+    orderBy?: NewsBlockOrderByWithRelationInput | NewsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsBlocks.
+     */
+    cursor?: NewsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlocks.
+     */
+    distinct?: NewsBlockScalarFieldEnum | NewsBlockScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlock create
+   */
+  export type NewsBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NewsBlock.
+     */
+    data: XOR<NewsBlockCreateInput, NewsBlockUncheckedCreateInput>
+  }
+
+  /**
+   * NewsBlock createMany
+   */
+  export type NewsBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsBlocks.
+     */
+    data: NewsBlockCreateManyInput | NewsBlockCreateManyInput[]
+  }
+
+  /**
+   * NewsBlock createManyAndReturn
+   */
+  export type NewsBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsBlocks.
+     */
+    data: NewsBlockCreateManyInput | NewsBlockCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlock update
+   */
+  export type NewsBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NewsBlock.
+     */
+    data: XOR<NewsBlockUpdateInput, NewsBlockUncheckedUpdateInput>
+    /**
+     * Choose, which NewsBlock to update.
+     */
+    where: NewsBlockWhereUniqueInput
+  }
+
+  /**
+   * NewsBlock updateMany
+   */
+  export type NewsBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsBlocks.
+     */
+    data: XOR<NewsBlockUpdateManyMutationInput, NewsBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsBlocks to update
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * Limit how many NewsBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsBlock updateManyAndReturn
+   */
+  export type NewsBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsBlocks.
+     */
+    data: XOR<NewsBlockUpdateManyMutationInput, NewsBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsBlocks to update
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * Limit how many NewsBlocks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlock upsert
+   */
+  export type NewsBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NewsBlock to update in case it exists.
+     */
+    where: NewsBlockWhereUniqueInput
+    /**
+     * In case the NewsBlock found by the `where` argument doesn't exist, create a new NewsBlock with this data.
+     */
+    create: XOR<NewsBlockCreateInput, NewsBlockUncheckedCreateInput>
+    /**
+     * In case the NewsBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsBlockUpdateInput, NewsBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsBlock delete
+   */
+  export type NewsBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+    /**
+     * Filter which NewsBlock to delete.
+     */
+    where: NewsBlockWhereUniqueInput
+  }
+
+  /**
+   * NewsBlock deleteMany
+   */
+  export type NewsBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsBlocks to delete
+     */
+    where?: NewsBlockWhereInput
+    /**
+     * Limit how many NewsBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsBlock.images
+   */
+  export type NewsBlock$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    where?: NewsBlockImageWhereInput
+    orderBy?: NewsBlockImageOrderByWithRelationInput | NewsBlockImageOrderByWithRelationInput[]
+    cursor?: NewsBlockImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsBlockImageScalarFieldEnum | NewsBlockImageScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlock.products
+   */
+  export type NewsBlock$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    where?: NewsBlockProductWhereInput
+    orderBy?: NewsBlockProductOrderByWithRelationInput | NewsBlockProductOrderByWithRelationInput[]
+    cursor?: NewsBlockProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsBlockProductScalarFieldEnum | NewsBlockProductScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlock without action
+   */
+  export type NewsBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlock
+     */
+    select?: NewsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlock
+     */
+    omit?: NewsBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model NewsBlockImage
+   */
+
+  export type AggregateNewsBlockImage = {
+    _count: NewsBlockImageCountAggregateOutputType | null
+    _avg: NewsBlockImageAvgAggregateOutputType | null
+    _sum: NewsBlockImageSumAggregateOutputType | null
+    _min: NewsBlockImageMinAggregateOutputType | null
+    _max: NewsBlockImageMaxAggregateOutputType | null
+  }
+
+  export type NewsBlockImageAvgAggregateOutputType = {
+    id: number | null
+    blockId: number | null
+    imageId: number | null
+  }
+
+  export type NewsBlockImageSumAggregateOutputType = {
+    id: number | null
+    blockId: number | null
+    imageId: number | null
+  }
+
+  export type NewsBlockImageMinAggregateOutputType = {
+    id: number | null
+    blockId: number | null
+    imageId: number | null
+  }
+
+  export type NewsBlockImageMaxAggregateOutputType = {
+    id: number | null
+    blockId: number | null
+    imageId: number | null
+  }
+
+  export type NewsBlockImageCountAggregateOutputType = {
+    id: number
+    blockId: number
+    imageId: number
+    _all: number
+  }
+
+
+  export type NewsBlockImageAvgAggregateInputType = {
+    id?: true
+    blockId?: true
+    imageId?: true
+  }
+
+  export type NewsBlockImageSumAggregateInputType = {
+    id?: true
+    blockId?: true
+    imageId?: true
+  }
+
+  export type NewsBlockImageMinAggregateInputType = {
+    id?: true
+    blockId?: true
+    imageId?: true
+  }
+
+  export type NewsBlockImageMaxAggregateInputType = {
+    id?: true
+    blockId?: true
+    imageId?: true
+  }
+
+  export type NewsBlockImageCountAggregateInputType = {
+    id?: true
+    blockId?: true
+    imageId?: true
+    _all?: true
+  }
+
+  export type NewsBlockImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsBlockImage to aggregate.
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockImages to fetch.
+     */
+    orderBy?: NewsBlockImageOrderByWithRelationInput | NewsBlockImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsBlockImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsBlockImages
+    **/
+    _count?: true | NewsBlockImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NewsBlockImageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NewsBlockImageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsBlockImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsBlockImageMaxAggregateInputType
+  }
+
+  export type GetNewsBlockImageAggregateType<T extends NewsBlockImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsBlockImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsBlockImage[P]>
+      : GetScalarType<T[P], AggregateNewsBlockImage[P]>
+  }
+
+
+
+
+  export type NewsBlockImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockImageWhereInput
+    orderBy?: NewsBlockImageOrderByWithAggregationInput | NewsBlockImageOrderByWithAggregationInput[]
+    by: NewsBlockImageScalarFieldEnum[] | NewsBlockImageScalarFieldEnum
+    having?: NewsBlockImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsBlockImageCountAggregateInputType | true
+    _avg?: NewsBlockImageAvgAggregateInputType
+    _sum?: NewsBlockImageSumAggregateInputType
+    _min?: NewsBlockImageMinAggregateInputType
+    _max?: NewsBlockImageMaxAggregateInputType
+  }
+
+  export type NewsBlockImageGroupByOutputType = {
+    id: number
+    blockId: number
+    imageId: number
+    _count: NewsBlockImageCountAggregateOutputType | null
+    _avg: NewsBlockImageAvgAggregateOutputType | null
+    _sum: NewsBlockImageSumAggregateOutputType | null
+    _min: NewsBlockImageMinAggregateOutputType | null
+    _max: NewsBlockImageMaxAggregateOutputType | null
+  }
+
+  type GetNewsBlockImageGroupByPayload<T extends NewsBlockImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsBlockImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsBlockImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsBlockImageGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsBlockImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsBlockImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    blockId?: boolean
+    imageId?: boolean
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlockImage"]>
+
+  export type NewsBlockImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    blockId?: boolean
+    imageId?: boolean
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlockImage"]>
+
+  export type NewsBlockImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    blockId?: boolean
+    imageId?: boolean
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlockImage"]>
+
+  export type NewsBlockImageSelectScalar = {
+    id?: boolean
+    blockId?: boolean
+    imageId?: boolean
+  }
+
+  export type NewsBlockImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "blockId" | "imageId", ExtArgs["result"]["newsBlockImage"]>
+  export type NewsBlockImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }
+  export type NewsBlockImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }
+  export type NewsBlockImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }
+
+  export type $NewsBlockImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsBlockImage"
+    objects: {
+      block: Prisma.$NewsBlockPayload<ExtArgs>
+      image: Prisma.$ImagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      blockId: number
+      imageId: number
+    }, ExtArgs["result"]["newsBlockImage"]>
+    composites: {}
+  }
+
+  type NewsBlockImageGetPayload<S extends boolean | null | undefined | NewsBlockImageDefaultArgs> = $Result.GetResult<Prisma.$NewsBlockImagePayload, S>
+
+  type NewsBlockImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsBlockImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsBlockImageCountAggregateInputType | true
+    }
+
+  export interface NewsBlockImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsBlockImage'], meta: { name: 'NewsBlockImage' } }
+    /**
+     * Find zero or one NewsBlockImage that matches the filter.
+     * @param {NewsBlockImageFindUniqueArgs} args - Arguments to find a NewsBlockImage
+     * @example
+     * // Get one NewsBlockImage
+     * const newsBlockImage = await prisma.newsBlockImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsBlockImageFindUniqueArgs>(args: SelectSubset<T, NewsBlockImageFindUniqueArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsBlockImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsBlockImageFindUniqueOrThrowArgs} args - Arguments to find a NewsBlockImage
+     * @example
+     * // Get one NewsBlockImage
+     * const newsBlockImage = await prisma.newsBlockImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsBlockImageFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsBlockImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsBlockImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageFindFirstArgs} args - Arguments to find a NewsBlockImage
+     * @example
+     * // Get one NewsBlockImage
+     * const newsBlockImage = await prisma.newsBlockImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsBlockImageFindFirstArgs>(args?: SelectSubset<T, NewsBlockImageFindFirstArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsBlockImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageFindFirstOrThrowArgs} args - Arguments to find a NewsBlockImage
+     * @example
+     * // Get one NewsBlockImage
+     * const newsBlockImage = await prisma.newsBlockImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsBlockImageFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsBlockImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsBlockImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsBlockImages
+     * const newsBlockImages = await prisma.newsBlockImage.findMany()
+     * 
+     * // Get first 10 NewsBlockImages
+     * const newsBlockImages = await prisma.newsBlockImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const newsBlockImageWithIdOnly = await prisma.newsBlockImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NewsBlockImageFindManyArgs>(args?: SelectSubset<T, NewsBlockImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsBlockImage.
+     * @param {NewsBlockImageCreateArgs} args - Arguments to create a NewsBlockImage.
+     * @example
+     * // Create one NewsBlockImage
+     * const NewsBlockImage = await prisma.newsBlockImage.create({
+     *   data: {
+     *     // ... data to create a NewsBlockImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsBlockImageCreateArgs>(args: SelectSubset<T, NewsBlockImageCreateArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsBlockImages.
+     * @param {NewsBlockImageCreateManyArgs} args - Arguments to create many NewsBlockImages.
+     * @example
+     * // Create many NewsBlockImages
+     * const newsBlockImage = await prisma.newsBlockImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsBlockImageCreateManyArgs>(args?: SelectSubset<T, NewsBlockImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsBlockImages and returns the data saved in the database.
+     * @param {NewsBlockImageCreateManyAndReturnArgs} args - Arguments to create many NewsBlockImages.
+     * @example
+     * // Create many NewsBlockImages
+     * const newsBlockImage = await prisma.newsBlockImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsBlockImages and only return the `id`
+     * const newsBlockImageWithIdOnly = await prisma.newsBlockImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsBlockImageCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsBlockImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsBlockImage.
+     * @param {NewsBlockImageDeleteArgs} args - Arguments to delete one NewsBlockImage.
+     * @example
+     * // Delete one NewsBlockImage
+     * const NewsBlockImage = await prisma.newsBlockImage.delete({
+     *   where: {
+     *     // ... filter to delete one NewsBlockImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsBlockImageDeleteArgs>(args: SelectSubset<T, NewsBlockImageDeleteArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsBlockImage.
+     * @param {NewsBlockImageUpdateArgs} args - Arguments to update one NewsBlockImage.
+     * @example
+     * // Update one NewsBlockImage
+     * const newsBlockImage = await prisma.newsBlockImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsBlockImageUpdateArgs>(args: SelectSubset<T, NewsBlockImageUpdateArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsBlockImages.
+     * @param {NewsBlockImageDeleteManyArgs} args - Arguments to filter NewsBlockImages to delete.
+     * @example
+     * // Delete a few NewsBlockImages
+     * const { count } = await prisma.newsBlockImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsBlockImageDeleteManyArgs>(args?: SelectSubset<T, NewsBlockImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsBlockImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsBlockImages
+     * const newsBlockImage = await prisma.newsBlockImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsBlockImageUpdateManyArgs>(args: SelectSubset<T, NewsBlockImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsBlockImages and returns the data updated in the database.
+     * @param {NewsBlockImageUpdateManyAndReturnArgs} args - Arguments to update many NewsBlockImages.
+     * @example
+     * // Update many NewsBlockImages
+     * const newsBlockImage = await prisma.newsBlockImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsBlockImages and only return the `id`
+     * const newsBlockImageWithIdOnly = await prisma.newsBlockImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsBlockImageUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsBlockImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsBlockImage.
+     * @param {NewsBlockImageUpsertArgs} args - Arguments to update or create a NewsBlockImage.
+     * @example
+     * // Update or create a NewsBlockImage
+     * const newsBlockImage = await prisma.newsBlockImage.upsert({
+     *   create: {
+     *     // ... data to create a NewsBlockImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsBlockImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsBlockImageUpsertArgs>(args: SelectSubset<T, NewsBlockImageUpsertArgs<ExtArgs>>): Prisma__NewsBlockImageClient<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsBlockImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageCountArgs} args - Arguments to filter NewsBlockImages to count.
+     * @example
+     * // Count the number of NewsBlockImages
+     * const count = await prisma.newsBlockImage.count({
+     *   where: {
+     *     // ... the filter for the NewsBlockImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsBlockImageCountArgs>(
+      args?: Subset<T, NewsBlockImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsBlockImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsBlockImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsBlockImageAggregateArgs>(args: Subset<T, NewsBlockImageAggregateArgs>): Prisma.PrismaPromise<GetNewsBlockImageAggregateType<T>>
+
+    /**
+     * Group by NewsBlockImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsBlockImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsBlockImageGroupByArgs['orderBy'] }
+        : { orderBy?: NewsBlockImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsBlockImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsBlockImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsBlockImage model
+   */
+  readonly fields: NewsBlockImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsBlockImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsBlockImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    block<T extends NewsBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NewsBlockDefaultArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    image<T extends ImageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ImageDefaultArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsBlockImage model
+   */
+  interface NewsBlockImageFieldRefs {
+    readonly id: FieldRef<"NewsBlockImage", 'Int'>
+    readonly blockId: FieldRef<"NewsBlockImage", 'Int'>
+    readonly imageId: FieldRef<"NewsBlockImage", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsBlockImage findUnique
+   */
+  export type NewsBlockImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockImage to fetch.
+     */
+    where: NewsBlockImageWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockImage findUniqueOrThrow
+   */
+  export type NewsBlockImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockImage to fetch.
+     */
+    where: NewsBlockImageWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockImage findFirst
+   */
+  export type NewsBlockImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockImage to fetch.
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockImages to fetch.
+     */
+    orderBy?: NewsBlockImageOrderByWithRelationInput | NewsBlockImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsBlockImages.
+     */
+    cursor?: NewsBlockImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlockImages.
+     */
+    distinct?: NewsBlockImageScalarFieldEnum | NewsBlockImageScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlockImage findFirstOrThrow
+   */
+  export type NewsBlockImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockImage to fetch.
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockImages to fetch.
+     */
+    orderBy?: NewsBlockImageOrderByWithRelationInput | NewsBlockImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsBlockImages.
+     */
+    cursor?: NewsBlockImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlockImages.
+     */
+    distinct?: NewsBlockImageScalarFieldEnum | NewsBlockImageScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlockImage findMany
+   */
+  export type NewsBlockImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockImages to fetch.
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockImages to fetch.
+     */
+    orderBy?: NewsBlockImageOrderByWithRelationInput | NewsBlockImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsBlockImages.
+     */
+    cursor?: NewsBlockImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlockImages.
+     */
+    distinct?: NewsBlockImageScalarFieldEnum | NewsBlockImageScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlockImage create
+   */
+  export type NewsBlockImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NewsBlockImage.
+     */
+    data: XOR<NewsBlockImageCreateInput, NewsBlockImageUncheckedCreateInput>
+  }
+
+  /**
+   * NewsBlockImage createMany
+   */
+  export type NewsBlockImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsBlockImages.
+     */
+    data: NewsBlockImageCreateManyInput | NewsBlockImageCreateManyInput[]
+  }
+
+  /**
+   * NewsBlockImage createManyAndReturn
+   */
+  export type NewsBlockImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsBlockImages.
+     */
+    data: NewsBlockImageCreateManyInput | NewsBlockImageCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlockImage update
+   */
+  export type NewsBlockImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NewsBlockImage.
+     */
+    data: XOR<NewsBlockImageUpdateInput, NewsBlockImageUncheckedUpdateInput>
+    /**
+     * Choose, which NewsBlockImage to update.
+     */
+    where: NewsBlockImageWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockImage updateMany
+   */
+  export type NewsBlockImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsBlockImages.
+     */
+    data: XOR<NewsBlockImageUpdateManyMutationInput, NewsBlockImageUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsBlockImages to update
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * Limit how many NewsBlockImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsBlockImage updateManyAndReturn
+   */
+  export type NewsBlockImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsBlockImages.
+     */
+    data: XOR<NewsBlockImageUpdateManyMutationInput, NewsBlockImageUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsBlockImages to update
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * Limit how many NewsBlockImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlockImage upsert
+   */
+  export type NewsBlockImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NewsBlockImage to update in case it exists.
+     */
+    where: NewsBlockImageWhereUniqueInput
+    /**
+     * In case the NewsBlockImage found by the `where` argument doesn't exist, create a new NewsBlockImage with this data.
+     */
+    create: XOR<NewsBlockImageCreateInput, NewsBlockImageUncheckedCreateInput>
+    /**
+     * In case the NewsBlockImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsBlockImageUpdateInput, NewsBlockImageUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsBlockImage delete
+   */
+  export type NewsBlockImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+    /**
+     * Filter which NewsBlockImage to delete.
+     */
+    where: NewsBlockImageWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockImage deleteMany
+   */
+  export type NewsBlockImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsBlockImages to delete
+     */
+    where?: NewsBlockImageWhereInput
+    /**
+     * Limit how many NewsBlockImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsBlockImage without action
+   */
+  export type NewsBlockImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockImage
+     */
+    select?: NewsBlockImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockImage
+     */
+    omit?: NewsBlockImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockImageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model NewsBlockProduct
+   */
+
+  export type AggregateNewsBlockProduct = {
+    _count: NewsBlockProductCountAggregateOutputType | null
+    _avg: NewsBlockProductAvgAggregateOutputType | null
+    _sum: NewsBlockProductSumAggregateOutputType | null
+    _min: NewsBlockProductMinAggregateOutputType | null
+    _max: NewsBlockProductMaxAggregateOutputType | null
+  }
+
+  export type NewsBlockProductAvgAggregateOutputType = {
+    blockId: number | null
+    productId: number | null
+  }
+
+  export type NewsBlockProductSumAggregateOutputType = {
+    blockId: number | null
+    productId: number | null
+  }
+
+  export type NewsBlockProductMinAggregateOutputType = {
+    blockId: number | null
+    productId: number | null
+  }
+
+  export type NewsBlockProductMaxAggregateOutputType = {
+    blockId: number | null
+    productId: number | null
+  }
+
+  export type NewsBlockProductCountAggregateOutputType = {
+    blockId: number
+    productId: number
+    _all: number
+  }
+
+
+  export type NewsBlockProductAvgAggregateInputType = {
+    blockId?: true
+    productId?: true
+  }
+
+  export type NewsBlockProductSumAggregateInputType = {
+    blockId?: true
+    productId?: true
+  }
+
+  export type NewsBlockProductMinAggregateInputType = {
+    blockId?: true
+    productId?: true
+  }
+
+  export type NewsBlockProductMaxAggregateInputType = {
+    blockId?: true
+    productId?: true
+  }
+
+  export type NewsBlockProductCountAggregateInputType = {
+    blockId?: true
+    productId?: true
+    _all?: true
+  }
+
+  export type NewsBlockProductAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsBlockProduct to aggregate.
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockProducts to fetch.
+     */
+    orderBy?: NewsBlockProductOrderByWithRelationInput | NewsBlockProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NewsBlockProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NewsBlockProducts
+    **/
+    _count?: true | NewsBlockProductCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NewsBlockProductAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NewsBlockProductSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NewsBlockProductMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NewsBlockProductMaxAggregateInputType
+  }
+
+  export type GetNewsBlockProductAggregateType<T extends NewsBlockProductAggregateArgs> = {
+        [P in keyof T & keyof AggregateNewsBlockProduct]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNewsBlockProduct[P]>
+      : GetScalarType<T[P], AggregateNewsBlockProduct[P]>
+  }
+
+
+
+
+  export type NewsBlockProductGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsBlockProductWhereInput
+    orderBy?: NewsBlockProductOrderByWithAggregationInput | NewsBlockProductOrderByWithAggregationInput[]
+    by: NewsBlockProductScalarFieldEnum[] | NewsBlockProductScalarFieldEnum
+    having?: NewsBlockProductScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NewsBlockProductCountAggregateInputType | true
+    _avg?: NewsBlockProductAvgAggregateInputType
+    _sum?: NewsBlockProductSumAggregateInputType
+    _min?: NewsBlockProductMinAggregateInputType
+    _max?: NewsBlockProductMaxAggregateInputType
+  }
+
+  export type NewsBlockProductGroupByOutputType = {
+    blockId: number
+    productId: number
+    _count: NewsBlockProductCountAggregateOutputType | null
+    _avg: NewsBlockProductAvgAggregateOutputType | null
+    _sum: NewsBlockProductSumAggregateOutputType | null
+    _min: NewsBlockProductMinAggregateOutputType | null
+    _max: NewsBlockProductMaxAggregateOutputType | null
+  }
+
+  type GetNewsBlockProductGroupByPayload<T extends NewsBlockProductGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NewsBlockProductGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NewsBlockProductGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NewsBlockProductGroupByOutputType[P]>
+            : GetScalarType<T[P], NewsBlockProductGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NewsBlockProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockId?: boolean
+    productId?: boolean
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlockProduct"]>
+
+  export type NewsBlockProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockId?: boolean
+    productId?: boolean
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlockProduct"]>
+
+  export type NewsBlockProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockId?: boolean
+    productId?: boolean
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["newsBlockProduct"]>
+
+  export type NewsBlockProductSelectScalar = {
+    blockId?: boolean
+    productId?: boolean
+  }
+
+  export type NewsBlockProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"blockId" | "productId", ExtArgs["result"]["newsBlockProduct"]>
+  export type NewsBlockProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type NewsBlockProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type NewsBlockProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    block?: boolean | NewsBlockDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $NewsBlockProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NewsBlockProduct"
+    objects: {
+      block: Prisma.$NewsBlockPayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      blockId: number
+      productId: number
+    }, ExtArgs["result"]["newsBlockProduct"]>
+    composites: {}
+  }
+
+  type NewsBlockProductGetPayload<S extends boolean | null | undefined | NewsBlockProductDefaultArgs> = $Result.GetResult<Prisma.$NewsBlockProductPayload, S>
+
+  type NewsBlockProductCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NewsBlockProductFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NewsBlockProductCountAggregateInputType | true
+    }
+
+  export interface NewsBlockProductDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NewsBlockProduct'], meta: { name: 'NewsBlockProduct' } }
+    /**
+     * Find zero or one NewsBlockProduct that matches the filter.
+     * @param {NewsBlockProductFindUniqueArgs} args - Arguments to find a NewsBlockProduct
+     * @example
+     * // Get one NewsBlockProduct
+     * const newsBlockProduct = await prisma.newsBlockProduct.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NewsBlockProductFindUniqueArgs>(args: SelectSubset<T, NewsBlockProductFindUniqueArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NewsBlockProduct that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NewsBlockProductFindUniqueOrThrowArgs} args - Arguments to find a NewsBlockProduct
+     * @example
+     * // Get one NewsBlockProduct
+     * const newsBlockProduct = await prisma.newsBlockProduct.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NewsBlockProductFindUniqueOrThrowArgs>(args: SelectSubset<T, NewsBlockProductFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsBlockProduct that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductFindFirstArgs} args - Arguments to find a NewsBlockProduct
+     * @example
+     * // Get one NewsBlockProduct
+     * const newsBlockProduct = await prisma.newsBlockProduct.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NewsBlockProductFindFirstArgs>(args?: SelectSubset<T, NewsBlockProductFindFirstArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NewsBlockProduct that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductFindFirstOrThrowArgs} args - Arguments to find a NewsBlockProduct
+     * @example
+     * // Get one NewsBlockProduct
+     * const newsBlockProduct = await prisma.newsBlockProduct.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NewsBlockProductFindFirstOrThrowArgs>(args?: SelectSubset<T, NewsBlockProductFindFirstOrThrowArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NewsBlockProducts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NewsBlockProducts
+     * const newsBlockProducts = await prisma.newsBlockProduct.findMany()
+     * 
+     * // Get first 10 NewsBlockProducts
+     * const newsBlockProducts = await prisma.newsBlockProduct.findMany({ take: 10 })
+     * 
+     * // Only select the `blockId`
+     * const newsBlockProductWithBlockIdOnly = await prisma.newsBlockProduct.findMany({ select: { blockId: true } })
+     * 
+     */
+    findMany<T extends NewsBlockProductFindManyArgs>(args?: SelectSubset<T, NewsBlockProductFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NewsBlockProduct.
+     * @param {NewsBlockProductCreateArgs} args - Arguments to create a NewsBlockProduct.
+     * @example
+     * // Create one NewsBlockProduct
+     * const NewsBlockProduct = await prisma.newsBlockProduct.create({
+     *   data: {
+     *     // ... data to create a NewsBlockProduct
+     *   }
+     * })
+     * 
+     */
+    create<T extends NewsBlockProductCreateArgs>(args: SelectSubset<T, NewsBlockProductCreateArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NewsBlockProducts.
+     * @param {NewsBlockProductCreateManyArgs} args - Arguments to create many NewsBlockProducts.
+     * @example
+     * // Create many NewsBlockProducts
+     * const newsBlockProduct = await prisma.newsBlockProduct.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NewsBlockProductCreateManyArgs>(args?: SelectSubset<T, NewsBlockProductCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NewsBlockProducts and returns the data saved in the database.
+     * @param {NewsBlockProductCreateManyAndReturnArgs} args - Arguments to create many NewsBlockProducts.
+     * @example
+     * // Create many NewsBlockProducts
+     * const newsBlockProduct = await prisma.newsBlockProduct.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NewsBlockProducts and only return the `blockId`
+     * const newsBlockProductWithBlockIdOnly = await prisma.newsBlockProduct.createManyAndReturn({
+     *   select: { blockId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NewsBlockProductCreateManyAndReturnArgs>(args?: SelectSubset<T, NewsBlockProductCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NewsBlockProduct.
+     * @param {NewsBlockProductDeleteArgs} args - Arguments to delete one NewsBlockProduct.
+     * @example
+     * // Delete one NewsBlockProduct
+     * const NewsBlockProduct = await prisma.newsBlockProduct.delete({
+     *   where: {
+     *     // ... filter to delete one NewsBlockProduct
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NewsBlockProductDeleteArgs>(args: SelectSubset<T, NewsBlockProductDeleteArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NewsBlockProduct.
+     * @param {NewsBlockProductUpdateArgs} args - Arguments to update one NewsBlockProduct.
+     * @example
+     * // Update one NewsBlockProduct
+     * const newsBlockProduct = await prisma.newsBlockProduct.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NewsBlockProductUpdateArgs>(args: SelectSubset<T, NewsBlockProductUpdateArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NewsBlockProducts.
+     * @param {NewsBlockProductDeleteManyArgs} args - Arguments to filter NewsBlockProducts to delete.
+     * @example
+     * // Delete a few NewsBlockProducts
+     * const { count } = await prisma.newsBlockProduct.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NewsBlockProductDeleteManyArgs>(args?: SelectSubset<T, NewsBlockProductDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsBlockProducts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NewsBlockProducts
+     * const newsBlockProduct = await prisma.newsBlockProduct.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NewsBlockProductUpdateManyArgs>(args: SelectSubset<T, NewsBlockProductUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NewsBlockProducts and returns the data updated in the database.
+     * @param {NewsBlockProductUpdateManyAndReturnArgs} args - Arguments to update many NewsBlockProducts.
+     * @example
+     * // Update many NewsBlockProducts
+     * const newsBlockProduct = await prisma.newsBlockProduct.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NewsBlockProducts and only return the `blockId`
+     * const newsBlockProductWithBlockIdOnly = await prisma.newsBlockProduct.updateManyAndReturn({
+     *   select: { blockId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NewsBlockProductUpdateManyAndReturnArgs>(args: SelectSubset<T, NewsBlockProductUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NewsBlockProduct.
+     * @param {NewsBlockProductUpsertArgs} args - Arguments to update or create a NewsBlockProduct.
+     * @example
+     * // Update or create a NewsBlockProduct
+     * const newsBlockProduct = await prisma.newsBlockProduct.upsert({
+     *   create: {
+     *     // ... data to create a NewsBlockProduct
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NewsBlockProduct we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NewsBlockProductUpsertArgs>(args: SelectSubset<T, NewsBlockProductUpsertArgs<ExtArgs>>): Prisma__NewsBlockProductClient<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NewsBlockProducts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductCountArgs} args - Arguments to filter NewsBlockProducts to count.
+     * @example
+     * // Count the number of NewsBlockProducts
+     * const count = await prisma.newsBlockProduct.count({
+     *   where: {
+     *     // ... the filter for the NewsBlockProducts we want to count
+     *   }
+     * })
+    **/
+    count<T extends NewsBlockProductCountArgs>(
+      args?: Subset<T, NewsBlockProductCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NewsBlockProductCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NewsBlockProduct.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NewsBlockProductAggregateArgs>(args: Subset<T, NewsBlockProductAggregateArgs>): Prisma.PrismaPromise<GetNewsBlockProductAggregateType<T>>
+
+    /**
+     * Group by NewsBlockProduct.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NewsBlockProductGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NewsBlockProductGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NewsBlockProductGroupByArgs['orderBy'] }
+        : { orderBy?: NewsBlockProductGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NewsBlockProductGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNewsBlockProductGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NewsBlockProduct model
+   */
+  readonly fields: NewsBlockProductFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NewsBlockProduct.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NewsBlockProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    block<T extends NewsBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NewsBlockDefaultArgs<ExtArgs>>): Prisma__NewsBlockClient<$Result.GetResult<Prisma.$NewsBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NewsBlockProduct model
+   */
+  interface NewsBlockProductFieldRefs {
+    readonly blockId: FieldRef<"NewsBlockProduct", 'Int'>
+    readonly productId: FieldRef<"NewsBlockProduct", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NewsBlockProduct findUnique
+   */
+  export type NewsBlockProductFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockProduct to fetch.
+     */
+    where: NewsBlockProductWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockProduct findUniqueOrThrow
+   */
+  export type NewsBlockProductFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockProduct to fetch.
+     */
+    where: NewsBlockProductWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockProduct findFirst
+   */
+  export type NewsBlockProductFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockProduct to fetch.
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockProducts to fetch.
+     */
+    orderBy?: NewsBlockProductOrderByWithRelationInput | NewsBlockProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsBlockProducts.
+     */
+    cursor?: NewsBlockProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlockProducts.
+     */
+    distinct?: NewsBlockProductScalarFieldEnum | NewsBlockProductScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlockProduct findFirstOrThrow
+   */
+  export type NewsBlockProductFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockProduct to fetch.
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockProducts to fetch.
+     */
+    orderBy?: NewsBlockProductOrderByWithRelationInput | NewsBlockProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NewsBlockProducts.
+     */
+    cursor?: NewsBlockProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlockProducts.
+     */
+    distinct?: NewsBlockProductScalarFieldEnum | NewsBlockProductScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlockProduct findMany
+   */
+  export type NewsBlockProductFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * Filter, which NewsBlockProducts to fetch.
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NewsBlockProducts to fetch.
+     */
+    orderBy?: NewsBlockProductOrderByWithRelationInput | NewsBlockProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NewsBlockProducts.
+     */
+    cursor?: NewsBlockProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NewsBlockProducts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NewsBlockProducts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NewsBlockProducts.
+     */
+    distinct?: NewsBlockProductScalarFieldEnum | NewsBlockProductScalarFieldEnum[]
+  }
+
+  /**
+   * NewsBlockProduct create
+   */
+  export type NewsBlockProductCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NewsBlockProduct.
+     */
+    data: XOR<NewsBlockProductCreateInput, NewsBlockProductUncheckedCreateInput>
+  }
+
+  /**
+   * NewsBlockProduct createMany
+   */
+  export type NewsBlockProductCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NewsBlockProducts.
+     */
+    data: NewsBlockProductCreateManyInput | NewsBlockProductCreateManyInput[]
+  }
+
+  /**
+   * NewsBlockProduct createManyAndReturn
+   */
+  export type NewsBlockProductCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * The data used to create many NewsBlockProducts.
+     */
+    data: NewsBlockProductCreateManyInput | NewsBlockProductCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlockProduct update
+   */
+  export type NewsBlockProductUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NewsBlockProduct.
+     */
+    data: XOR<NewsBlockProductUpdateInput, NewsBlockProductUncheckedUpdateInput>
+    /**
+     * Choose, which NewsBlockProduct to update.
+     */
+    where: NewsBlockProductWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockProduct updateMany
+   */
+  export type NewsBlockProductUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NewsBlockProducts.
+     */
+    data: XOR<NewsBlockProductUpdateManyMutationInput, NewsBlockProductUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsBlockProducts to update
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * Limit how many NewsBlockProducts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsBlockProduct updateManyAndReturn
+   */
+  export type NewsBlockProductUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * The data used to update NewsBlockProducts.
+     */
+    data: XOR<NewsBlockProductUpdateManyMutationInput, NewsBlockProductUncheckedUpdateManyInput>
+    /**
+     * Filter which NewsBlockProducts to update
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * Limit how many NewsBlockProducts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NewsBlockProduct upsert
+   */
+  export type NewsBlockProductUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NewsBlockProduct to update in case it exists.
+     */
+    where: NewsBlockProductWhereUniqueInput
+    /**
+     * In case the NewsBlockProduct found by the `where` argument doesn't exist, create a new NewsBlockProduct with this data.
+     */
+    create: XOR<NewsBlockProductCreateInput, NewsBlockProductUncheckedCreateInput>
+    /**
+     * In case the NewsBlockProduct was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NewsBlockProductUpdateInput, NewsBlockProductUncheckedUpdateInput>
+  }
+
+  /**
+   * NewsBlockProduct delete
+   */
+  export type NewsBlockProductDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
+    /**
+     * Filter which NewsBlockProduct to delete.
+     */
+    where: NewsBlockProductWhereUniqueInput
+  }
+
+  /**
+   * NewsBlockProduct deleteMany
+   */
+  export type NewsBlockProductDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NewsBlockProducts to delete
+     */
+    where?: NewsBlockProductWhereInput
+    /**
+     * Limit how many NewsBlockProducts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NewsBlockProduct without action
+   */
+  export type NewsBlockProductDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsBlockProduct
+     */
+    select?: NewsBlockProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NewsBlockProduct
+     */
+    omit?: NewsBlockProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsBlockProductInclude<ExtArgs> | null
   }
 
 
@@ -14349,10 +19324,19 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    text: 'text'
+    text: 'text',
+    order: 'order'
   };
 
   export type BannerScalarFieldEnum = (typeof BannerScalarFieldEnum)[keyof typeof BannerScalarFieldEnum]
+
+
+  export const BannerProductScalarFieldEnum: {
+    bannerId: 'bannerId',
+    productId: 'productId'
+  };
+
+  export type BannerProductScalarFieldEnum = (typeof BannerProductScalarFieldEnum)[keyof typeof BannerProductScalarFieldEnum]
 
 
   export const BannerImageScalarFieldEnum: {
@@ -14368,12 +19352,39 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    text: 'text',
-    date: 'date',
-    tag: 'tag'
+    tag: 'tag',
+    date: 'date'
   };
 
   export type NewsScalarFieldEnum = (typeof NewsScalarFieldEnum)[keyof typeof NewsScalarFieldEnum]
+
+
+  export const NewsBlockScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    text: 'text',
+    order: 'order',
+    newsId: 'newsId'
+  };
+
+  export type NewsBlockScalarFieldEnum = (typeof NewsBlockScalarFieldEnum)[keyof typeof NewsBlockScalarFieldEnum]
+
+
+  export const NewsBlockImageScalarFieldEnum: {
+    id: 'id',
+    blockId: 'blockId',
+    imageId: 'imageId'
+  };
+
+  export type NewsBlockImageScalarFieldEnum = (typeof NewsBlockImageScalarFieldEnum)[keyof typeof NewsBlockImageScalarFieldEnum]
+
+
+  export const NewsBlockProductScalarFieldEnum: {
+    blockId: 'blockId',
+    productId: 'productId'
+  };
+
+  export type NewsBlockProductScalarFieldEnum = (typeof NewsBlockProductScalarFieldEnum)[keyof typeof NewsBlockProductScalarFieldEnum]
 
 
   export const NewsImageScalarFieldEnum: {
@@ -14577,6 +19588,8 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ProductImageListRelationFilter
     items?: ItemListRelationFilter
+    bannerProducts?: BannerProductListRelationFilter
+    newsBlockProducts?: NewsBlockProductListRelationFilter
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -14588,6 +19601,8 @@ export namespace Prisma {
     category?: CategoryOrderByWithRelationInput
     images?: ProductImageOrderByRelationAggregateInput
     items?: ItemOrderByRelationAggregateInput
+    bannerProducts?: BannerProductOrderByRelationAggregateInput
+    newsBlockProducts?: NewsBlockProductOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -14602,6 +19617,8 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ProductImageListRelationFilter
     items?: ItemListRelationFilter
+    bannerProducts?: BannerProductListRelationFilter
+    newsBlockProducts?: NewsBlockProductListRelationFilter
   }, "id">
 
   export type ProductOrderByWithAggregationInput = {
@@ -14637,6 +19654,7 @@ export namespace Prisma {
     productImages?: ProductImageListRelationFilter
     bannerImages?: BannerImageListRelationFilter
     newsImages?: NewsImageListRelationFilter
+    newsBlockImages?: NewsBlockImageListRelationFilter
   }
 
   export type ImageOrderByWithRelationInput = {
@@ -14645,6 +19663,7 @@ export namespace Prisma {
     productImages?: ProductImageOrderByRelationAggregateInput
     bannerImages?: BannerImageOrderByRelationAggregateInput
     newsImages?: NewsImageOrderByRelationAggregateInput
+    newsBlockImages?: NewsBlockImageOrderByRelationAggregateInput
   }
 
   export type ImageWhereUniqueInput = Prisma.AtLeast<{
@@ -14656,6 +19675,7 @@ export namespace Prisma {
     productImages?: ProductImageListRelationFilter
     bannerImages?: BannerImageListRelationFilter
     newsImages?: NewsImageListRelationFilter
+    newsBlockImages?: NewsBlockImageListRelationFilter
   }, "id">
 
   export type ImageOrderByWithAggregationInput = {
@@ -14735,7 +19755,9 @@ export namespace Prisma {
     title?: StringFilter<"Banner"> | string
     description?: StringFilter<"Banner"> | string
     text?: StringFilter<"Banner"> | string
+    order?: IntFilter<"Banner"> | number
     images?: BannerImageListRelationFilter
+    products?: BannerProductListRelationFilter
   }
 
   export type BannerOrderByWithRelationInput = {
@@ -14743,7 +19765,9 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     text?: SortOrder
+    order?: SortOrder
     images?: BannerImageOrderByRelationAggregateInput
+    products?: BannerProductOrderByRelationAggregateInput
   }
 
   export type BannerWhereUniqueInput = Prisma.AtLeast<{
@@ -14754,7 +19778,9 @@ export namespace Prisma {
     title?: StringFilter<"Banner"> | string
     description?: StringFilter<"Banner"> | string
     text?: StringFilter<"Banner"> | string
+    order?: IntFilter<"Banner"> | number
     images?: BannerImageListRelationFilter
+    products?: BannerProductListRelationFilter
   }, "id">
 
   export type BannerOrderByWithAggregationInput = {
@@ -14762,6 +19788,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     text?: SortOrder
+    order?: SortOrder
     _count?: BannerCountOrderByAggregateInput
     _avg?: BannerAvgOrderByAggregateInput
     _max?: BannerMaxOrderByAggregateInput
@@ -14777,6 +19804,53 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Banner"> | string
     description?: StringWithAggregatesFilter<"Banner"> | string
     text?: StringWithAggregatesFilter<"Banner"> | string
+    order?: IntWithAggregatesFilter<"Banner"> | number
+  }
+
+  export type BannerProductWhereInput = {
+    AND?: BannerProductWhereInput | BannerProductWhereInput[]
+    OR?: BannerProductWhereInput[]
+    NOT?: BannerProductWhereInput | BannerProductWhereInput[]
+    bannerId?: IntFilter<"BannerProduct"> | number
+    productId?: IntFilter<"BannerProduct"> | number
+    banner?: XOR<BannerScalarRelationFilter, BannerWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type BannerProductOrderByWithRelationInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
+    banner?: BannerOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type BannerProductWhereUniqueInput = Prisma.AtLeast<{
+    bannerId_productId?: BannerProductBannerIdProductIdCompoundUniqueInput
+    AND?: BannerProductWhereInput | BannerProductWhereInput[]
+    OR?: BannerProductWhereInput[]
+    NOT?: BannerProductWhereInput | BannerProductWhereInput[]
+    bannerId?: IntFilter<"BannerProduct"> | number
+    productId?: IntFilter<"BannerProduct"> | number
+    banner?: XOR<BannerScalarRelationFilter, BannerWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "bannerId_productId">
+
+  export type BannerProductOrderByWithAggregationInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
+    _count?: BannerProductCountOrderByAggregateInput
+    _avg?: BannerProductAvgOrderByAggregateInput
+    _max?: BannerProductMaxOrderByAggregateInput
+    _min?: BannerProductMinOrderByAggregateInput
+    _sum?: BannerProductSumOrderByAggregateInput
+  }
+
+  export type BannerProductScalarWhereWithAggregatesInput = {
+    AND?: BannerProductScalarWhereWithAggregatesInput | BannerProductScalarWhereWithAggregatesInput[]
+    OR?: BannerProductScalarWhereWithAggregatesInput[]
+    NOT?: BannerProductScalarWhereWithAggregatesInput | BannerProductScalarWhereWithAggregatesInput[]
+    bannerId?: IntWithAggregatesFilter<"BannerProduct"> | number
+    productId?: IntWithAggregatesFilter<"BannerProduct"> | number
   }
 
   export type BannerImageWhereInput = {
@@ -14837,9 +19911,9 @@ export namespace Prisma {
     id?: IntFilter<"News"> | number
     title?: StringFilter<"News"> | string
     description?: StringFilter<"News"> | string
-    text?: StringFilter<"News"> | string
-    date?: DateTimeFilter<"News"> | Date | string
     tag?: StringFilter<"News"> | string
+    date?: DateTimeFilter<"News"> | Date | string
+    contentBlocks?: NewsBlockListRelationFilter
     images?: NewsImageListRelationFilter
   }
 
@@ -14847,9 +19921,9 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    text?: SortOrder
-    date?: SortOrder
     tag?: SortOrder
+    date?: SortOrder
+    contentBlocks?: NewsBlockOrderByRelationAggregateInput
     images?: NewsImageOrderByRelationAggregateInput
   }
 
@@ -14860,9 +19934,9 @@ export namespace Prisma {
     NOT?: NewsWhereInput | NewsWhereInput[]
     title?: StringFilter<"News"> | string
     description?: StringFilter<"News"> | string
-    text?: StringFilter<"News"> | string
-    date?: DateTimeFilter<"News"> | Date | string
     tag?: StringFilter<"News"> | string
+    date?: DateTimeFilter<"News"> | Date | string
+    contentBlocks?: NewsBlockListRelationFilter
     images?: NewsImageListRelationFilter
   }, "id">
 
@@ -14870,9 +19944,8 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    text?: SortOrder
-    date?: SortOrder
     tag?: SortOrder
+    date?: SortOrder
     _count?: NewsCountOrderByAggregateInput
     _avg?: NewsAvgOrderByAggregateInput
     _max?: NewsMaxOrderByAggregateInput
@@ -14887,9 +19960,167 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"News"> | number
     title?: StringWithAggregatesFilter<"News"> | string
     description?: StringWithAggregatesFilter<"News"> | string
-    text?: StringWithAggregatesFilter<"News"> | string
-    date?: DateTimeWithAggregatesFilter<"News"> | Date | string
     tag?: StringWithAggregatesFilter<"News"> | string
+    date?: DateTimeWithAggregatesFilter<"News"> | Date | string
+  }
+
+  export type NewsBlockWhereInput = {
+    AND?: NewsBlockWhereInput | NewsBlockWhereInput[]
+    OR?: NewsBlockWhereInput[]
+    NOT?: NewsBlockWhereInput | NewsBlockWhereInput[]
+    id?: IntFilter<"NewsBlock"> | number
+    title?: StringNullableFilter<"NewsBlock"> | string | null
+    text?: StringNullableFilter<"NewsBlock"> | string | null
+    order?: IntFilter<"NewsBlock"> | number
+    newsId?: IntFilter<"NewsBlock"> | number
+    news?: XOR<NewsScalarRelationFilter, NewsWhereInput>
+    images?: NewsBlockImageListRelationFilter
+    products?: NewsBlockProductListRelationFilter
+  }
+
+  export type NewsBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    text?: SortOrderInput | SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+    news?: NewsOrderByWithRelationInput
+    images?: NewsBlockImageOrderByRelationAggregateInput
+    products?: NewsBlockProductOrderByRelationAggregateInput
+  }
+
+  export type NewsBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: NewsBlockWhereInput | NewsBlockWhereInput[]
+    OR?: NewsBlockWhereInput[]
+    NOT?: NewsBlockWhereInput | NewsBlockWhereInput[]
+    title?: StringNullableFilter<"NewsBlock"> | string | null
+    text?: StringNullableFilter<"NewsBlock"> | string | null
+    order?: IntFilter<"NewsBlock"> | number
+    newsId?: IntFilter<"NewsBlock"> | number
+    news?: XOR<NewsScalarRelationFilter, NewsWhereInput>
+    images?: NewsBlockImageListRelationFilter
+    products?: NewsBlockProductListRelationFilter
+  }, "id">
+
+  export type NewsBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    text?: SortOrderInput | SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+    _count?: NewsBlockCountOrderByAggregateInput
+    _avg?: NewsBlockAvgOrderByAggregateInput
+    _max?: NewsBlockMaxOrderByAggregateInput
+    _min?: NewsBlockMinOrderByAggregateInput
+    _sum?: NewsBlockSumOrderByAggregateInput
+  }
+
+  export type NewsBlockScalarWhereWithAggregatesInput = {
+    AND?: NewsBlockScalarWhereWithAggregatesInput | NewsBlockScalarWhereWithAggregatesInput[]
+    OR?: NewsBlockScalarWhereWithAggregatesInput[]
+    NOT?: NewsBlockScalarWhereWithAggregatesInput | NewsBlockScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"NewsBlock"> | number
+    title?: StringNullableWithAggregatesFilter<"NewsBlock"> | string | null
+    text?: StringNullableWithAggregatesFilter<"NewsBlock"> | string | null
+    order?: IntWithAggregatesFilter<"NewsBlock"> | number
+    newsId?: IntWithAggregatesFilter<"NewsBlock"> | number
+  }
+
+  export type NewsBlockImageWhereInput = {
+    AND?: NewsBlockImageWhereInput | NewsBlockImageWhereInput[]
+    OR?: NewsBlockImageWhereInput[]
+    NOT?: NewsBlockImageWhereInput | NewsBlockImageWhereInput[]
+    id?: IntFilter<"NewsBlockImage"> | number
+    blockId?: IntFilter<"NewsBlockImage"> | number
+    imageId?: IntFilter<"NewsBlockImage"> | number
+    block?: XOR<NewsBlockScalarRelationFilter, NewsBlockWhereInput>
+    image?: XOR<ImageScalarRelationFilter, ImageWhereInput>
+  }
+
+  export type NewsBlockImageOrderByWithRelationInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+    block?: NewsBlockOrderByWithRelationInput
+    image?: ImageOrderByWithRelationInput
+  }
+
+  export type NewsBlockImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: NewsBlockImageWhereInput | NewsBlockImageWhereInput[]
+    OR?: NewsBlockImageWhereInput[]
+    NOT?: NewsBlockImageWhereInput | NewsBlockImageWhereInput[]
+    blockId?: IntFilter<"NewsBlockImage"> | number
+    imageId?: IntFilter<"NewsBlockImage"> | number
+    block?: XOR<NewsBlockScalarRelationFilter, NewsBlockWhereInput>
+    image?: XOR<ImageScalarRelationFilter, ImageWhereInput>
+  }, "id">
+
+  export type NewsBlockImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+    _count?: NewsBlockImageCountOrderByAggregateInput
+    _avg?: NewsBlockImageAvgOrderByAggregateInput
+    _max?: NewsBlockImageMaxOrderByAggregateInput
+    _min?: NewsBlockImageMinOrderByAggregateInput
+    _sum?: NewsBlockImageSumOrderByAggregateInput
+  }
+
+  export type NewsBlockImageScalarWhereWithAggregatesInput = {
+    AND?: NewsBlockImageScalarWhereWithAggregatesInput | NewsBlockImageScalarWhereWithAggregatesInput[]
+    OR?: NewsBlockImageScalarWhereWithAggregatesInput[]
+    NOT?: NewsBlockImageScalarWhereWithAggregatesInput | NewsBlockImageScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"NewsBlockImage"> | number
+    blockId?: IntWithAggregatesFilter<"NewsBlockImage"> | number
+    imageId?: IntWithAggregatesFilter<"NewsBlockImage"> | number
+  }
+
+  export type NewsBlockProductWhereInput = {
+    AND?: NewsBlockProductWhereInput | NewsBlockProductWhereInput[]
+    OR?: NewsBlockProductWhereInput[]
+    NOT?: NewsBlockProductWhereInput | NewsBlockProductWhereInput[]
+    blockId?: IntFilter<"NewsBlockProduct"> | number
+    productId?: IntFilter<"NewsBlockProduct"> | number
+    block?: XOR<NewsBlockScalarRelationFilter, NewsBlockWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type NewsBlockProductOrderByWithRelationInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
+    block?: NewsBlockOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type NewsBlockProductWhereUniqueInput = Prisma.AtLeast<{
+    blockId_productId?: NewsBlockProductBlockIdProductIdCompoundUniqueInput
+    AND?: NewsBlockProductWhereInput | NewsBlockProductWhereInput[]
+    OR?: NewsBlockProductWhereInput[]
+    NOT?: NewsBlockProductWhereInput | NewsBlockProductWhereInput[]
+    blockId?: IntFilter<"NewsBlockProduct"> | number
+    productId?: IntFilter<"NewsBlockProduct"> | number
+    block?: XOR<NewsBlockScalarRelationFilter, NewsBlockWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "blockId_productId">
+
+  export type NewsBlockProductOrderByWithAggregationInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
+    _count?: NewsBlockProductCountOrderByAggregateInput
+    _avg?: NewsBlockProductAvgOrderByAggregateInput
+    _max?: NewsBlockProductMaxOrderByAggregateInput
+    _min?: NewsBlockProductMinOrderByAggregateInput
+    _sum?: NewsBlockProductSumOrderByAggregateInput
+  }
+
+  export type NewsBlockProductScalarWhereWithAggregatesInput = {
+    AND?: NewsBlockProductScalarWhereWithAggregatesInput | NewsBlockProductScalarWhereWithAggregatesInput[]
+    OR?: NewsBlockProductScalarWhereWithAggregatesInput[]
+    NOT?: NewsBlockProductScalarWhereWithAggregatesInput | NewsBlockProductScalarWhereWithAggregatesInput[]
+    blockId?: IntWithAggregatesFilter<"NewsBlockProduct"> | number
+    productId?: IntWithAggregatesFilter<"NewsBlockProduct"> | number
   }
 
   export type NewsImageWhereInput = {
@@ -15199,6 +20430,8 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     items?: ItemCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -15209,6 +20442,8 @@ export namespace Prisma {
     categoryId: number
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -15218,6 +20453,8 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -15228,6 +20465,8 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -15257,6 +20496,7 @@ export namespace Prisma {
     productImages?: ProductImageCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateInput = {
@@ -15265,6 +20505,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageUpdateInput = {
@@ -15272,6 +20513,7 @@ export namespace Prisma {
     productImages?: ProductImageUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateInput = {
@@ -15280,6 +20522,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type ImageCreateManyInput = {
@@ -15338,7 +20581,9 @@ export namespace Prisma {
     title: string
     description: string
     text: string
+    order?: number
     images?: BannerImageCreateNestedManyWithoutBannerInput
+    products?: BannerProductCreateNestedManyWithoutBannerInput
   }
 
   export type BannerUncheckedCreateInput = {
@@ -15346,14 +20591,18 @@ export namespace Prisma {
     title: string
     description: string
     text: string
+    order?: number
     images?: BannerImageUncheckedCreateNestedManyWithoutBannerInput
+    products?: BannerProductUncheckedCreateNestedManyWithoutBannerInput
   }
 
   export type BannerUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
     images?: BannerImageUpdateManyWithoutBannerNestedInput
+    products?: BannerProductUpdateManyWithoutBannerNestedInput
   }
 
   export type BannerUncheckedUpdateInput = {
@@ -15361,7 +20610,9 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
     images?: BannerImageUncheckedUpdateManyWithoutBannerNestedInput
+    products?: BannerProductUncheckedUpdateManyWithoutBannerNestedInput
   }
 
   export type BannerCreateManyInput = {
@@ -15369,12 +20620,14 @@ export namespace Prisma {
     title: string
     description: string
     text: string
+    order?: number
   }
 
   export type BannerUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
   }
 
   export type BannerUncheckedUpdateManyInput = {
@@ -15382,6 +20635,41 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BannerProductCreateInput = {
+    banner: BannerCreateNestedOneWithoutProductsInput
+    product: ProductCreateNestedOneWithoutBannerProductsInput
+  }
+
+  export type BannerProductUncheckedCreateInput = {
+    bannerId: number
+    productId: number
+  }
+
+  export type BannerProductUpdateInput = {
+    banner?: BannerUpdateOneRequiredWithoutProductsNestedInput
+    product?: ProductUpdateOneRequiredWithoutBannerProductsNestedInput
+  }
+
+  export type BannerProductUncheckedUpdateInput = {
+    bannerId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BannerProductCreateManyInput = {
+    bannerId: number
+    productId: number
+  }
+
+  export type BannerProductUpdateManyMutationInput = {
+
+  }
+
+  export type BannerProductUncheckedUpdateManyInput = {
+    bannerId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
   }
 
   export type BannerImageCreateInput = {
@@ -15425,9 +20713,9 @@ export namespace Prisma {
   export type NewsCreateInput = {
     title: string
     description: string
-    text?: string
-    date?: Date | string
     tag?: string
+    date?: Date | string
+    contentBlocks?: NewsBlockCreateNestedManyWithoutNewsInput
     images?: NewsImageCreateNestedManyWithoutNewsInput
   }
 
@@ -15435,18 +20723,18 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    text?: string
-    date?: Date | string
     tag?: string
+    date?: Date | string
+    contentBlocks?: NewsBlockUncheckedCreateNestedManyWithoutNewsInput
     images?: NewsImageUncheckedCreateNestedManyWithoutNewsInput
   }
 
   export type NewsUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlocks?: NewsBlockUpdateManyWithoutNewsNestedInput
     images?: NewsImageUpdateManyWithoutNewsNestedInput
   }
 
@@ -15454,9 +20742,9 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlocks?: NewsBlockUncheckedUpdateManyWithoutNewsNestedInput
     images?: NewsImageUncheckedUpdateManyWithoutNewsNestedInput
   }
 
@@ -15464,26 +20752,155 @@ export namespace Prisma {
     id?: number
     title: string
     description: string
-    text?: string
-    date?: Date | string
     tag?: string
+    date?: Date | string
   }
 
   export type NewsUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NewsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NewsBlockCreateInput = {
+    title?: string | null
+    text?: string | null
+    order?: number
+    news: NewsCreateNestedOneWithoutContentBlocksInput
+    images?: NewsBlockImageCreateNestedManyWithoutBlockInput
+    products?: NewsBlockProductCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockUncheckedCreateInput = {
+    id?: number
+    title?: string | null
+    text?: string | null
+    order?: number
+    newsId: number
+    images?: NewsBlockImageUncheckedCreateNestedManyWithoutBlockInput
+    products?: NewsBlockProductUncheckedCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockUpdateInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    news?: NewsUpdateOneRequiredWithoutContentBlocksNestedInput
+    images?: NewsBlockImageUpdateManyWithoutBlockNestedInput
+    products?: NewsBlockProductUpdateManyWithoutBlockNestedInput
+  }
+
+  export type NewsBlockUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    newsId?: IntFieldUpdateOperationsInput | number
+    images?: NewsBlockImageUncheckedUpdateManyWithoutBlockNestedInput
+    products?: NewsBlockProductUncheckedUpdateManyWithoutBlockNestedInput
+  }
+
+  export type NewsBlockCreateManyInput = {
+    id?: number
+    title?: string | null
+    text?: string | null
+    order?: number
+    newsId: number
+  }
+
+  export type NewsBlockUpdateManyMutationInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    newsId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockImageCreateInput = {
+    block: NewsBlockCreateNestedOneWithoutImagesInput
+    image: ImageCreateNestedOneWithoutNewsBlockImagesInput
+  }
+
+  export type NewsBlockImageUncheckedCreateInput = {
+    id?: number
+    blockId: number
+    imageId: number
+  }
+
+  export type NewsBlockImageUpdateInput = {
+    block?: NewsBlockUpdateOneRequiredWithoutImagesNestedInput
+    image?: ImageUpdateOneRequiredWithoutNewsBlockImagesNestedInput
+  }
+
+  export type NewsBlockImageUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    blockId?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockImageCreateManyInput = {
+    id?: number
+    blockId: number
+    imageId: number
+  }
+
+  export type NewsBlockImageUpdateManyMutationInput = {
+
+  }
+
+  export type NewsBlockImageUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    blockId?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockProductCreateInput = {
+    block: NewsBlockCreateNestedOneWithoutProductsInput
+    product: ProductCreateNestedOneWithoutNewsBlockProductsInput
+  }
+
+  export type NewsBlockProductUncheckedCreateInput = {
+    blockId: number
+    productId: number
+  }
+
+  export type NewsBlockProductUpdateInput = {
+    block?: NewsBlockUpdateOneRequiredWithoutProductsNestedInput
+    product?: ProductUpdateOneRequiredWithoutNewsBlockProductsNestedInput
+  }
+
+  export type NewsBlockProductUncheckedUpdateInput = {
+    blockId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockProductCreateManyInput = {
+    blockId: number
+    productId: number
+  }
+
+  export type NewsBlockProductUpdateManyMutationInput = {
+
+  }
+
+  export type NewsBlockProductUncheckedUpdateManyInput = {
+    blockId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
   }
 
   export type NewsImageCreateInput = {
@@ -15855,6 +21272,18 @@ export namespace Prisma {
     none?: ItemWhereInput
   }
 
+  export type BannerProductListRelationFilter = {
+    every?: BannerProductWhereInput
+    some?: BannerProductWhereInput
+    none?: BannerProductWhereInput
+  }
+
+  export type NewsBlockProductListRelationFilter = {
+    every?: NewsBlockProductWhereInput
+    some?: NewsBlockProductWhereInput
+    none?: NewsBlockProductWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -15865,6 +21294,14 @@ export namespace Prisma {
   }
 
   export type ItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BannerProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NewsBlockProductOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15949,11 +21386,21 @@ export namespace Prisma {
     none?: NewsImageWhereInput
   }
 
+  export type NewsBlockImageListRelationFilter = {
+    every?: NewsBlockImageWhereInput
+    some?: NewsBlockImageWhereInput
+    none?: NewsBlockImageWhereInput
+  }
+
   export type BannerImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type NewsImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NewsBlockImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16030,10 +21477,12 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     text?: SortOrder
+    order?: SortOrder
   }
 
   export type BannerAvgOrderByAggregateInput = {
     id?: SortOrder
+    order?: SortOrder
   }
 
   export type BannerMaxOrderByAggregateInput = {
@@ -16041,6 +21490,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     text?: SortOrder
+    order?: SortOrder
   }
 
   export type BannerMinOrderByAggregateInput = {
@@ -16048,15 +21498,47 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     text?: SortOrder
+    order?: SortOrder
   }
 
   export type BannerSumOrderByAggregateInput = {
     id?: SortOrder
+    order?: SortOrder
   }
 
   export type BannerScalarRelationFilter = {
     is?: BannerWhereInput
     isNot?: BannerWhereInput
+  }
+
+  export type BannerProductBannerIdProductIdCompoundUniqueInput = {
+    bannerId: number
+    productId: number
+  }
+
+  export type BannerProductCountOrderByAggregateInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type BannerProductAvgOrderByAggregateInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type BannerProductMaxOrderByAggregateInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type BannerProductMinOrderByAggregateInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type BannerProductSumOrderByAggregateInput = {
+    bannerId?: SortOrder
+    productId?: SortOrder
   }
 
   export type BannerImageBannerIdImageIdCompoundUniqueInput = {
@@ -16105,13 +21587,22 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NewsBlockListRelationFilter = {
+    every?: NewsBlockWhereInput
+    some?: NewsBlockWhereInput
+    none?: NewsBlockWhereInput
+  }
+
+  export type NewsBlockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type NewsCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    text?: SortOrder
-    date?: SortOrder
     tag?: SortOrder
+    date?: SortOrder
   }
 
   export type NewsAvgOrderByAggregateInput = {
@@ -16122,18 +21613,16 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    text?: SortOrder
-    date?: SortOrder
     tag?: SortOrder
+    date?: SortOrder
   }
 
   export type NewsMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    text?: SortOrder
-    date?: SortOrder
     tag?: SortOrder
+    date?: SortOrder
   }
 
   export type NewsSumOrderByAggregateInput = {
@@ -16157,6 +21646,107 @@ export namespace Prisma {
   export type NewsScalarRelationFilter = {
     is?: NewsWhereInput
     isNot?: NewsWhereInput
+  }
+
+  export type NewsBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    text?: SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+  }
+
+  export type NewsBlockAvgOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+  }
+
+  export type NewsBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    text?: SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+  }
+
+  export type NewsBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    text?: SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+  }
+
+  export type NewsBlockSumOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    newsId?: SortOrder
+  }
+
+  export type NewsBlockScalarRelationFilter = {
+    is?: NewsBlockWhereInput
+    isNot?: NewsBlockWhereInput
+  }
+
+  export type NewsBlockImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type NewsBlockImageAvgOrderByAggregateInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type NewsBlockImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type NewsBlockImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type NewsBlockImageSumOrderByAggregateInput = {
+    id?: SortOrder
+    blockId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type NewsBlockProductBlockIdProductIdCompoundUniqueInput = {
+    blockId: number
+    productId: number
+  }
+
+  export type NewsBlockProductCountOrderByAggregateInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type NewsBlockProductAvgOrderByAggregateInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type NewsBlockProductMaxOrderByAggregateInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type NewsBlockProductMinOrderByAggregateInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type NewsBlockProductSumOrderByAggregateInput = {
+    blockId?: SortOrder
+    productId?: SortOrder
   }
 
   export type NewsImageNewsIdImageIdCompoundUniqueInput = {
@@ -16420,6 +22010,20 @@ export namespace Prisma {
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
   }
 
+  export type BannerProductCreateNestedManyWithoutProductInput = {
+    create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
+    createMany?: BannerProductCreateManyProductInputEnvelope
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+  }
+
+  export type NewsBlockProductCreateNestedManyWithoutProductInput = {
+    create?: XOR<NewsBlockProductCreateWithoutProductInput, NewsBlockProductUncheckedCreateWithoutProductInput> | NewsBlockProductCreateWithoutProductInput[] | NewsBlockProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutProductInput | NewsBlockProductCreateOrConnectWithoutProductInput[]
+    createMany?: NewsBlockProductCreateManyProductInputEnvelope
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+  }
+
   export type ProductImageUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<ProductImageCreateWithoutProductInput, ProductImageUncheckedCreateWithoutProductInput> | ProductImageCreateWithoutProductInput[] | ProductImageUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutProductInput | ProductImageCreateOrConnectWithoutProductInput[]
@@ -16432,6 +22036,20 @@ export namespace Prisma {
     connectOrCreate?: ItemCreateOrConnectWithoutProductInput | ItemCreateOrConnectWithoutProductInput[]
     createMany?: ItemCreateManyProductInputEnvelope
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type BannerProductUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
+    createMany?: BannerProductCreateManyProductInputEnvelope
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+  }
+
+  export type NewsBlockProductUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<NewsBlockProductCreateWithoutProductInput, NewsBlockProductUncheckedCreateWithoutProductInput> | NewsBlockProductCreateWithoutProductInput[] | NewsBlockProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutProductInput | NewsBlockProductCreateOrConnectWithoutProductInput[]
+    createMany?: NewsBlockProductCreateManyProductInputEnvelope
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -16482,6 +22100,34 @@ export namespace Prisma {
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
   }
 
+  export type BannerProductUpdateManyWithoutProductNestedInput = {
+    create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
+    upsert?: BannerProductUpsertWithWhereUniqueWithoutProductInput | BannerProductUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: BannerProductCreateManyProductInputEnvelope
+    set?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    disconnect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    delete?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    update?: BannerProductUpdateWithWhereUniqueWithoutProductInput | BannerProductUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: BannerProductUpdateManyWithWhereWithoutProductInput | BannerProductUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: BannerProductScalarWhereInput | BannerProductScalarWhereInput[]
+  }
+
+  export type NewsBlockProductUpdateManyWithoutProductNestedInput = {
+    create?: XOR<NewsBlockProductCreateWithoutProductInput, NewsBlockProductUncheckedCreateWithoutProductInput> | NewsBlockProductCreateWithoutProductInput[] | NewsBlockProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutProductInput | NewsBlockProductCreateOrConnectWithoutProductInput[]
+    upsert?: NewsBlockProductUpsertWithWhereUniqueWithoutProductInput | NewsBlockProductUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: NewsBlockProductCreateManyProductInputEnvelope
+    set?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    disconnect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    delete?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    update?: NewsBlockProductUpdateWithWhereUniqueWithoutProductInput | NewsBlockProductUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: NewsBlockProductUpdateManyWithWhereWithoutProductInput | NewsBlockProductUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+  }
+
   export type ProductImageUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<ProductImageCreateWithoutProductInput, ProductImageUncheckedCreateWithoutProductInput> | ProductImageCreateWithoutProductInput[] | ProductImageUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutProductInput | ProductImageCreateOrConnectWithoutProductInput[]
@@ -16510,6 +22156,34 @@ export namespace Prisma {
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
   }
 
+  export type BannerProductUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
+    upsert?: BannerProductUpsertWithWhereUniqueWithoutProductInput | BannerProductUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: BannerProductCreateManyProductInputEnvelope
+    set?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    disconnect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    delete?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    update?: BannerProductUpdateWithWhereUniqueWithoutProductInput | BannerProductUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: BannerProductUpdateManyWithWhereWithoutProductInput | BannerProductUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: BannerProductScalarWhereInput | BannerProductScalarWhereInput[]
+  }
+
+  export type NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<NewsBlockProductCreateWithoutProductInput, NewsBlockProductUncheckedCreateWithoutProductInput> | NewsBlockProductCreateWithoutProductInput[] | NewsBlockProductUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutProductInput | NewsBlockProductCreateOrConnectWithoutProductInput[]
+    upsert?: NewsBlockProductUpsertWithWhereUniqueWithoutProductInput | NewsBlockProductUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: NewsBlockProductCreateManyProductInputEnvelope
+    set?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    disconnect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    delete?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    update?: NewsBlockProductUpdateWithWhereUniqueWithoutProductInput | NewsBlockProductUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: NewsBlockProductUpdateManyWithWhereWithoutProductInput | NewsBlockProductUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+  }
+
   export type ProductImageCreateNestedManyWithoutImageInput = {
     create?: XOR<ProductImageCreateWithoutImageInput, ProductImageUncheckedCreateWithoutImageInput> | ProductImageCreateWithoutImageInput[] | ProductImageUncheckedCreateWithoutImageInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutImageInput | ProductImageCreateOrConnectWithoutImageInput[]
@@ -16531,6 +22205,13 @@ export namespace Prisma {
     connect?: NewsImageWhereUniqueInput | NewsImageWhereUniqueInput[]
   }
 
+  export type NewsBlockImageCreateNestedManyWithoutImageInput = {
+    create?: XOR<NewsBlockImageCreateWithoutImageInput, NewsBlockImageUncheckedCreateWithoutImageInput> | NewsBlockImageCreateWithoutImageInput[] | NewsBlockImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutImageInput | NewsBlockImageCreateOrConnectWithoutImageInput[]
+    createMany?: NewsBlockImageCreateManyImageInputEnvelope
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+  }
+
   export type ProductImageUncheckedCreateNestedManyWithoutImageInput = {
     create?: XOR<ProductImageCreateWithoutImageInput, ProductImageUncheckedCreateWithoutImageInput> | ProductImageCreateWithoutImageInput[] | ProductImageUncheckedCreateWithoutImageInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutImageInput | ProductImageCreateOrConnectWithoutImageInput[]
@@ -16550,6 +22231,13 @@ export namespace Prisma {
     connectOrCreate?: NewsImageCreateOrConnectWithoutImageInput | NewsImageCreateOrConnectWithoutImageInput[]
     createMany?: NewsImageCreateManyImageInputEnvelope
     connect?: NewsImageWhereUniqueInput | NewsImageWhereUniqueInput[]
+  }
+
+  export type NewsBlockImageUncheckedCreateNestedManyWithoutImageInput = {
+    create?: XOR<NewsBlockImageCreateWithoutImageInput, NewsBlockImageUncheckedCreateWithoutImageInput> | NewsBlockImageCreateWithoutImageInput[] | NewsBlockImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutImageInput | NewsBlockImageCreateOrConnectWithoutImageInput[]
+    createMany?: NewsBlockImageCreateManyImageInputEnvelope
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
   }
 
   export type ProductImageUpdateManyWithoutImageNestedInput = {
@@ -16594,6 +22282,20 @@ export namespace Prisma {
     deleteMany?: NewsImageScalarWhereInput | NewsImageScalarWhereInput[]
   }
 
+  export type NewsBlockImageUpdateManyWithoutImageNestedInput = {
+    create?: XOR<NewsBlockImageCreateWithoutImageInput, NewsBlockImageUncheckedCreateWithoutImageInput> | NewsBlockImageCreateWithoutImageInput[] | NewsBlockImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutImageInput | NewsBlockImageCreateOrConnectWithoutImageInput[]
+    upsert?: NewsBlockImageUpsertWithWhereUniqueWithoutImageInput | NewsBlockImageUpsertWithWhereUniqueWithoutImageInput[]
+    createMany?: NewsBlockImageCreateManyImageInputEnvelope
+    set?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    disconnect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    delete?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    update?: NewsBlockImageUpdateWithWhereUniqueWithoutImageInput | NewsBlockImageUpdateWithWhereUniqueWithoutImageInput[]
+    updateMany?: NewsBlockImageUpdateManyWithWhereWithoutImageInput | NewsBlockImageUpdateManyWithWhereWithoutImageInput[]
+    deleteMany?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+  }
+
   export type ProductImageUncheckedUpdateManyWithoutImageNestedInput = {
     create?: XOR<ProductImageCreateWithoutImageInput, ProductImageUncheckedCreateWithoutImageInput> | ProductImageCreateWithoutImageInput[] | ProductImageUncheckedCreateWithoutImageInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutImageInput | ProductImageCreateOrConnectWithoutImageInput[]
@@ -16636,6 +22338,20 @@ export namespace Prisma {
     deleteMany?: NewsImageScalarWhereInput | NewsImageScalarWhereInput[]
   }
 
+  export type NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput = {
+    create?: XOR<NewsBlockImageCreateWithoutImageInput, NewsBlockImageUncheckedCreateWithoutImageInput> | NewsBlockImageCreateWithoutImageInput[] | NewsBlockImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutImageInput | NewsBlockImageCreateOrConnectWithoutImageInput[]
+    upsert?: NewsBlockImageUpsertWithWhereUniqueWithoutImageInput | NewsBlockImageUpsertWithWhereUniqueWithoutImageInput[]
+    createMany?: NewsBlockImageCreateManyImageInputEnvelope
+    set?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    disconnect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    delete?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    update?: NewsBlockImageUpdateWithWhereUniqueWithoutImageInput | NewsBlockImageUpdateWithWhereUniqueWithoutImageInput[]
+    updateMany?: NewsBlockImageUpdateManyWithWhereWithoutImageInput | NewsBlockImageUpdateManyWithWhereWithoutImageInput[]
+    deleteMany?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+  }
+
   export type ProductCreateNestedOneWithoutImagesInput = {
     create?: XOR<ProductCreateWithoutImagesInput, ProductUncheckedCreateWithoutImagesInput>
     connectOrCreate?: ProductCreateOrConnectWithoutImagesInput
@@ -16671,11 +22387,25 @@ export namespace Prisma {
     connect?: BannerImageWhereUniqueInput | BannerImageWhereUniqueInput[]
   }
 
+  export type BannerProductCreateNestedManyWithoutBannerInput = {
+    create?: XOR<BannerProductCreateWithoutBannerInput, BannerProductUncheckedCreateWithoutBannerInput> | BannerProductCreateWithoutBannerInput[] | BannerProductUncheckedCreateWithoutBannerInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutBannerInput | BannerProductCreateOrConnectWithoutBannerInput[]
+    createMany?: BannerProductCreateManyBannerInputEnvelope
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+  }
+
   export type BannerImageUncheckedCreateNestedManyWithoutBannerInput = {
     create?: XOR<BannerImageCreateWithoutBannerInput, BannerImageUncheckedCreateWithoutBannerInput> | BannerImageCreateWithoutBannerInput[] | BannerImageUncheckedCreateWithoutBannerInput[]
     connectOrCreate?: BannerImageCreateOrConnectWithoutBannerInput | BannerImageCreateOrConnectWithoutBannerInput[]
     createMany?: BannerImageCreateManyBannerInputEnvelope
     connect?: BannerImageWhereUniqueInput | BannerImageWhereUniqueInput[]
+  }
+
+  export type BannerProductUncheckedCreateNestedManyWithoutBannerInput = {
+    create?: XOR<BannerProductCreateWithoutBannerInput, BannerProductUncheckedCreateWithoutBannerInput> | BannerProductCreateWithoutBannerInput[] | BannerProductUncheckedCreateWithoutBannerInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutBannerInput | BannerProductCreateOrConnectWithoutBannerInput[]
+    createMany?: BannerProductCreateManyBannerInputEnvelope
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
   }
 
   export type BannerImageUpdateManyWithoutBannerNestedInput = {
@@ -16692,6 +22422,20 @@ export namespace Prisma {
     deleteMany?: BannerImageScalarWhereInput | BannerImageScalarWhereInput[]
   }
 
+  export type BannerProductUpdateManyWithoutBannerNestedInput = {
+    create?: XOR<BannerProductCreateWithoutBannerInput, BannerProductUncheckedCreateWithoutBannerInput> | BannerProductCreateWithoutBannerInput[] | BannerProductUncheckedCreateWithoutBannerInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutBannerInput | BannerProductCreateOrConnectWithoutBannerInput[]
+    upsert?: BannerProductUpsertWithWhereUniqueWithoutBannerInput | BannerProductUpsertWithWhereUniqueWithoutBannerInput[]
+    createMany?: BannerProductCreateManyBannerInputEnvelope
+    set?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    disconnect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    delete?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    update?: BannerProductUpdateWithWhereUniqueWithoutBannerInput | BannerProductUpdateWithWhereUniqueWithoutBannerInput[]
+    updateMany?: BannerProductUpdateManyWithWhereWithoutBannerInput | BannerProductUpdateManyWithWhereWithoutBannerInput[]
+    deleteMany?: BannerProductScalarWhereInput | BannerProductScalarWhereInput[]
+  }
+
   export type BannerImageUncheckedUpdateManyWithoutBannerNestedInput = {
     create?: XOR<BannerImageCreateWithoutBannerInput, BannerImageUncheckedCreateWithoutBannerInput> | BannerImageCreateWithoutBannerInput[] | BannerImageUncheckedCreateWithoutBannerInput[]
     connectOrCreate?: BannerImageCreateOrConnectWithoutBannerInput | BannerImageCreateOrConnectWithoutBannerInput[]
@@ -16704,6 +22448,48 @@ export namespace Prisma {
     update?: BannerImageUpdateWithWhereUniqueWithoutBannerInput | BannerImageUpdateWithWhereUniqueWithoutBannerInput[]
     updateMany?: BannerImageUpdateManyWithWhereWithoutBannerInput | BannerImageUpdateManyWithWhereWithoutBannerInput[]
     deleteMany?: BannerImageScalarWhereInput | BannerImageScalarWhereInput[]
+  }
+
+  export type BannerProductUncheckedUpdateManyWithoutBannerNestedInput = {
+    create?: XOR<BannerProductCreateWithoutBannerInput, BannerProductUncheckedCreateWithoutBannerInput> | BannerProductCreateWithoutBannerInput[] | BannerProductUncheckedCreateWithoutBannerInput[]
+    connectOrCreate?: BannerProductCreateOrConnectWithoutBannerInput | BannerProductCreateOrConnectWithoutBannerInput[]
+    upsert?: BannerProductUpsertWithWhereUniqueWithoutBannerInput | BannerProductUpsertWithWhereUniqueWithoutBannerInput[]
+    createMany?: BannerProductCreateManyBannerInputEnvelope
+    set?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    disconnect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    delete?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    connect?: BannerProductWhereUniqueInput | BannerProductWhereUniqueInput[]
+    update?: BannerProductUpdateWithWhereUniqueWithoutBannerInput | BannerProductUpdateWithWhereUniqueWithoutBannerInput[]
+    updateMany?: BannerProductUpdateManyWithWhereWithoutBannerInput | BannerProductUpdateManyWithWhereWithoutBannerInput[]
+    deleteMany?: BannerProductScalarWhereInput | BannerProductScalarWhereInput[]
+  }
+
+  export type BannerCreateNestedOneWithoutProductsInput = {
+    create?: XOR<BannerCreateWithoutProductsInput, BannerUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: BannerCreateOrConnectWithoutProductsInput
+    connect?: BannerWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutBannerProductsInput = {
+    create?: XOR<ProductCreateWithoutBannerProductsInput, ProductUncheckedCreateWithoutBannerProductsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutBannerProductsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type BannerUpdateOneRequiredWithoutProductsNestedInput = {
+    create?: XOR<BannerCreateWithoutProductsInput, BannerUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: BannerCreateOrConnectWithoutProductsInput
+    upsert?: BannerUpsertWithoutProductsInput
+    connect?: BannerWhereUniqueInput
+    update?: XOR<XOR<BannerUpdateToOneWithWhereWithoutProductsInput, BannerUpdateWithoutProductsInput>, BannerUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutBannerProductsNestedInput = {
+    create?: XOR<ProductCreateWithoutBannerProductsInput, ProductUncheckedCreateWithoutBannerProductsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutBannerProductsInput
+    upsert?: ProductUpsertWithoutBannerProductsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutBannerProductsInput, ProductUpdateWithoutBannerProductsInput>, ProductUncheckedUpdateWithoutBannerProductsInput>
   }
 
   export type BannerCreateNestedOneWithoutImagesInput = {
@@ -16734,11 +22520,25 @@ export namespace Prisma {
     update?: XOR<XOR<ImageUpdateToOneWithWhereWithoutBannerImagesInput, ImageUpdateWithoutBannerImagesInput>, ImageUncheckedUpdateWithoutBannerImagesInput>
   }
 
+  export type NewsBlockCreateNestedManyWithoutNewsInput = {
+    create?: XOR<NewsBlockCreateWithoutNewsInput, NewsBlockUncheckedCreateWithoutNewsInput> | NewsBlockCreateWithoutNewsInput[] | NewsBlockUncheckedCreateWithoutNewsInput[]
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutNewsInput | NewsBlockCreateOrConnectWithoutNewsInput[]
+    createMany?: NewsBlockCreateManyNewsInputEnvelope
+    connect?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+  }
+
   export type NewsImageCreateNestedManyWithoutNewsInput = {
     create?: XOR<NewsImageCreateWithoutNewsInput, NewsImageUncheckedCreateWithoutNewsInput> | NewsImageCreateWithoutNewsInput[] | NewsImageUncheckedCreateWithoutNewsInput[]
     connectOrCreate?: NewsImageCreateOrConnectWithoutNewsInput | NewsImageCreateOrConnectWithoutNewsInput[]
     createMany?: NewsImageCreateManyNewsInputEnvelope
     connect?: NewsImageWhereUniqueInput | NewsImageWhereUniqueInput[]
+  }
+
+  export type NewsBlockUncheckedCreateNestedManyWithoutNewsInput = {
+    create?: XOR<NewsBlockCreateWithoutNewsInput, NewsBlockUncheckedCreateWithoutNewsInput> | NewsBlockCreateWithoutNewsInput[] | NewsBlockUncheckedCreateWithoutNewsInput[]
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutNewsInput | NewsBlockCreateOrConnectWithoutNewsInput[]
+    createMany?: NewsBlockCreateManyNewsInputEnvelope
+    connect?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
   }
 
   export type NewsImageUncheckedCreateNestedManyWithoutNewsInput = {
@@ -16750,6 +22550,20 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type NewsBlockUpdateManyWithoutNewsNestedInput = {
+    create?: XOR<NewsBlockCreateWithoutNewsInput, NewsBlockUncheckedCreateWithoutNewsInput> | NewsBlockCreateWithoutNewsInput[] | NewsBlockUncheckedCreateWithoutNewsInput[]
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutNewsInput | NewsBlockCreateOrConnectWithoutNewsInput[]
+    upsert?: NewsBlockUpsertWithWhereUniqueWithoutNewsInput | NewsBlockUpsertWithWhereUniqueWithoutNewsInput[]
+    createMany?: NewsBlockCreateManyNewsInputEnvelope
+    set?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    disconnect?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    delete?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    connect?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    update?: NewsBlockUpdateWithWhereUniqueWithoutNewsInput | NewsBlockUpdateWithWhereUniqueWithoutNewsInput[]
+    updateMany?: NewsBlockUpdateManyWithWhereWithoutNewsInput | NewsBlockUpdateManyWithWhereWithoutNewsInput[]
+    deleteMany?: NewsBlockScalarWhereInput | NewsBlockScalarWhereInput[]
   }
 
   export type NewsImageUpdateManyWithoutNewsNestedInput = {
@@ -16766,6 +22580,20 @@ export namespace Prisma {
     deleteMany?: NewsImageScalarWhereInput | NewsImageScalarWhereInput[]
   }
 
+  export type NewsBlockUncheckedUpdateManyWithoutNewsNestedInput = {
+    create?: XOR<NewsBlockCreateWithoutNewsInput, NewsBlockUncheckedCreateWithoutNewsInput> | NewsBlockCreateWithoutNewsInput[] | NewsBlockUncheckedCreateWithoutNewsInput[]
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutNewsInput | NewsBlockCreateOrConnectWithoutNewsInput[]
+    upsert?: NewsBlockUpsertWithWhereUniqueWithoutNewsInput | NewsBlockUpsertWithWhereUniqueWithoutNewsInput[]
+    createMany?: NewsBlockCreateManyNewsInputEnvelope
+    set?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    disconnect?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    delete?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    connect?: NewsBlockWhereUniqueInput | NewsBlockWhereUniqueInput[]
+    update?: NewsBlockUpdateWithWhereUniqueWithoutNewsInput | NewsBlockUpdateWithWhereUniqueWithoutNewsInput[]
+    updateMany?: NewsBlockUpdateManyWithWhereWithoutNewsInput | NewsBlockUpdateManyWithWhereWithoutNewsInput[]
+    deleteMany?: NewsBlockScalarWhereInput | NewsBlockScalarWhereInput[]
+  }
+
   export type NewsImageUncheckedUpdateManyWithoutNewsNestedInput = {
     create?: XOR<NewsImageCreateWithoutNewsInput, NewsImageUncheckedCreateWithoutNewsInput> | NewsImageCreateWithoutNewsInput[] | NewsImageUncheckedCreateWithoutNewsInput[]
     connectOrCreate?: NewsImageCreateOrConnectWithoutNewsInput | NewsImageCreateOrConnectWithoutNewsInput[]
@@ -16778,6 +22606,160 @@ export namespace Prisma {
     update?: NewsImageUpdateWithWhereUniqueWithoutNewsInput | NewsImageUpdateWithWhereUniqueWithoutNewsInput[]
     updateMany?: NewsImageUpdateManyWithWhereWithoutNewsInput | NewsImageUpdateManyWithWhereWithoutNewsInput[]
     deleteMany?: NewsImageScalarWhereInput | NewsImageScalarWhereInput[]
+  }
+
+  export type NewsCreateNestedOneWithoutContentBlocksInput = {
+    create?: XOR<NewsCreateWithoutContentBlocksInput, NewsUncheckedCreateWithoutContentBlocksInput>
+    connectOrCreate?: NewsCreateOrConnectWithoutContentBlocksInput
+    connect?: NewsWhereUniqueInput
+  }
+
+  export type NewsBlockImageCreateNestedManyWithoutBlockInput = {
+    create?: XOR<NewsBlockImageCreateWithoutBlockInput, NewsBlockImageUncheckedCreateWithoutBlockInput> | NewsBlockImageCreateWithoutBlockInput[] | NewsBlockImageUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutBlockInput | NewsBlockImageCreateOrConnectWithoutBlockInput[]
+    createMany?: NewsBlockImageCreateManyBlockInputEnvelope
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+  }
+
+  export type NewsBlockProductCreateNestedManyWithoutBlockInput = {
+    create?: XOR<NewsBlockProductCreateWithoutBlockInput, NewsBlockProductUncheckedCreateWithoutBlockInput> | NewsBlockProductCreateWithoutBlockInput[] | NewsBlockProductUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutBlockInput | NewsBlockProductCreateOrConnectWithoutBlockInput[]
+    createMany?: NewsBlockProductCreateManyBlockInputEnvelope
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+  }
+
+  export type NewsBlockImageUncheckedCreateNestedManyWithoutBlockInput = {
+    create?: XOR<NewsBlockImageCreateWithoutBlockInput, NewsBlockImageUncheckedCreateWithoutBlockInput> | NewsBlockImageCreateWithoutBlockInput[] | NewsBlockImageUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutBlockInput | NewsBlockImageCreateOrConnectWithoutBlockInput[]
+    createMany?: NewsBlockImageCreateManyBlockInputEnvelope
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+  }
+
+  export type NewsBlockProductUncheckedCreateNestedManyWithoutBlockInput = {
+    create?: XOR<NewsBlockProductCreateWithoutBlockInput, NewsBlockProductUncheckedCreateWithoutBlockInput> | NewsBlockProductCreateWithoutBlockInput[] | NewsBlockProductUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutBlockInput | NewsBlockProductCreateOrConnectWithoutBlockInput[]
+    createMany?: NewsBlockProductCreateManyBlockInputEnvelope
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+  }
+
+  export type NewsUpdateOneRequiredWithoutContentBlocksNestedInput = {
+    create?: XOR<NewsCreateWithoutContentBlocksInput, NewsUncheckedCreateWithoutContentBlocksInput>
+    connectOrCreate?: NewsCreateOrConnectWithoutContentBlocksInput
+    upsert?: NewsUpsertWithoutContentBlocksInput
+    connect?: NewsWhereUniqueInput
+    update?: XOR<XOR<NewsUpdateToOneWithWhereWithoutContentBlocksInput, NewsUpdateWithoutContentBlocksInput>, NewsUncheckedUpdateWithoutContentBlocksInput>
+  }
+
+  export type NewsBlockImageUpdateManyWithoutBlockNestedInput = {
+    create?: XOR<NewsBlockImageCreateWithoutBlockInput, NewsBlockImageUncheckedCreateWithoutBlockInput> | NewsBlockImageCreateWithoutBlockInput[] | NewsBlockImageUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutBlockInput | NewsBlockImageCreateOrConnectWithoutBlockInput[]
+    upsert?: NewsBlockImageUpsertWithWhereUniqueWithoutBlockInput | NewsBlockImageUpsertWithWhereUniqueWithoutBlockInput[]
+    createMany?: NewsBlockImageCreateManyBlockInputEnvelope
+    set?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    disconnect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    delete?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    update?: NewsBlockImageUpdateWithWhereUniqueWithoutBlockInput | NewsBlockImageUpdateWithWhereUniqueWithoutBlockInput[]
+    updateMany?: NewsBlockImageUpdateManyWithWhereWithoutBlockInput | NewsBlockImageUpdateManyWithWhereWithoutBlockInput[]
+    deleteMany?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+  }
+
+  export type NewsBlockProductUpdateManyWithoutBlockNestedInput = {
+    create?: XOR<NewsBlockProductCreateWithoutBlockInput, NewsBlockProductUncheckedCreateWithoutBlockInput> | NewsBlockProductCreateWithoutBlockInput[] | NewsBlockProductUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutBlockInput | NewsBlockProductCreateOrConnectWithoutBlockInput[]
+    upsert?: NewsBlockProductUpsertWithWhereUniqueWithoutBlockInput | NewsBlockProductUpsertWithWhereUniqueWithoutBlockInput[]
+    createMany?: NewsBlockProductCreateManyBlockInputEnvelope
+    set?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    disconnect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    delete?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    update?: NewsBlockProductUpdateWithWhereUniqueWithoutBlockInput | NewsBlockProductUpdateWithWhereUniqueWithoutBlockInput[]
+    updateMany?: NewsBlockProductUpdateManyWithWhereWithoutBlockInput | NewsBlockProductUpdateManyWithWhereWithoutBlockInput[]
+    deleteMany?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+  }
+
+  export type NewsBlockImageUncheckedUpdateManyWithoutBlockNestedInput = {
+    create?: XOR<NewsBlockImageCreateWithoutBlockInput, NewsBlockImageUncheckedCreateWithoutBlockInput> | NewsBlockImageCreateWithoutBlockInput[] | NewsBlockImageUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockImageCreateOrConnectWithoutBlockInput | NewsBlockImageCreateOrConnectWithoutBlockInput[]
+    upsert?: NewsBlockImageUpsertWithWhereUniqueWithoutBlockInput | NewsBlockImageUpsertWithWhereUniqueWithoutBlockInput[]
+    createMany?: NewsBlockImageCreateManyBlockInputEnvelope
+    set?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    disconnect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    delete?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+    update?: NewsBlockImageUpdateWithWhereUniqueWithoutBlockInput | NewsBlockImageUpdateWithWhereUniqueWithoutBlockInput[]
+    updateMany?: NewsBlockImageUpdateManyWithWhereWithoutBlockInput | NewsBlockImageUpdateManyWithWhereWithoutBlockInput[]
+    deleteMany?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+  }
+
+  export type NewsBlockProductUncheckedUpdateManyWithoutBlockNestedInput = {
+    create?: XOR<NewsBlockProductCreateWithoutBlockInput, NewsBlockProductUncheckedCreateWithoutBlockInput> | NewsBlockProductCreateWithoutBlockInput[] | NewsBlockProductUncheckedCreateWithoutBlockInput[]
+    connectOrCreate?: NewsBlockProductCreateOrConnectWithoutBlockInput | NewsBlockProductCreateOrConnectWithoutBlockInput[]
+    upsert?: NewsBlockProductUpsertWithWhereUniqueWithoutBlockInput | NewsBlockProductUpsertWithWhereUniqueWithoutBlockInput[]
+    createMany?: NewsBlockProductCreateManyBlockInputEnvelope
+    set?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    disconnect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    delete?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    connect?: NewsBlockProductWhereUniqueInput | NewsBlockProductWhereUniqueInput[]
+    update?: NewsBlockProductUpdateWithWhereUniqueWithoutBlockInput | NewsBlockProductUpdateWithWhereUniqueWithoutBlockInput[]
+    updateMany?: NewsBlockProductUpdateManyWithWhereWithoutBlockInput | NewsBlockProductUpdateManyWithWhereWithoutBlockInput[]
+    deleteMany?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+  }
+
+  export type NewsBlockCreateNestedOneWithoutImagesInput = {
+    create?: XOR<NewsBlockCreateWithoutImagesInput, NewsBlockUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutImagesInput
+    connect?: NewsBlockWhereUniqueInput
+  }
+
+  export type ImageCreateNestedOneWithoutNewsBlockImagesInput = {
+    create?: XOR<ImageCreateWithoutNewsBlockImagesInput, ImageUncheckedCreateWithoutNewsBlockImagesInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutNewsBlockImagesInput
+    connect?: ImageWhereUniqueInput
+  }
+
+  export type NewsBlockUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<NewsBlockCreateWithoutImagesInput, NewsBlockUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutImagesInput
+    upsert?: NewsBlockUpsertWithoutImagesInput
+    connect?: NewsBlockWhereUniqueInput
+    update?: XOR<XOR<NewsBlockUpdateToOneWithWhereWithoutImagesInput, NewsBlockUpdateWithoutImagesInput>, NewsBlockUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type ImageUpdateOneRequiredWithoutNewsBlockImagesNestedInput = {
+    create?: XOR<ImageCreateWithoutNewsBlockImagesInput, ImageUncheckedCreateWithoutNewsBlockImagesInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutNewsBlockImagesInput
+    upsert?: ImageUpsertWithoutNewsBlockImagesInput
+    connect?: ImageWhereUniqueInput
+    update?: XOR<XOR<ImageUpdateToOneWithWhereWithoutNewsBlockImagesInput, ImageUpdateWithoutNewsBlockImagesInput>, ImageUncheckedUpdateWithoutNewsBlockImagesInput>
+  }
+
+  export type NewsBlockCreateNestedOneWithoutProductsInput = {
+    create?: XOR<NewsBlockCreateWithoutProductsInput, NewsBlockUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutProductsInput
+    connect?: NewsBlockWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutNewsBlockProductsInput = {
+    create?: XOR<ProductCreateWithoutNewsBlockProductsInput, ProductUncheckedCreateWithoutNewsBlockProductsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNewsBlockProductsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type NewsBlockUpdateOneRequiredWithoutProductsNestedInput = {
+    create?: XOR<NewsBlockCreateWithoutProductsInput, NewsBlockUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: NewsBlockCreateOrConnectWithoutProductsInput
+    upsert?: NewsBlockUpsertWithoutProductsInput
+    connect?: NewsBlockWhereUniqueInput
+    update?: XOR<XOR<NewsBlockUpdateToOneWithWhereWithoutProductsInput, NewsBlockUpdateWithoutProductsInput>, NewsBlockUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutNewsBlockProductsNestedInput = {
+    create?: XOR<ProductCreateWithoutNewsBlockProductsInput, ProductUncheckedCreateWithoutNewsBlockProductsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNewsBlockProductsInput
+    upsert?: ProductUpsertWithoutNewsBlockProductsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutNewsBlockProductsInput, ProductUpdateWithoutNewsBlockProductsInput>, ProductUncheckedUpdateWithoutNewsBlockProductsInput>
   }
 
   export type NewsCreateNestedOneWithoutImagesInput = {
@@ -17125,6 +23107,8 @@ export namespace Prisma {
     description?: string | null
     images?: ProductImageCreateNestedManyWithoutProductInput
     items?: ItemCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutCategoryInput = {
@@ -17134,6 +23118,8 @@ export namespace Prisma {
     description?: string | null
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutCategoryInput = {
@@ -17226,6 +23212,40 @@ export namespace Prisma {
     data: ItemCreateManyProductInput | ItemCreateManyProductInput[]
   }
 
+  export type BannerProductCreateWithoutProductInput = {
+    banner: BannerCreateNestedOneWithoutProductsInput
+  }
+
+  export type BannerProductUncheckedCreateWithoutProductInput = {
+    bannerId: number
+  }
+
+  export type BannerProductCreateOrConnectWithoutProductInput = {
+    where: BannerProductWhereUniqueInput
+    create: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput>
+  }
+
+  export type BannerProductCreateManyProductInputEnvelope = {
+    data: BannerProductCreateManyProductInput | BannerProductCreateManyProductInput[]
+  }
+
+  export type NewsBlockProductCreateWithoutProductInput = {
+    block: NewsBlockCreateNestedOneWithoutProductsInput
+  }
+
+  export type NewsBlockProductUncheckedCreateWithoutProductInput = {
+    blockId: number
+  }
+
+  export type NewsBlockProductCreateOrConnectWithoutProductInput = {
+    where: NewsBlockProductWhereUniqueInput
+    create: XOR<NewsBlockProductCreateWithoutProductInput, NewsBlockProductUncheckedCreateWithoutProductInput>
+  }
+
+  export type NewsBlockProductCreateManyProductInputEnvelope = {
+    data: NewsBlockProductCreateManyProductInput | NewsBlockProductCreateManyProductInput[]
+  }
+
   export type CategoryUpsertWithoutProductsInput = {
     update: XOR<CategoryUpdateWithoutProductsInput, CategoryUncheckedUpdateWithoutProductsInput>
     create: XOR<CategoryCreateWithoutProductsInput, CategoryUncheckedCreateWithoutProductsInput>
@@ -17299,6 +23319,54 @@ export namespace Prisma {
     quantity?: IntFilter<"Item"> | number
   }
 
+  export type BannerProductUpsertWithWhereUniqueWithoutProductInput = {
+    where: BannerProductWhereUniqueInput
+    update: XOR<BannerProductUpdateWithoutProductInput, BannerProductUncheckedUpdateWithoutProductInput>
+    create: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput>
+  }
+
+  export type BannerProductUpdateWithWhereUniqueWithoutProductInput = {
+    where: BannerProductWhereUniqueInput
+    data: XOR<BannerProductUpdateWithoutProductInput, BannerProductUncheckedUpdateWithoutProductInput>
+  }
+
+  export type BannerProductUpdateManyWithWhereWithoutProductInput = {
+    where: BannerProductScalarWhereInput
+    data: XOR<BannerProductUpdateManyMutationInput, BannerProductUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type BannerProductScalarWhereInput = {
+    AND?: BannerProductScalarWhereInput | BannerProductScalarWhereInput[]
+    OR?: BannerProductScalarWhereInput[]
+    NOT?: BannerProductScalarWhereInput | BannerProductScalarWhereInput[]
+    bannerId?: IntFilter<"BannerProduct"> | number
+    productId?: IntFilter<"BannerProduct"> | number
+  }
+
+  export type NewsBlockProductUpsertWithWhereUniqueWithoutProductInput = {
+    where: NewsBlockProductWhereUniqueInput
+    update: XOR<NewsBlockProductUpdateWithoutProductInput, NewsBlockProductUncheckedUpdateWithoutProductInput>
+    create: XOR<NewsBlockProductCreateWithoutProductInput, NewsBlockProductUncheckedCreateWithoutProductInput>
+  }
+
+  export type NewsBlockProductUpdateWithWhereUniqueWithoutProductInput = {
+    where: NewsBlockProductWhereUniqueInput
+    data: XOR<NewsBlockProductUpdateWithoutProductInput, NewsBlockProductUncheckedUpdateWithoutProductInput>
+  }
+
+  export type NewsBlockProductUpdateManyWithWhereWithoutProductInput = {
+    where: NewsBlockProductScalarWhereInput
+    data: XOR<NewsBlockProductUpdateManyMutationInput, NewsBlockProductUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type NewsBlockProductScalarWhereInput = {
+    AND?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+    OR?: NewsBlockProductScalarWhereInput[]
+    NOT?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+    blockId?: IntFilter<"NewsBlockProduct"> | number
+    productId?: IntFilter<"NewsBlockProduct"> | number
+  }
+
   export type ProductImageCreateWithoutImageInput = {
     product: ProductCreateNestedOneWithoutImagesInput
   }
@@ -17351,6 +23419,24 @@ export namespace Prisma {
 
   export type NewsImageCreateManyImageInputEnvelope = {
     data: NewsImageCreateManyImageInput | NewsImageCreateManyImageInput[]
+  }
+
+  export type NewsBlockImageCreateWithoutImageInput = {
+    block: NewsBlockCreateNestedOneWithoutImagesInput
+  }
+
+  export type NewsBlockImageUncheckedCreateWithoutImageInput = {
+    id?: number
+    blockId: number
+  }
+
+  export type NewsBlockImageCreateOrConnectWithoutImageInput = {
+    where: NewsBlockImageWhereUniqueInput
+    create: XOR<NewsBlockImageCreateWithoutImageInput, NewsBlockImageUncheckedCreateWithoutImageInput>
+  }
+
+  export type NewsBlockImageCreateManyImageInputEnvelope = {
+    data: NewsBlockImageCreateManyImageInput | NewsBlockImageCreateManyImageInput[]
   }
 
   export type ProductImageUpsertWithWhereUniqueWithoutImageInput = {
@@ -17419,12 +23505,39 @@ export namespace Prisma {
     imageId?: IntFilter<"NewsImage"> | number
   }
 
+  export type NewsBlockImageUpsertWithWhereUniqueWithoutImageInput = {
+    where: NewsBlockImageWhereUniqueInput
+    update: XOR<NewsBlockImageUpdateWithoutImageInput, NewsBlockImageUncheckedUpdateWithoutImageInput>
+    create: XOR<NewsBlockImageCreateWithoutImageInput, NewsBlockImageUncheckedCreateWithoutImageInput>
+  }
+
+  export type NewsBlockImageUpdateWithWhereUniqueWithoutImageInput = {
+    where: NewsBlockImageWhereUniqueInput
+    data: XOR<NewsBlockImageUpdateWithoutImageInput, NewsBlockImageUncheckedUpdateWithoutImageInput>
+  }
+
+  export type NewsBlockImageUpdateManyWithWhereWithoutImageInput = {
+    where: NewsBlockImageScalarWhereInput
+    data: XOR<NewsBlockImageUpdateManyMutationInput, NewsBlockImageUncheckedUpdateManyWithoutImageInput>
+  }
+
+  export type NewsBlockImageScalarWhereInput = {
+    AND?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+    OR?: NewsBlockImageScalarWhereInput[]
+    NOT?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+    id?: IntFilter<"NewsBlockImage"> | number
+    blockId?: IntFilter<"NewsBlockImage"> | number
+    imageId?: IntFilter<"NewsBlockImage"> | number
+  }
+
   export type ProductCreateWithoutImagesInput = {
     name: string
     price: number
     description?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     items?: ItemCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutImagesInput = {
@@ -17434,6 +23547,8 @@ export namespace Prisma {
     description?: string | null
     categoryId: number
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutImagesInput = {
@@ -17445,6 +23560,7 @@ export namespace Prisma {
     url: string
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutProductImagesInput = {
@@ -17452,6 +23568,7 @@ export namespace Prisma {
     url: string
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutProductImagesInput = {
@@ -17476,6 +23593,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutImagesInput = {
@@ -17485,6 +23604,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ImageUpsertWithoutProductImagesInput = {
@@ -17502,6 +23623,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutProductImagesInput = {
@@ -17509,6 +23631,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type BannerImageCreateWithoutBannerInput = {
@@ -17529,6 +23652,23 @@ export namespace Prisma {
     data: BannerImageCreateManyBannerInput | BannerImageCreateManyBannerInput[]
   }
 
+  export type BannerProductCreateWithoutBannerInput = {
+    product: ProductCreateNestedOneWithoutBannerProductsInput
+  }
+
+  export type BannerProductUncheckedCreateWithoutBannerInput = {
+    productId: number
+  }
+
+  export type BannerProductCreateOrConnectWithoutBannerInput = {
+    where: BannerProductWhereUniqueInput
+    create: XOR<BannerProductCreateWithoutBannerInput, BannerProductUncheckedCreateWithoutBannerInput>
+  }
+
+  export type BannerProductCreateManyBannerInputEnvelope = {
+    data: BannerProductCreateManyBannerInput | BannerProductCreateManyBannerInput[]
+  }
+
   export type BannerImageUpsertWithWhereUniqueWithoutBannerInput = {
     where: BannerImageWhereUniqueInput
     update: XOR<BannerImageUpdateWithoutBannerInput, BannerImageUncheckedUpdateWithoutBannerInput>
@@ -17545,10 +23685,136 @@ export namespace Prisma {
     data: XOR<BannerImageUpdateManyMutationInput, BannerImageUncheckedUpdateManyWithoutBannerInput>
   }
 
+  export type BannerProductUpsertWithWhereUniqueWithoutBannerInput = {
+    where: BannerProductWhereUniqueInput
+    update: XOR<BannerProductUpdateWithoutBannerInput, BannerProductUncheckedUpdateWithoutBannerInput>
+    create: XOR<BannerProductCreateWithoutBannerInput, BannerProductUncheckedCreateWithoutBannerInput>
+  }
+
+  export type BannerProductUpdateWithWhereUniqueWithoutBannerInput = {
+    where: BannerProductWhereUniqueInput
+    data: XOR<BannerProductUpdateWithoutBannerInput, BannerProductUncheckedUpdateWithoutBannerInput>
+  }
+
+  export type BannerProductUpdateManyWithWhereWithoutBannerInput = {
+    where: BannerProductScalarWhereInput
+    data: XOR<BannerProductUpdateManyMutationInput, BannerProductUncheckedUpdateManyWithoutBannerInput>
+  }
+
+  export type BannerCreateWithoutProductsInput = {
+    title: string
+    description: string
+    text: string
+    order?: number
+    images?: BannerImageCreateNestedManyWithoutBannerInput
+  }
+
+  export type BannerUncheckedCreateWithoutProductsInput = {
+    id?: number
+    title: string
+    description: string
+    text: string
+    order?: number
+    images?: BannerImageUncheckedCreateNestedManyWithoutBannerInput
+  }
+
+  export type BannerCreateOrConnectWithoutProductsInput = {
+    where: BannerWhereUniqueInput
+    create: XOR<BannerCreateWithoutProductsInput, BannerUncheckedCreateWithoutProductsInput>
+  }
+
+  export type ProductCreateWithoutBannerProductsInput = {
+    name: string
+    price: number
+    description?: string | null
+    category: CategoryCreateNestedOneWithoutProductsInput
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    items?: ItemCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutBannerProductsInput = {
+    id?: number
+    name: string
+    price: number
+    description?: string | null
+    categoryId: number
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutBannerProductsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutBannerProductsInput, ProductUncheckedCreateWithoutBannerProductsInput>
+  }
+
+  export type BannerUpsertWithoutProductsInput = {
+    update: XOR<BannerUpdateWithoutProductsInput, BannerUncheckedUpdateWithoutProductsInput>
+    create: XOR<BannerCreateWithoutProductsInput, BannerUncheckedCreateWithoutProductsInput>
+    where?: BannerWhereInput
+  }
+
+  export type BannerUpdateToOneWithWhereWithoutProductsInput = {
+    where?: BannerWhereInput
+    data: XOR<BannerUpdateWithoutProductsInput, BannerUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type BannerUpdateWithoutProductsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    images?: BannerImageUpdateManyWithoutBannerNestedInput
+  }
+
+  export type BannerUncheckedUpdateWithoutProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    images?: BannerImageUncheckedUpdateManyWithoutBannerNestedInput
+  }
+
+  export type ProductUpsertWithoutBannerProductsInput = {
+    update: XOR<ProductUpdateWithoutBannerProductsInput, ProductUncheckedUpdateWithoutBannerProductsInput>
+    create: XOR<ProductCreateWithoutBannerProductsInput, ProductUncheckedCreateWithoutBannerProductsInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutBannerProductsInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutBannerProductsInput, ProductUncheckedUpdateWithoutBannerProductsInput>
+  }
+
+  export type ProductUpdateWithoutBannerProductsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    items?: ItemUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutBannerProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
+  }
+
   export type BannerCreateWithoutImagesInput = {
     title: string
     description: string
     text: string
+    order?: number
+    products?: BannerProductCreateNestedManyWithoutBannerInput
   }
 
   export type BannerUncheckedCreateWithoutImagesInput = {
@@ -17556,6 +23822,8 @@ export namespace Prisma {
     title: string
     description: string
     text: string
+    order?: number
+    products?: BannerProductUncheckedCreateNestedManyWithoutBannerInput
   }
 
   export type BannerCreateOrConnectWithoutImagesInput = {
@@ -17567,6 +23835,7 @@ export namespace Prisma {
     url: string
     productImages?: ProductImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutBannerImagesInput = {
@@ -17574,6 +23843,7 @@ export namespace Prisma {
     url: string
     productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutBannerImagesInput = {
@@ -17596,6 +23866,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    products?: BannerProductUpdateManyWithoutBannerNestedInput
   }
 
   export type BannerUncheckedUpdateWithoutImagesInput = {
@@ -17603,6 +23875,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    products?: BannerProductUncheckedUpdateManyWithoutBannerNestedInput
   }
 
   export type ImageUpsertWithoutBannerImagesInput = {
@@ -17620,6 +23894,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     productImages?: ProductImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutBannerImagesInput = {
@@ -17627,6 +23902,33 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
+  }
+
+  export type NewsBlockCreateWithoutNewsInput = {
+    title?: string | null
+    text?: string | null
+    order?: number
+    images?: NewsBlockImageCreateNestedManyWithoutBlockInput
+    products?: NewsBlockProductCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockUncheckedCreateWithoutNewsInput = {
+    id?: number
+    title?: string | null
+    text?: string | null
+    order?: number
+    images?: NewsBlockImageUncheckedCreateNestedManyWithoutBlockInput
+    products?: NewsBlockProductUncheckedCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockCreateOrConnectWithoutNewsInput = {
+    where: NewsBlockWhereUniqueInput
+    create: XOR<NewsBlockCreateWithoutNewsInput, NewsBlockUncheckedCreateWithoutNewsInput>
+  }
+
+  export type NewsBlockCreateManyNewsInputEnvelope = {
+    data: NewsBlockCreateManyNewsInput | NewsBlockCreateManyNewsInput[]
   }
 
   export type NewsImageCreateWithoutNewsInput = {
@@ -17647,6 +23949,33 @@ export namespace Prisma {
     data: NewsImageCreateManyNewsInput | NewsImageCreateManyNewsInput[]
   }
 
+  export type NewsBlockUpsertWithWhereUniqueWithoutNewsInput = {
+    where: NewsBlockWhereUniqueInput
+    update: XOR<NewsBlockUpdateWithoutNewsInput, NewsBlockUncheckedUpdateWithoutNewsInput>
+    create: XOR<NewsBlockCreateWithoutNewsInput, NewsBlockUncheckedCreateWithoutNewsInput>
+  }
+
+  export type NewsBlockUpdateWithWhereUniqueWithoutNewsInput = {
+    where: NewsBlockWhereUniqueInput
+    data: XOR<NewsBlockUpdateWithoutNewsInput, NewsBlockUncheckedUpdateWithoutNewsInput>
+  }
+
+  export type NewsBlockUpdateManyWithWhereWithoutNewsInput = {
+    where: NewsBlockScalarWhereInput
+    data: XOR<NewsBlockUpdateManyMutationInput, NewsBlockUncheckedUpdateManyWithoutNewsInput>
+  }
+
+  export type NewsBlockScalarWhereInput = {
+    AND?: NewsBlockScalarWhereInput | NewsBlockScalarWhereInput[]
+    OR?: NewsBlockScalarWhereInput[]
+    NOT?: NewsBlockScalarWhereInput | NewsBlockScalarWhereInput[]
+    id?: IntFilter<"NewsBlock"> | number
+    title?: StringNullableFilter<"NewsBlock"> | string | null
+    text?: StringNullableFilter<"NewsBlock"> | string | null
+    order?: IntFilter<"NewsBlock"> | number
+    newsId?: IntFilter<"NewsBlock"> | number
+  }
+
   export type NewsImageUpsertWithWhereUniqueWithoutNewsInput = {
     where: NewsImageWhereUniqueInput
     update: XOR<NewsImageUpdateWithoutNewsInput, NewsImageUncheckedUpdateWithoutNewsInput>
@@ -17663,21 +23992,342 @@ export namespace Prisma {
     data: XOR<NewsImageUpdateManyMutationInput, NewsImageUncheckedUpdateManyWithoutNewsInput>
   }
 
+  export type NewsCreateWithoutContentBlocksInput = {
+    title: string
+    description: string
+    tag?: string
+    date?: Date | string
+    images?: NewsImageCreateNestedManyWithoutNewsInput
+  }
+
+  export type NewsUncheckedCreateWithoutContentBlocksInput = {
+    id?: number
+    title: string
+    description: string
+    tag?: string
+    date?: Date | string
+    images?: NewsImageUncheckedCreateNestedManyWithoutNewsInput
+  }
+
+  export type NewsCreateOrConnectWithoutContentBlocksInput = {
+    where: NewsWhereUniqueInput
+    create: XOR<NewsCreateWithoutContentBlocksInput, NewsUncheckedCreateWithoutContentBlocksInput>
+  }
+
+  export type NewsBlockImageCreateWithoutBlockInput = {
+    image: ImageCreateNestedOneWithoutNewsBlockImagesInput
+  }
+
+  export type NewsBlockImageUncheckedCreateWithoutBlockInput = {
+    id?: number
+    imageId: number
+  }
+
+  export type NewsBlockImageCreateOrConnectWithoutBlockInput = {
+    where: NewsBlockImageWhereUniqueInput
+    create: XOR<NewsBlockImageCreateWithoutBlockInput, NewsBlockImageUncheckedCreateWithoutBlockInput>
+  }
+
+  export type NewsBlockImageCreateManyBlockInputEnvelope = {
+    data: NewsBlockImageCreateManyBlockInput | NewsBlockImageCreateManyBlockInput[]
+  }
+
+  export type NewsBlockProductCreateWithoutBlockInput = {
+    product: ProductCreateNestedOneWithoutNewsBlockProductsInput
+  }
+
+  export type NewsBlockProductUncheckedCreateWithoutBlockInput = {
+    productId: number
+  }
+
+  export type NewsBlockProductCreateOrConnectWithoutBlockInput = {
+    where: NewsBlockProductWhereUniqueInput
+    create: XOR<NewsBlockProductCreateWithoutBlockInput, NewsBlockProductUncheckedCreateWithoutBlockInput>
+  }
+
+  export type NewsBlockProductCreateManyBlockInputEnvelope = {
+    data: NewsBlockProductCreateManyBlockInput | NewsBlockProductCreateManyBlockInput[]
+  }
+
+  export type NewsUpsertWithoutContentBlocksInput = {
+    update: XOR<NewsUpdateWithoutContentBlocksInput, NewsUncheckedUpdateWithoutContentBlocksInput>
+    create: XOR<NewsCreateWithoutContentBlocksInput, NewsUncheckedCreateWithoutContentBlocksInput>
+    where?: NewsWhereInput
+  }
+
+  export type NewsUpdateToOneWithWhereWithoutContentBlocksInput = {
+    where?: NewsWhereInput
+    data: XOR<NewsUpdateWithoutContentBlocksInput, NewsUncheckedUpdateWithoutContentBlocksInput>
+  }
+
+  export type NewsUpdateWithoutContentBlocksInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: NewsImageUpdateManyWithoutNewsNestedInput
+  }
+
+  export type NewsUncheckedUpdateWithoutContentBlocksInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: NewsImageUncheckedUpdateManyWithoutNewsNestedInput
+  }
+
+  export type NewsBlockImageUpsertWithWhereUniqueWithoutBlockInput = {
+    where: NewsBlockImageWhereUniqueInput
+    update: XOR<NewsBlockImageUpdateWithoutBlockInput, NewsBlockImageUncheckedUpdateWithoutBlockInput>
+    create: XOR<NewsBlockImageCreateWithoutBlockInput, NewsBlockImageUncheckedCreateWithoutBlockInput>
+  }
+
+  export type NewsBlockImageUpdateWithWhereUniqueWithoutBlockInput = {
+    where: NewsBlockImageWhereUniqueInput
+    data: XOR<NewsBlockImageUpdateWithoutBlockInput, NewsBlockImageUncheckedUpdateWithoutBlockInput>
+  }
+
+  export type NewsBlockImageUpdateManyWithWhereWithoutBlockInput = {
+    where: NewsBlockImageScalarWhereInput
+    data: XOR<NewsBlockImageUpdateManyMutationInput, NewsBlockImageUncheckedUpdateManyWithoutBlockInput>
+  }
+
+  export type NewsBlockProductUpsertWithWhereUniqueWithoutBlockInput = {
+    where: NewsBlockProductWhereUniqueInput
+    update: XOR<NewsBlockProductUpdateWithoutBlockInput, NewsBlockProductUncheckedUpdateWithoutBlockInput>
+    create: XOR<NewsBlockProductCreateWithoutBlockInput, NewsBlockProductUncheckedCreateWithoutBlockInput>
+  }
+
+  export type NewsBlockProductUpdateWithWhereUniqueWithoutBlockInput = {
+    where: NewsBlockProductWhereUniqueInput
+    data: XOR<NewsBlockProductUpdateWithoutBlockInput, NewsBlockProductUncheckedUpdateWithoutBlockInput>
+  }
+
+  export type NewsBlockProductUpdateManyWithWhereWithoutBlockInput = {
+    where: NewsBlockProductScalarWhereInput
+    data: XOR<NewsBlockProductUpdateManyMutationInput, NewsBlockProductUncheckedUpdateManyWithoutBlockInput>
+  }
+
+  export type NewsBlockCreateWithoutImagesInput = {
+    title?: string | null
+    text?: string | null
+    order?: number
+    news: NewsCreateNestedOneWithoutContentBlocksInput
+    products?: NewsBlockProductCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockUncheckedCreateWithoutImagesInput = {
+    id?: number
+    title?: string | null
+    text?: string | null
+    order?: number
+    newsId: number
+    products?: NewsBlockProductUncheckedCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockCreateOrConnectWithoutImagesInput = {
+    where: NewsBlockWhereUniqueInput
+    create: XOR<NewsBlockCreateWithoutImagesInput, NewsBlockUncheckedCreateWithoutImagesInput>
+  }
+
+  export type ImageCreateWithoutNewsBlockImagesInput = {
+    url: string
+    productImages?: ProductImageCreateNestedManyWithoutImageInput
+    bannerImages?: BannerImageCreateNestedManyWithoutImageInput
+    newsImages?: NewsImageCreateNestedManyWithoutImageInput
+  }
+
+  export type ImageUncheckedCreateWithoutNewsBlockImagesInput = {
+    id?: number
+    url: string
+    productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
+    bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
+    newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
+  }
+
+  export type ImageCreateOrConnectWithoutNewsBlockImagesInput = {
+    where: ImageWhereUniqueInput
+    create: XOR<ImageCreateWithoutNewsBlockImagesInput, ImageUncheckedCreateWithoutNewsBlockImagesInput>
+  }
+
+  export type NewsBlockUpsertWithoutImagesInput = {
+    update: XOR<NewsBlockUpdateWithoutImagesInput, NewsBlockUncheckedUpdateWithoutImagesInput>
+    create: XOR<NewsBlockCreateWithoutImagesInput, NewsBlockUncheckedCreateWithoutImagesInput>
+    where?: NewsBlockWhereInput
+  }
+
+  export type NewsBlockUpdateToOneWithWhereWithoutImagesInput = {
+    where?: NewsBlockWhereInput
+    data: XOR<NewsBlockUpdateWithoutImagesInput, NewsBlockUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type NewsBlockUpdateWithoutImagesInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    news?: NewsUpdateOneRequiredWithoutContentBlocksNestedInput
+    products?: NewsBlockProductUpdateManyWithoutBlockNestedInput
+  }
+
+  export type NewsBlockUncheckedUpdateWithoutImagesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    newsId?: IntFieldUpdateOperationsInput | number
+    products?: NewsBlockProductUncheckedUpdateManyWithoutBlockNestedInput
+  }
+
+  export type ImageUpsertWithoutNewsBlockImagesInput = {
+    update: XOR<ImageUpdateWithoutNewsBlockImagesInput, ImageUncheckedUpdateWithoutNewsBlockImagesInput>
+    create: XOR<ImageCreateWithoutNewsBlockImagesInput, ImageUncheckedCreateWithoutNewsBlockImagesInput>
+    where?: ImageWhereInput
+  }
+
+  export type ImageUpdateToOneWithWhereWithoutNewsBlockImagesInput = {
+    where?: ImageWhereInput
+    data: XOR<ImageUpdateWithoutNewsBlockImagesInput, ImageUncheckedUpdateWithoutNewsBlockImagesInput>
+  }
+
+  export type ImageUpdateWithoutNewsBlockImagesInput = {
+    url?: StringFieldUpdateOperationsInput | string
+    productImages?: ProductImageUpdateManyWithoutImageNestedInput
+    bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
+    newsImages?: NewsImageUpdateManyWithoutImageNestedInput
+  }
+
+  export type ImageUncheckedUpdateWithoutNewsBlockImagesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
+    bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
+    newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
+  }
+
+  export type NewsBlockCreateWithoutProductsInput = {
+    title?: string | null
+    text?: string | null
+    order?: number
+    news: NewsCreateNestedOneWithoutContentBlocksInput
+    images?: NewsBlockImageCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockUncheckedCreateWithoutProductsInput = {
+    id?: number
+    title?: string | null
+    text?: string | null
+    order?: number
+    newsId: number
+    images?: NewsBlockImageUncheckedCreateNestedManyWithoutBlockInput
+  }
+
+  export type NewsBlockCreateOrConnectWithoutProductsInput = {
+    where: NewsBlockWhereUniqueInput
+    create: XOR<NewsBlockCreateWithoutProductsInput, NewsBlockUncheckedCreateWithoutProductsInput>
+  }
+
+  export type ProductCreateWithoutNewsBlockProductsInput = {
+    name: string
+    price: number
+    description?: string | null
+    category: CategoryCreateNestedOneWithoutProductsInput
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    items?: ItemCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutNewsBlockProductsInput = {
+    id?: number
+    name: string
+    price: number
+    description?: string | null
+    categoryId: number
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutNewsBlockProductsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutNewsBlockProductsInput, ProductUncheckedCreateWithoutNewsBlockProductsInput>
+  }
+
+  export type NewsBlockUpsertWithoutProductsInput = {
+    update: XOR<NewsBlockUpdateWithoutProductsInput, NewsBlockUncheckedUpdateWithoutProductsInput>
+    create: XOR<NewsBlockCreateWithoutProductsInput, NewsBlockUncheckedCreateWithoutProductsInput>
+    where?: NewsBlockWhereInput
+  }
+
+  export type NewsBlockUpdateToOneWithWhereWithoutProductsInput = {
+    where?: NewsBlockWhereInput
+    data: XOR<NewsBlockUpdateWithoutProductsInput, NewsBlockUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type NewsBlockUpdateWithoutProductsInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    news?: NewsUpdateOneRequiredWithoutContentBlocksNestedInput
+    images?: NewsBlockImageUpdateManyWithoutBlockNestedInput
+  }
+
+  export type NewsBlockUncheckedUpdateWithoutProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    newsId?: IntFieldUpdateOperationsInput | number
+    images?: NewsBlockImageUncheckedUpdateManyWithoutBlockNestedInput
+  }
+
+  export type ProductUpsertWithoutNewsBlockProductsInput = {
+    update: XOR<ProductUpdateWithoutNewsBlockProductsInput, ProductUncheckedUpdateWithoutNewsBlockProductsInput>
+    create: XOR<ProductCreateWithoutNewsBlockProductsInput, ProductUncheckedCreateWithoutNewsBlockProductsInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutNewsBlockProductsInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutNewsBlockProductsInput, ProductUncheckedUpdateWithoutNewsBlockProductsInput>
+  }
+
+  export type ProductUpdateWithoutNewsBlockProductsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    items?: ItemUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutNewsBlockProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
+  }
+
   export type NewsCreateWithoutImagesInput = {
     title: string
     description: string
-    text?: string
-    date?: Date | string
     tag?: string
+    date?: Date | string
+    contentBlocks?: NewsBlockCreateNestedManyWithoutNewsInput
   }
 
   export type NewsUncheckedCreateWithoutImagesInput = {
     id?: number
     title: string
     description: string
-    text?: string
-    date?: Date | string
     tag?: string
+    date?: Date | string
+    contentBlocks?: NewsBlockUncheckedCreateNestedManyWithoutNewsInput
   }
 
   export type NewsCreateOrConnectWithoutImagesInput = {
@@ -17689,6 +24339,7 @@ export namespace Prisma {
     url: string
     productImages?: ProductImageCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutNewsImagesInput = {
@@ -17696,6 +24347,7 @@ export namespace Prisma {
     url: string
     productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutNewsImagesInput = {
@@ -17717,18 +24369,18 @@ export namespace Prisma {
   export type NewsUpdateWithoutImagesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlocks?: NewsBlockUpdateManyWithoutNewsNestedInput
   }
 
   export type NewsUncheckedUpdateWithoutImagesInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlocks?: NewsBlockUncheckedUpdateManyWithoutNewsNestedInput
   }
 
   export type ImageUpsertWithoutNewsImagesInput = {
@@ -17746,6 +24398,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     productImages?: ProductImageUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutNewsImagesInput = {
@@ -17753,6 +24406,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type UserCreateWithoutOrdersInput = {
@@ -17875,6 +24529,8 @@ export namespace Prisma {
     description?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutItemsInput = {
@@ -17884,6 +24540,8 @@ export namespace Prisma {
     description?: string | null
     categoryId: number
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutItemsInput = {
@@ -17950,6 +24608,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutItemsInput = {
@@ -17959,6 +24619,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type OrderCreateManyUserInput = {
@@ -18035,6 +24697,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     images?: ProductImageUpdateManyWithoutProductNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutCategoryInput = {
@@ -18044,6 +24708,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
@@ -18062,6 +24728,14 @@ export namespace Prisma {
     id?: number
     orderId: number
     quantity: number
+  }
+
+  export type BannerProductCreateManyProductInput = {
+    bannerId: number
+  }
+
+  export type NewsBlockProductCreateManyProductInput = {
+    blockId: number
   }
 
   export type ProductImageUpdateWithoutProductInput = {
@@ -18095,6 +24769,30 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
   }
 
+  export type BannerProductUpdateWithoutProductInput = {
+    banner?: BannerUpdateOneRequiredWithoutProductsNestedInput
+  }
+
+  export type BannerProductUncheckedUpdateWithoutProductInput = {
+    bannerId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BannerProductUncheckedUpdateManyWithoutProductInput = {
+    bannerId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockProductUpdateWithoutProductInput = {
+    block?: NewsBlockUpdateOneRequiredWithoutProductsNestedInput
+  }
+
+  export type NewsBlockProductUncheckedUpdateWithoutProductInput = {
+    blockId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockProductUncheckedUpdateManyWithoutProductInput = {
+    blockId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type ProductImageCreateManyImageInput = {
     id?: number
     productId: number
@@ -18108,6 +24806,11 @@ export namespace Prisma {
   export type NewsImageCreateManyImageInput = {
     id?: number
     newsId: number
+  }
+
+  export type NewsBlockImageCreateManyImageInput = {
+    id?: number
+    blockId: number
   }
 
   export type ProductImageUpdateWithoutImageInput = {
@@ -18152,9 +24855,27 @@ export namespace Prisma {
     newsId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type NewsBlockImageUpdateWithoutImageInput = {
+    block?: NewsBlockUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type NewsBlockImageUncheckedUpdateWithoutImageInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    blockId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockImageUncheckedUpdateManyWithoutImageInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    blockId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type BannerImageCreateManyBannerInput = {
     id?: number
     imageId: number
+  }
+
+  export type BannerProductCreateManyBannerInput = {
+    productId: number
   }
 
   export type BannerImageUpdateWithoutBannerInput = {
@@ -18171,9 +24892,52 @@ export namespace Prisma {
     imageId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type BannerProductUpdateWithoutBannerInput = {
+    product?: ProductUpdateOneRequiredWithoutBannerProductsNestedInput
+  }
+
+  export type BannerProductUncheckedUpdateWithoutBannerInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BannerProductUncheckedUpdateManyWithoutBannerInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockCreateManyNewsInput = {
+    id?: number
+    title?: string | null
+    text?: string | null
+    order?: number
+  }
+
   export type NewsImageCreateManyNewsInput = {
     id?: number
     imageId: number
+  }
+
+  export type NewsBlockUpdateWithoutNewsInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    images?: NewsBlockImageUpdateManyWithoutBlockNestedInput
+    products?: NewsBlockProductUpdateManyWithoutBlockNestedInput
+  }
+
+  export type NewsBlockUncheckedUpdateWithoutNewsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    images?: NewsBlockImageUncheckedUpdateManyWithoutBlockNestedInput
+    products?: NewsBlockProductUncheckedUpdateManyWithoutBlockNestedInput
+  }
+
+  export type NewsBlockUncheckedUpdateManyWithoutNewsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
   }
 
   export type NewsImageUpdateWithoutNewsInput = {
@@ -18188,6 +24952,41 @@ export namespace Prisma {
   export type NewsImageUncheckedUpdateManyWithoutNewsInput = {
     id?: IntFieldUpdateOperationsInput | number
     imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockImageCreateManyBlockInput = {
+    id?: number
+    imageId: number
+  }
+
+  export type NewsBlockProductCreateManyBlockInput = {
+    productId: number
+  }
+
+  export type NewsBlockImageUpdateWithoutBlockInput = {
+    image?: ImageUpdateOneRequiredWithoutNewsBlockImagesNestedInput
+  }
+
+  export type NewsBlockImageUncheckedUpdateWithoutBlockInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockImageUncheckedUpdateManyWithoutBlockInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockProductUpdateWithoutBlockInput = {
+    product?: ProductUpdateOneRequiredWithoutNewsBlockProductsNestedInput
+  }
+
+  export type NewsBlockProductUncheckedUpdateWithoutBlockInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NewsBlockProductUncheckedUpdateManyWithoutBlockInput = {
+    productId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ItemCreateManyOrderInput = {

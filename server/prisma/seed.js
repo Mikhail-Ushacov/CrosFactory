@@ -118,37 +118,37 @@ async function main() {
   console.log('🖼️ Банери створені');
 
   // 4. НОВИНИ
-  const newsData = [
-    {
-      title: 'Ми відкрили новий магазин!',
-      description: 'Чекаємо на вас у центрі міста.',
-      text: 'Раді повідомити, що тепер ми стали ще ближче. Новий шоурум працює щодня з 10:00 до 20:00.',
-      tag: 'Події',
-      img: 'https://picsum.photos/seed/news1/800/500'
-    },
-    {
-      title: 'Як обрати якісну техніку?',
-      description: 'Поради від наших експертів.',
-      text: 'У цій статті ми розберемо основні критерії вибору сучасної електроніки для дому.',
-      tag: 'Блог',
-      img: 'https://picsum.photos/seed/news2/800/500'
-    }
-  ];
+  // const newsData = [
+  //   {
+  //     title: 'Ми відкрили новий магазин!',
+  //     description: 'Чекаємо на вас у центрі міста.',
+  //     text: 'Раді повідомити, що тепер ми стали ще ближче. Новий шоурум працює щодня з 10:00 до 20:00.',
+  //     tag: 'Події',
+  //     img: 'https://picsum.photos/seed/news1/800/500'
+  //   },
+  //   {
+  //     title: 'Як обрати якісну техніку?',
+  //     description: 'Поради від наших експертів.',
+  //     text: 'У цій статті ми розберемо основні критерії вибору сучасної електроніки для дому.',
+  //     tag: 'Блог',
+  //     img: 'https://picsum.photos/seed/news2/800/500'
+  //   }
+  // ];
 
-  for (const n of newsData) {
-    await prisma.news.create({
-      data: {
-        title: n.title,
-        description: n.description,
-        text: n.text,
-        tag: n.tag,
-        images: {
-          create: [{ image: { create: { url: n.img } } }]
-        }
-      }
-    });
-  }
-  console.log('📰 Новини додані');
+  // for (const n of newsData) {
+  //   await prisma.news.create({
+  //     data: {
+  //       title: n.title,
+  //       description: n.description,
+  //       text: n.text,
+  //       tag: n.tag,
+  //       images: {
+  //         create: [{ image: { create: { url: n.img } } }]
+  //       }
+  //     }
+  //   });
+  // }
+  // console.log('📰 Новини додані');
 
   // 5. ЗАМОВЛЕННЯ (Тестові дані для кабінету користувача)
   const allProducts = await prisma.product.findMany();

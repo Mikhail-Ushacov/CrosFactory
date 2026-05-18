@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Newspaper, Calendar, ArrowRight, Loader2 } from 'lucide-react';
+import { Calendar, Tag, Loader2, ArrowRight, Newspaper } from 'lucide-react';
 import api from '../api';
 
+// Визначаємо інтерфейс для новини
 interface NewsItem {
   id: number;
   title: string;
@@ -19,61 +20,81 @@ export const NewsList = () => {
   useEffect(() => {
     api.get('/news')
       .then(res => setNews(res.data))
+      .catch(err => console.error("Помилка завантаження новин:", err))
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex flex-col items-center justify-center p-20 gap-4">
         <Loader2 className="animate-spin text-indigo-600" size={40} />
+        <p className="text-slate-400 font-medium">Завантаження стрічки новин...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-black text-slate-900 mb-4">Новини та Акції</h1>
-        <p className="text-slate-500">Дізнавайтеся першими про наші новинки та спеціальні пропозиції</p>
-      </div>
+    <div className="max-w-6xl mx-auto pb-20">
+      <header className="mb-12 text-center md:text-left">
+        <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+            <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                <Newspaper size={24} />
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black text-slate-900">Новини та статті</h1>
+        </div>
+        <p className="text-slate-500 text-lg max-w-2xl">
+          Дізнавайтесь першими про нові надходження, акції та корисні поради від наших експертів.
+        </p>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {news.map((item) => (
-          <Link 
-            key={item.id} 
-            to={`/news/${item.id}`}
-            className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col"
-          >
-            <div className="aspect-video overflow-hidden bg-slate-100">
-              <img 
-                src={item.images[0] || 'https://via.placeholder.com/600x400?text=No+Image'} 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                alt={item.title}
-              />
-            </div>
-            <div className="p-6 flex flex-col flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="px-2 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-lg uppercase tracking-wider">
-                  {item.tag}
-                </span>
-                <span className="flex items-center gap-1 text-slate-400 text-[10px] font-bold uppercase">
-                  <Calendar size={12} />
-                  {new Date(item.date).toLocaleDateString()}
-                </span>
+      {news.length === 0 ? (
+        <div className="bg-white rounded-3xl p-20 text-center border border-dashed border-slate-200">
+          <p className="text-slate-400">Наразі новин немає. Заходьте пізніше!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {news.map((item) => (
+            <Link 
+              key={item.id} 
+              to={`/news/${item.id}`} 
+              className="group bg-white rounded-[2rem] border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-500 flex flex-col"
+            >
+              <div className="aspect-[16/10] overflow-hidden bg-slate-50 relative">
+                <img 
+                  src={item.images[0] || 'https://via.placeholder.com/600x400?text=No+Image'} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  alt={item.title} 
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="px-3 py-1 bg-white/90 backdrop-blur-md text-indigo-600 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
+                    {item.tag}
+                  </span>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-slate-500 text-sm line-clamp-3 mb-6 flex-1">
-                {item.description}
-              </p>
-              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm">
-                Читати далі <ArrowRight size={16} />
+
+              <div className="p-6 md:p-8 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-4">
+                  <Calendar size={14} />
+                  {new Date(item.date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </div>
+
+                <h2 className="text-xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-indigo-600 transition-colors">
+                  {item.title}
+                </h2>
+
+                <p className="text-slate-500 text-sm line-clamp-3 mb-6 leading-relaxed">
+                  {item.description}
+                </p>
+
+                <div className="mt-auto pt-6 border-t border-slate-50 flex items-center gap-2 text-indigo-600 font-bold text-sm">
+                  Читати далі 
+                  <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

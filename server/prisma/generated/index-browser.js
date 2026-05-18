@@ -153,7 +153,13 @@ exports.Prisma.BannerScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  text: 'text'
+  text: 'text',
+  order: 'order'
+};
+
+exports.Prisma.BannerProductScalarFieldEnum = {
+  bannerId: 'bannerId',
+  productId: 'productId'
 };
 
 exports.Prisma.BannerImageScalarFieldEnum = {
@@ -166,9 +172,27 @@ exports.Prisma.NewsScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  tag: 'tag',
+  date: 'date'
+};
+
+exports.Prisma.NewsBlockScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
   text: 'text',
-  date: 'date',
-  tag: 'tag'
+  order: 'order',
+  newsId: 'newsId'
+};
+
+exports.Prisma.NewsBlockImageScalarFieldEnum = {
+  id: 'id',
+  blockId: 'blockId',
+  imageId: 'imageId'
+};
+
+exports.Prisma.NewsBlockProductScalarFieldEnum = {
+  blockId: 'blockId',
+  productId: 'productId'
 };
 
 exports.Prisma.NewsImageScalarFieldEnum = {
@@ -218,8 +242,12 @@ exports.Prisma.ModelName = {
   Image: 'Image',
   ProductImage: 'ProductImage',
   Banner: 'Banner',
+  BannerProduct: 'BannerProduct',
   BannerImage: 'BannerImage',
   News: 'News',
+  NewsBlock: 'NewsBlock',
+  NewsBlockImage: 'NewsBlockImage',
+  NewsBlockProduct: 'NewsBlockProduct',
   NewsImage: 'NewsImage',
   Order: 'Order',
   Item: 'Item'

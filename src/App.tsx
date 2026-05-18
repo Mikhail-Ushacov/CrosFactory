@@ -26,11 +26,10 @@ import { Register } from './pages/Register';
 import { UserProfile } from './pages/UserProfile';
 import { AdminProfile } from './pages/AdminProfile';
 import { AdminProductForm } from './pages/AdminProductForm';
-import { AdminContentForm } from './pages/AdminContentForm';
 import { AdminContentManager } from './pages/AdminContentManager';
 import { AdminDatabaseManager } from './pages/AdminDatabaseManager';
-import { NewsList } from './pages/NewsList';
-import { NewsDetails } from './pages/NewsDetails';
+import { BannerForm } from './pages/forms/BannerForm';
+import { NewsForm } from './pages/forms/NewsForm';
 import { Home } from './pages/Home';
 
 // Оновлений PrivateRoute
@@ -203,8 +202,7 @@ function App() {
                   <Route path="/admin/product/edit/:id" element={<PrivateRoute roles={['admin', 'moderator']}><AdminProductForm /></PrivateRoute>} />
                   
                   <Route path="/admin/content" element={<PrivateRoute roles={['admin', 'moderator']}><AdminContentManager /></PrivateRoute>} />
-                  <Route path="/admin/content/new" element={<PrivateRoute roles={['admin', 'moderator']}><AdminContentForm /></PrivateRoute>} />
-                  
+
                   <Route path="/admin/database" element={<PrivateRoute roles={['admin']}><AdminDatabaseManager /></PrivateRoute>} />
                   
                   {/* Документи зазвичай доступні стафу */}
@@ -213,8 +211,10 @@ function App() {
                   <Route path="/outvoice/:id" element={<PrivateRoute><ProformaInvoice /></PrivateRoute>} />
                   <Route path="/invoice/:id" element={<PrivateRoute><InvoiceTemplate /></PrivateRoute>} />
 
-                  <Route path="/news" element={<NewsList />} />
-                  <Route path="/news/:id" element={<NewsDetails />} />
+                  <Route path="/admin/content/banner/new" element={<BannerForm />} />
+                  <Route path="/admin/content/banner/:id" element={<BannerForm />} />
+                  <Route path="/admin/content/news/new" element={<NewsForm />} />
+                  <Route path="/admin/content/news/:id" element={<NewsForm />} />
 
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

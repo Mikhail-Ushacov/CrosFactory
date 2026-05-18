@@ -336,7 +336,80 @@ app.delete('/api/banners/:id', async (req, res) => {
   res.json({ message: "Deleted" });
 });
 
-// Аналогічно для Новин
+app.get('/api/banners/:id', async (req, res) => {
+  try {
+    const banner = await prisma.banner.findUnique({
+      where: { id: parseInt(req.params.id) },
+      include: { 
+        images: { include: { image: true } },
+        products: { 
+          include: { 
+            product: { 
+              include: { 
+                images: { include: { image: true }, take: 1 } 
+              } 
+            } 
+          } 
+        }
+      }
+    });
+
+    if (!banner) return res.status(404).json({ message: "Банер не знайдено" });
+
+    // Форматуємо відповідь під потреби фронтенда
+    res.json({
+      ...banner,
+      images: banner.images.map(img => img.image.url),
+      products: banner.products.map(p => ({
+        ...p.product,
+        main_image: p.product.images[0]?.image.url || ''
+      }))
+    });
+  } catch (e) {
+    res.status(500).json({ message: "Помилка сервера: " + e.message });
+  }
+});
+
+// Оновлення банера
+app.put('/api/banners/:id', upload.array('files'), async (req, res) => {
+  try {
+    const bannerId = parseInt(req.params.id);
+    const { title, description, text, existing_urls, productIds } = req.body;
+    
+    const urls = JSON.parse(existing_urls || '[]');
+    const pIds = JSON.parse(productIds || '[]');
+    const fileUrls = req.files.map(file => `${BASE_URL}/content/${file.filename}`);
+    const allImages = [...urls, ...fileUrls];
+
+    // Очищуємо старі зв'язки
+    await prisma.bannerImage.deleteMany({ where: { bannerId } });
+    await prisma.bannerProduct.deleteMany({ where: { bannerId } });
+
+    const banner = await prisma.banner.update({
+      where: { id: bannerId },
+      data: {
+        title, 
+        description, 
+        text,
+        images: { 
+          create: allImages.map(url => ({ 
+            image: { create: { url } } 
+          })) 
+        },
+        products: {
+          create: pIds.map(pid => ({
+            product: { connect: { id: parseInt(pid) } }
+          }))
+        }
+      }
+    });
+    res.json(banner);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+//Новини
 app.get('/api/news', async (req, res) => {
   const news = await prisma.news.findMany({
     orderBy: { date: 'desc' },
@@ -506,3 +579,168 @@ app.get('/api/admin/stats', isStaff, async (req, res) => {
   const usersCount = await prisma.user.count();
   res.json({ orders, productsCount, usersCount });
 });
+
+// --- НОВИНИ (Оновлено) ---
+
+app.get('/api/news/:id', async (req, res) => {
+  try {
+    const item = await prisma.news.findUnique({
+      where: { id: parseInt(req.params.id) },
+      include: { 
+        contentBlocks: {
+          orderBy: { order: 'asc' },
+          include: { 
+            images: { include: { image: true } },
+            products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } }
+          }
+        }
+      }
+    });
+    
+    if (!item) return res.status(404).json({ message: "Новину не знайдено" });
+    
+    // Форматуємо для фронтенда
+    const formatted = {
+      ...item,
+      contentBlocks: item.contentBlocks.map(block => ({
+        ...block,
+        images: block.images.map(img => img.image.url),
+        products: block.products.map(p => ({
+          ...p.product,
+          main_image: p.product.images[0]?.image.url || ''
+        }))
+      }))
+    };
+    
+    res.json(formatted);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// --- НОВИНИ (Уніфікований та виправлений роут) ---
+
+// 1. Отримання списку (для NewsList)
+app.get('/api/news', async (req, res) => {
+  try {
+    const news = await prisma.news.findMany({
+      orderBy: { date: 'desc' },
+      include: { 
+        images: { include: { image: true } } // Головні фото новини
+      }
+    });
+    res.json(news.map(n => ({
+      ...n,
+      images: n.images.map(img => img.image.url)
+    })));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 2. Отримання детальної новини (для NewsDetails)
+app.get('/api/news/:id', async (req, res) => {
+  try {
+    const item = await prisma.news.findUnique({
+      where: { id: parseInt(req.params.id) },
+      include: { 
+        images: { include: { image: true } },
+        contentBlocks: {
+          orderBy: { order: 'asc' },
+          include: { 
+            images: { include: { image: true } },
+            products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } }
+          }
+        }
+      }
+    });
+    
+    if (!item) return res.status(404).json({ message: "Новину не знайдено" });
+    
+    res.json({
+      ...item,
+      images: item.images.map(img => img.image.url),
+      contentBlocks: item.contentBlocks.map(block => ({
+        ...block,
+        images: block.images.map(img => img.image.url),
+        products: block.products.map(p => ({
+          ...p.product,
+          main_image: p.product.images[0]?.image.url || ''
+        }))
+      }))
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// 3. Створення новини
+app.post('/api/news', upload.any(), async (req, res) => {
+  try {
+    const { title, description, tag, contentBlocks } = req.body;
+    const parsedBlocks = JSON.parse(contentBlocks || '[]');
+
+    // Шукаємо файли для головного фото (якщо вони передані як 'files')
+    const mainFiles = req.files.filter(f => f.fieldname === 'files');
+
+    const news = await prisma.news.create({
+      data: {
+        title,
+        description: description || "",
+        tag: tag || 'Новини',
+        // Головні зображення новини
+        images: {
+          create: mainFiles.map(file => ({
+            image: { create: { url: `${BASE_URL}/content/${file.filename}` } }
+          }))
+        },
+        contentBlocks: {
+          create: parsedBlocks.map((block, index) => {
+            // Файли конкретно для цього блоку
+            const blockFiles = req.files.filter(f => f.fieldname === `block_images_${index}`);
+            
+            return {
+              title: block.title,
+              text: block.text,
+              order: index,
+              images: {
+                create: blockFiles.map(file => ({
+                  image: { create: { url: `${BASE_URL}/content/${file.filename}` } }
+                }))
+              },
+              products: {
+                create: (block.productIds || []).map(pid => ({
+                  product: { connect: { id: parseInt(pid) } }
+                }))
+              }
+            };
+          })
+        }
+      }
+    });
+    res.status(201).json(news);
+  } catch (error) {
+    console.error("Server Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// --- БАНЕРИ (Оновлено) ---
+app.get('/api/banners', async (req, res) => {
+  const banners = await prisma.banner.findMany({
+    orderBy: { order: 'asc' },
+    include: { 
+      images: { include: { image: true } },
+      products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } }
+    }
+  });
+  res.json(banners.map(b => ({
+    ...b,
+    images: b.images.map(img => img.image.url),
+    products: b.products.map(p => ({
+      ...p.product,
+      main_image: p.product.images[0]?.image.url || ''
+    }))
+  })));
+});
+

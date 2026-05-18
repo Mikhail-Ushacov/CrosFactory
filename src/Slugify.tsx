@@ -1,0 +1,18 @@
+const slugify = (text: string) => {
+  const ukr = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'h', 'ґ': 'g', 'д': 'd', 'е': 'e', 'є': 'ye', 'ж': 'zh', 'з': 'z',
+    'и': 'y', 'і': 'i', 'ї': 'yi', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p',
+    'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+    'ь': '', 'ю': 'yu', 'я': 'ya', ' ': '-', '_': '-'
+  };
+  return text
+    .toLowerCase()
+    .split('')
+    .map(char => ukr[char as keyof typeof ukr] !== undefined ? ukr[char as keyof typeof ukr] : char)
+    .join('')
+    .replace(/[^-a-z0-9]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
+export default slugify;
