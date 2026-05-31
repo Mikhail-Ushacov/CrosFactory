@@ -39,11 +39,17 @@ export const ProductDetails = () => {
         {/* Галерея: зверху на мобільних */}
         <div className="space-y-3">
           <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-white border border-slate-100 shadow-sm">
-            <img 
-              src={activeImage} 
-              alt={product.name} 
-              className="w-full h-full object-contain p-4 transition-all duration-500"
-            />
+            {activeImage ? (
+              <img 
+                src={activeImage} 
+                alt={product.name} 
+                className="w-full h-full object-contain p-4 transition-all duration-500"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-slate-50 text-slate-300">
+                <ShoppingBag size={48} />
+              </div>
+            )}
           </div>
           {/* Мініатюри: горизонтальний скрол якщо їх багато */}
           <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">

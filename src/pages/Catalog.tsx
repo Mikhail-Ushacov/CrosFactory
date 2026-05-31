@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Product, Category } from '../types';
 import { useCart } from '../context/CartContext';
-import { Plus, ChevronDown, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import { Plus, ChevronDown, ChevronLeft, ChevronRight, Search, X, Package } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../api';
 
@@ -67,18 +67,19 @@ export const Catalog = () => {
 
   // Фільтрація
   const filteredAll = useMemo(() => {
-    return products.filter(p => {
-      // Перевіряємо категорію (по ID або по Slug)
-      const matchesCategory = activeCategory === 'all' || 
-                              String(p.category_id) === String(activeCategory) || 
-                              p.category_slug === activeCategory;
-      
-      const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            p.category_name.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      return matchesCategory && matchesSearch;
-    });
-  }, [products, activeCategory, searchQuery]);
+  return products.filter(p => {
+    // Використовуємо category_id (як на бекенді)
+    const matchesCategory = activeCategory === 'all' || 
+                            String(p.category_id) === String(activeCategory) || 
+                            p.category_slug === activeCategory;
+    
+    // Додаємо опціональний ланцюжок ?. для безпеки
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          (p.category_name?.toLowerCase() || '').includes(searchQuery.toLowerCase());
+    
+    return matchesCategory && matchesSearch;
+  });
+}, [products, activeCategory, searchQuery]);
 
   const totalPages = Math.ceil(filteredAll.length / itemsPerPage);
   
@@ -235,11 +236,17 @@ export const Catalog = () => {
           <div key={product.id} className="bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-2 md:p-3 hover:shadow-xl transition-all group flex flex-col">
             <Link to={`/product/${product.id}`} className="flex-1">
               <div className="aspect-square rounded-xl md:rounded-2xl overflow-hidden mb-3 md:mb-4 bg-slate-50">
+                {product.main_image ? (
                 <img 
                   src={product.main_image} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                   alt={product.name}
                 />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-slate-200">
+                  <Package size={48} />
+                </div>
+              )}
               </div>
               <div className="px-1 md:px-2">
                 <span className="text-[9px] md:text-[10px] uppercase font-bold text-slate-400 block mb-1">

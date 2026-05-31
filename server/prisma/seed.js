@@ -118,37 +118,48 @@ async function main() {
   console.log('🖼️ Банери створені');
 
   // 4. НОВИНИ
-  // const newsData = [
-  //   {
-  //     title: 'Ми відкрили новий магазин!',
-  //     description: 'Чекаємо на вас у центрі міста.',
-  //     text: 'Раді повідомити, що тепер ми стали ще ближче. Новий шоурум працює щодня з 10:00 до 20:00.',
-  //     tag: 'Події',
-  //     img: 'https://picsum.photos/seed/news1/800/500'
-  //   },
-  //   {
-  //     title: 'Як обрати якісну техніку?',
-  //     description: 'Поради від наших експертів.',
-  //     text: 'У цій статті ми розберемо основні критерії вибору сучасної електроніки для дому.',
-  //     tag: 'Блог',
-  //     img: 'https://picsum.photos/seed/news2/800/500'
-  //   }
-  // ];
+  const newsData = [
+    {
+      title: 'Нове надходження: Високоміцне кріплення класу 10.9',
+      description: 'Розширюємо асортимент болтів та гайок для високонавантажених конструкцій.',
+      text: 'Ми отримали велику партію кріплення класу міцності 10.9 та 12.9. Всі вироби сертифіковані згідно DIN 931 та DIN 933. Ідеально підходить для автомобільної промисловості та важкого машинобудування. Доступні розміри від М6 до М24.',
+      tag: 'Асортимент',
+      img: 'https://images.unsplash.com/photo-1530124560676-41999250e275?auto=format&fit=crop&q=80&w=800&h=500'
+    },
+    {
+      title: 'Як обрати саморізи для покрівлі',
+      description: 'Дізнайтесь, чому якісна EPDM-прокладка рятує ваш дах від протікання.',
+      text: 'У цій статті ми розберемо основні критерії вибору покрівельних саморізів. Чому важливо звертати увагу на товщину цинкового покриття та як перевірити якість гумової шайби.',
+      tag: 'Блог',
+      img: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?auto=format&fit=crop&q=80&w=800&h=500'
+    }
+  ];
 
-  // for (const n of newsData) {
-  //   await prisma.news.create({
-  //     data: {
-  //       title: n.title,
-  //       description: n.description,
-  //       text: n.text,
-  //       tag: n.tag,
-  //       images: {
-  //         create: [{ image: { create: { url: n.img } } }]
-  //       }
-  //     }
-  //   });
-  // }
-  // console.log('📰 Новини додані');
+  for (const n of newsData) {
+    await prisma.news.create({
+      data: {
+        title: n.title,
+        description: n.description,
+        tag: n.tag,
+        // Створюємо зв'язок із зображенням
+        images: {
+          create: [{
+            image: {
+              create: { url: n.img }
+            }
+          }]
+        },
+        // ВИПРАВЛЕНО: Переносимо текст у блоки контенту (contentBlocks)
+        contentBlocks: {
+          create: [{
+            title: 'Основна інформація',
+            text: n.text
+          }]
+        }
+      }
+    });
+  }
+  console.log('📰 Новини додані через contentBlocks');
 
   // 5. ЗАМОВЛЕННЯ (Тестові дані для кабінету користувача)
   const allProducts = await prisma.product.findMany();

@@ -18,11 +18,12 @@ export interface Product {
   name: string;
   price: number;
   description: string;
-  categoryId: number;
-  category_name?: string; // Поле з JOIN на сервері
-  category_slug?: string; // Поле з JOIN на сервері
-  main_image: string;     // URL першого фото
-  images: string[];       // Масив усіх URL-адрес зображень
+  categoryId: number;      // Для Prisma
+  category_id: number;     // Додайте це (те, що приходить з сервісу)
+  category_name: string;   // Приберіть "?" (сервіс завжди повертає назву або 'Без категорії')
+  category_slug: string;   // Приберіть "?"
+  main_image: string;
+  images: string[];
 }
 
 // --- Кошик ---

@@ -104,25 +104,52 @@ export const AdminDatabaseManager = () => {
   };
 
   const handleSave = async () => {
-    try {
-      const { id, ...payload } = editForm;
-      if (editingId === 'new') {
-        await api.post(`/admin/db/${selectedTable}`, payload);
-      } else {
-        await api.put(`/admin/db/${selectedTable}/${editingId}`, payload);
+  try {
+    const payload = { ...editForm };
+    
+    // Конвертуємо числові поля, якщо вони є
+    Object.keys(payload).forEach(key => {
+      if (key.toLowerCase().includes('id') || key === 'price' || key === 'order') {
+        if (payload[key] !== "" && payload[key] !== null) {
+          payload[key] = Number(payload[key]);
+        }
       }
-      setEditingId(null);
-      fetchData();
-    } catch (err: any) {
-      alert("Помилка: " + (err.response?.data?.error || err.message));
+    });
+
+    if (editingId === 'new') {
+      await api.post(`/admin/db/${selectedTable}`, payload);
+    } else {
+      await api.put(`/admin/db/${selectedTable}/${editingId}`, payload);
     }
-  };
+    setEditingId(null);
+    fetchData();
+  } catch (err: any) {
+    alert("Помилка при збереженні: " + (err.response?.data?.message || err.message));
+  }
+};
 
   const handleDelete = async (id: number) => {
     if (!confirm("Видалити?")) return;
     await api.delete(`/admin/db/${selectedTable}/${id}`);
     fetchData();
   };
+
+  const handleAddNew = () => {
+  if (data.length > 0) {
+    // Беремо всі ключі з першого елемента таблиці, крім системних
+    const schema = Object.keys(data[0]).reduce((acc, key) => {
+      if (!['id', 'createdAt', 'updatedAt'].includes(key)) {
+        acc[key] = ""; // Ініціалізуємо порожнім рядком
+      }
+      return acc;
+    }, {} as any);
+    setEditForm(schema);
+  } else {
+    // Якщо таблиця порожня, можна задати дефолтні поля або вивести помилку
+    setEditForm({ name: "" }); 
+  }
+  setEditingId('new');
+};
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 bg-slate-50 min-h-screen">
@@ -152,7 +179,10 @@ export const AdminDatabaseManager = () => {
         <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-slate-100 flex justify-between items-center">
             <h1 className="text-xl font-bold text-slate-900">{TABLES.find(t => t.id === selectedTable)?.name}</h1>
-            <button onClick={() => { setEditForm({}); setEditingId('new'); }} className="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+            <button 
+              onClick={handleAddNew} 
+              className="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2"
+            >
               <Plus size={18} /> Додати
             </button>
           </div>

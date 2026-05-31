@@ -243,15 +243,13 @@ export const AdminProductForm = () => {
               {images.map((img) => (
                 <div key={img.id} className="relative aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group">
                   <img src={img.preview} className="w-full h-full object-cover" alt="Preview" />
-                  {!isSaving && (
-                    <button 
-                      type="button"
-                      onClick={() => removeImage(img.id)}
-                      className="absolute top-1 right-1 bg-white/80 hover:bg-red-500 hover:text-white p-1 rounded-lg transition-all"
-                    >
-                      <X size={14} />
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => removeImage(img.id)}
+                    className="absolute top-1 right-1 p-1 bg-white/80 backdrop-blur rounded-lg text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm cursor-pointer"
+                  >
+                    <X size={14} />
+                  </button>
                 </div>
               ))}
             </div>

@@ -395,7 +395,10 @@ export const Home = () => {
             </Link>
           </h3>
           <div className="space-y-4">
-            {news.length > 0 ? news.slice(0, 3).map(item => (
+            {news.length > 0 ? [...news]
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Сортування за датою (нові зверху)
+              .slice(0, 2) // Відображаємо лише 2 новини
+              .map(item => (
               <Link 
                 key={item.id} 
                 to={`/news/${item.id}`} 
@@ -415,7 +418,6 @@ export const Home = () => {
                 <p className="text-xs text-slate-500 line-clamp-2">
                   {item.description}
                 </p>
-                {/* Додаємо візуальний підказку, що це посилання */}
                 <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider">
                   Читати далі <ArrowRight size={12} />
                 </div>
@@ -430,7 +432,8 @@ export const Home = () => {
             <a href="#" className="w-12 h-12 bg-white text-slate-900 border border-slate-100 rounded-2xl flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all shadow-sm"><InstagramIcon /></a>
           </div>
         </div>
-
+        
+        {/* Контакти */}
         <div className="lg:col-span-2 bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/20 blur-[100px] -z-0" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">

@@ -30,6 +30,8 @@ import { AdminContentManager } from './pages/AdminContentManager';
 import { AdminDatabaseManager } from './pages/AdminDatabaseManager';
 import { BannerForm } from './pages/forms/BannerForm';
 import { NewsForm } from './pages/forms/NewsForm';
+import { NewsList } from './pages/NewsList';
+import { NewsDetails } from './pages/NewsDetails';
 import { Home } from './pages/Home';
 
 // Оновлений PrivateRoute
@@ -211,10 +213,12 @@ function App() {
                   <Route path="/outvoice/:id" element={<PrivateRoute><ProformaInvoice /></PrivateRoute>} />
                   <Route path="/invoice/:id" element={<PrivateRoute><InvoiceTemplate /></PrivateRoute>} />
 
-                  <Route path="/admin/content/banner/new" element={<BannerForm />} />
-                  <Route path="/admin/content/banner/:id" element={<BannerForm />} />
-                  <Route path="/admin/content/news/new" element={<NewsForm />} />
-                  <Route path="/admin/content/news/:id" element={<NewsForm />} />
+                  <Route path="/admin/content/banner/new" element={<PrivateRoute roles={['admin', 'moderator']}><BannerForm /></PrivateRoute>} />
+                  <Route path="/admin/content/banner/:id" element={<PrivateRoute roles={['admin', 'moderator']}><BannerForm /></PrivateRoute>} />
+                  <Route path="/admin/content/news/new" element={<PrivateRoute roles={['admin', 'moderator']}><NewsForm /></PrivateRoute>} />
+                  <Route path="/admin/content/news/:id" element={<PrivateRoute roles={['admin', 'moderator']}><NewsForm /></PrivateRoute>} />
+                  <Route path="/news" element={<NewsList />} />
+                  <Route path="/news/:id" element={<NewsDetails />} />
 
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

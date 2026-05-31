@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Edit2, Trash2, PlusCircle, ShoppingCart, Users, TrendingUp, Shield, Layout } from 'lucide-react';
+import { Edit2, Trash2, PlusCircle, ShoppingCart, Users, TrendingUp, Shield, Layout, Package } from 'lucide-react';
 import type { Product, Order } from '../types'; // Видалив User, бо він не використовується
 import api from '../api';
 
@@ -103,8 +103,13 @@ export const AdminProfile = () => {
         <div className="block md:hidden divide-y divide-slate-50">
           {products.map(product => (
             <div key={product.id} className="p-4 flex items-center gap-4">
-              <img src={product.main_image} className="w-14 h-14 rounded-xl object-cover bg-slate-100" />
-              <div className="flex-1 min-w-0">
+              {product.main_image ? (
+                <img src={product.main_image} className="w-14 h-14 rounded-xl object-cover bg-slate-100" alt="" />
+              ) : (
+                <div className="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center text-slate-300">
+                  <Package size={20} />
+                </div>
+              )}              <div className="flex-1 min-w-0">
                 <p className="font-bold text-slate-900 truncate">{product.name}</p>
                 <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
                   <span className="truncate">{product.category_name}</span>
@@ -139,7 +144,13 @@ export const AdminProfile = () => {
                 <tr key={product.id} className="hover:bg-slate-50/50">
                   <td className="p-4">
                     <div className="flex items-center gap-3">
-                      <img src={product.main_image} className="w-10 h-10 rounded-lg object-cover" />
+                      {product.main_image ? (
+                        <img src={product.main_image} className="w-10 h-10 rounded-lg object-cover" alt="" />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300">
+                          <Package size={16} />
+                        </div>
+                      )}                      
                       <span className="font-semibold text-slate-900">{product.name}</span>
                     </div>
                   </td>
