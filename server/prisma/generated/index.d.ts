@@ -29,6 +29,11 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  */
 export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
 /**
+ * Model ProductCharacteristic
+ * 
+ */
+export type ProductCharacteristic = $Result.DefaultSelection<Prisma.$ProductCharacteristicPayload>
+/**
  * Model Image
  * 
  */
@@ -239,6 +244,16 @@ export class PrismaClient<
     * ```
     */
   get product(): Prisma.ProductDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.productCharacteristic`: Exposes CRUD operations for the **ProductCharacteristic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProductCharacteristics
+    * const productCharacteristics = await prisma.productCharacteristic.findMany()
+    * ```
+    */
+  get productCharacteristic(): Prisma.ProductCharacteristicDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.image`: Exposes CRUD operations for the **Image** model.
@@ -796,6 +811,7 @@ export namespace Prisma {
     User: 'User',
     Category: 'Category',
     Product: 'Product',
+    ProductCharacteristic: 'ProductCharacteristic',
     Image: 'Image',
     ProductImage: 'ProductImage',
     Banner: 'Banner',
@@ -823,7 +839,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "product" | "image" | "productImage" | "banner" | "bannerProduct" | "bannerImage" | "news" | "newsBlock" | "newsBlockImage" | "newsBlockProduct" | "newsImage" | "order" | "item"
+      modelProps: "user" | "category" | "product" | "productCharacteristic" | "image" | "productImage" | "banner" | "bannerProduct" | "bannerImage" | "news" | "newsBlock" | "newsBlockImage" | "newsBlockProduct" | "newsImage" | "order" | "item"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1046,6 +1062,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ProductCountArgs<ExtArgs>
             result: $Utils.Optional<ProductCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProductCharacteristic: {
+        payload: Prisma.$ProductCharacteristicPayload<ExtArgs>
+        fields: Prisma.ProductCharacteristicFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProductCharacteristicFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProductCharacteristicFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>
+          }
+          findFirst: {
+            args: Prisma.ProductCharacteristicFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProductCharacteristicFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>
+          }
+          findMany: {
+            args: Prisma.ProductCharacteristicFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>[]
+          }
+          create: {
+            args: Prisma.ProductCharacteristicCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>
+          }
+          createMany: {
+            args: Prisma.ProductCharacteristicCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProductCharacteristicCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>[]
+          }
+          delete: {
+            args: Prisma.ProductCharacteristicDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>
+          }
+          update: {
+            args: Prisma.ProductCharacteristicUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProductCharacteristicDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProductCharacteristicUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProductCharacteristicUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProductCharacteristicUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductCharacteristicPayload>
+          }
+          aggregate: {
+            args: Prisma.ProductCharacteristicAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProductCharacteristic>
+          }
+          groupBy: {
+            args: Prisma.ProductCharacteristicGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProductCharacteristicGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProductCharacteristicCountArgs<ExtArgs>
+            result: $Utils.Optional<ProductCharacteristicCountAggregateOutputType> | number
           }
         }
       }
@@ -2048,6 +2138,7 @@ export namespace Prisma {
     user?: UserOmit
     category?: CategoryOmit
     product?: ProductOmit
+    productCharacteristic?: ProductCharacteristicOmit
     image?: ImageOmit
     productImage?: ProductImageOmit
     banner?: BannerOmit
@@ -2204,6 +2295,7 @@ export namespace Prisma {
   export type ProductCountOutputType = {
     images: number
     items: number
+    characteristics: number
     bannerProducts: number
     newsBlockProducts: number
   }
@@ -2211,6 +2303,7 @@ export namespace Prisma {
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | ProductCountOutputTypeCountImagesArgs
     items?: boolean | ProductCountOutputTypeCountItemsArgs
+    characteristics?: boolean | ProductCountOutputTypeCountCharacteristicsArgs
     bannerProducts?: boolean | ProductCountOutputTypeCountBannerProductsArgs
     newsBlockProducts?: boolean | ProductCountOutputTypeCountNewsBlockProductsArgs
   }
@@ -2238,6 +2331,13 @@ export namespace Prisma {
    */
   export type ProductCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ItemWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountCharacteristicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductCharacteristicWhereInput
   }
 
   /**
@@ -4852,6 +4952,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     items?: boolean | Product$itemsArgs<ExtArgs>
+    characteristics?: boolean | Product$characteristicsArgs<ExtArgs>
     bannerProducts?: boolean | Product$bannerProductsArgs<ExtArgs>
     newsBlockProducts?: boolean | Product$newsBlockProductsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -4888,6 +4989,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     items?: boolean | Product$itemsArgs<ExtArgs>
+    characteristics?: boolean | Product$characteristicsArgs<ExtArgs>
     bannerProducts?: boolean | Product$bannerProductsArgs<ExtArgs>
     newsBlockProducts?: boolean | Product$newsBlockProductsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -4905,6 +5007,7 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs>
       images: Prisma.$ProductImagePayload<ExtArgs>[]
       items: Prisma.$ItemPayload<ExtArgs>[]
+      characteristics: Prisma.$ProductCharacteristicPayload<ExtArgs>[]
       bannerProducts: Prisma.$BannerProductPayload<ExtArgs>[]
       newsBlockProducts: Prisma.$NewsBlockProductPayload<ExtArgs>[]
     }
@@ -5311,6 +5414,7 @@ export namespace Prisma {
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     images<T extends Product$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Product$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     items<T extends Product$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    characteristics<T extends Product$characteristicsArgs<ExtArgs> = {}>(args?: Subset<T, Product$characteristicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bannerProducts<T extends Product$bannerProductsArgs<ExtArgs> = {}>(args?: Subset<T, Product$bannerProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     newsBlockProducts<T extends Product$newsBlockProductsArgs<ExtArgs> = {}>(args?: Subset<T, Product$newsBlockProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -5794,6 +5898,30 @@ export namespace Prisma {
   }
 
   /**
+   * Product.characteristics
+   */
+  export type Product$characteristicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    where?: ProductCharacteristicWhereInput
+    orderBy?: ProductCharacteristicOrderByWithRelationInput | ProductCharacteristicOrderByWithRelationInput[]
+    cursor?: ProductCharacteristicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductCharacteristicScalarFieldEnum | ProductCharacteristicScalarFieldEnum[]
+  }
+
+  /**
    * Product.bannerProducts
    */
   export type Product$bannerProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5857,6 +5985,1109 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProductInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProductCharacteristic
+   */
+
+  export type AggregateProductCharacteristic = {
+    _count: ProductCharacteristicCountAggregateOutputType | null
+    _avg: ProductCharacteristicAvgAggregateOutputType | null
+    _sum: ProductCharacteristicSumAggregateOutputType | null
+    _min: ProductCharacteristicMinAggregateOutputType | null
+    _max: ProductCharacteristicMaxAggregateOutputType | null
+  }
+
+  export type ProductCharacteristicAvgAggregateOutputType = {
+    id: number | null
+    value: number | null
+    productId: number | null
+  }
+
+  export type ProductCharacteristicSumAggregateOutputType = {
+    id: number | null
+    value: number | null
+    productId: number | null
+  }
+
+  export type ProductCharacteristicMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    value: number | null
+    unit: string | null
+    productId: number | null
+  }
+
+  export type ProductCharacteristicMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    value: number | null
+    unit: string | null
+    productId: number | null
+  }
+
+  export type ProductCharacteristicCountAggregateOutputType = {
+    id: number
+    name: number
+    value: number
+    unit: number
+    productId: number
+    _all: number
+  }
+
+
+  export type ProductCharacteristicAvgAggregateInputType = {
+    id?: true
+    value?: true
+    productId?: true
+  }
+
+  export type ProductCharacteristicSumAggregateInputType = {
+    id?: true
+    value?: true
+    productId?: true
+  }
+
+  export type ProductCharacteristicMinAggregateInputType = {
+    id?: true
+    name?: true
+    value?: true
+    unit?: true
+    productId?: true
+  }
+
+  export type ProductCharacteristicMaxAggregateInputType = {
+    id?: true
+    name?: true
+    value?: true
+    unit?: true
+    productId?: true
+  }
+
+  export type ProductCharacteristicCountAggregateInputType = {
+    id?: true
+    name?: true
+    value?: true
+    unit?: true
+    productId?: true
+    _all?: true
+  }
+
+  export type ProductCharacteristicAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProductCharacteristic to aggregate.
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCharacteristics to fetch.
+     */
+    orderBy?: ProductCharacteristicOrderByWithRelationInput | ProductCharacteristicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProductCharacteristicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCharacteristics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCharacteristics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProductCharacteristics
+    **/
+    _count?: true | ProductCharacteristicCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProductCharacteristicAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProductCharacteristicSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProductCharacteristicMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProductCharacteristicMaxAggregateInputType
+  }
+
+  export type GetProductCharacteristicAggregateType<T extends ProductCharacteristicAggregateArgs> = {
+        [P in keyof T & keyof AggregateProductCharacteristic]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProductCharacteristic[P]>
+      : GetScalarType<T[P], AggregateProductCharacteristic[P]>
+  }
+
+
+
+
+  export type ProductCharacteristicGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductCharacteristicWhereInput
+    orderBy?: ProductCharacteristicOrderByWithAggregationInput | ProductCharacteristicOrderByWithAggregationInput[]
+    by: ProductCharacteristicScalarFieldEnum[] | ProductCharacteristicScalarFieldEnum
+    having?: ProductCharacteristicScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProductCharacteristicCountAggregateInputType | true
+    _avg?: ProductCharacteristicAvgAggregateInputType
+    _sum?: ProductCharacteristicSumAggregateInputType
+    _min?: ProductCharacteristicMinAggregateInputType
+    _max?: ProductCharacteristicMaxAggregateInputType
+  }
+
+  export type ProductCharacteristicGroupByOutputType = {
+    id: number
+    name: string
+    value: number
+    unit: string
+    productId: number
+    _count: ProductCharacteristicCountAggregateOutputType | null
+    _avg: ProductCharacteristicAvgAggregateOutputType | null
+    _sum: ProductCharacteristicSumAggregateOutputType | null
+    _min: ProductCharacteristicMinAggregateOutputType | null
+    _max: ProductCharacteristicMaxAggregateOutputType | null
+  }
+
+  type GetProductCharacteristicGroupByPayload<T extends ProductCharacteristicGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProductCharacteristicGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProductCharacteristicGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProductCharacteristicGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductCharacteristicGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProductCharacteristicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    value?: boolean
+    unit?: boolean
+    productId?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productCharacteristic"]>
+
+  export type ProductCharacteristicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    value?: boolean
+    unit?: boolean
+    productId?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productCharacteristic"]>
+
+  export type ProductCharacteristicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    value?: boolean
+    unit?: boolean
+    productId?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productCharacteristic"]>
+
+  export type ProductCharacteristicSelectScalar = {
+    id?: boolean
+    name?: boolean
+    value?: boolean
+    unit?: boolean
+    productId?: boolean
+  }
+
+  export type ProductCharacteristicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "value" | "unit" | "productId", ExtArgs["result"]["productCharacteristic"]>
+  export type ProductCharacteristicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type ProductCharacteristicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type ProductCharacteristicIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $ProductCharacteristicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProductCharacteristic"
+    objects: {
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      value: number
+      unit: string
+      productId: number
+    }, ExtArgs["result"]["productCharacteristic"]>
+    composites: {}
+  }
+
+  type ProductCharacteristicGetPayload<S extends boolean | null | undefined | ProductCharacteristicDefaultArgs> = $Result.GetResult<Prisma.$ProductCharacteristicPayload, S>
+
+  type ProductCharacteristicCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProductCharacteristicFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProductCharacteristicCountAggregateInputType | true
+    }
+
+  export interface ProductCharacteristicDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProductCharacteristic'], meta: { name: 'ProductCharacteristic' } }
+    /**
+     * Find zero or one ProductCharacteristic that matches the filter.
+     * @param {ProductCharacteristicFindUniqueArgs} args - Arguments to find a ProductCharacteristic
+     * @example
+     * // Get one ProductCharacteristic
+     * const productCharacteristic = await prisma.productCharacteristic.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProductCharacteristicFindUniqueArgs>(args: SelectSubset<T, ProductCharacteristicFindUniqueArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProductCharacteristic that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProductCharacteristicFindUniqueOrThrowArgs} args - Arguments to find a ProductCharacteristic
+     * @example
+     * // Get one ProductCharacteristic
+     * const productCharacteristic = await prisma.productCharacteristic.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProductCharacteristicFindUniqueOrThrowArgs>(args: SelectSubset<T, ProductCharacteristicFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProductCharacteristic that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicFindFirstArgs} args - Arguments to find a ProductCharacteristic
+     * @example
+     * // Get one ProductCharacteristic
+     * const productCharacteristic = await prisma.productCharacteristic.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProductCharacteristicFindFirstArgs>(args?: SelectSubset<T, ProductCharacteristicFindFirstArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProductCharacteristic that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicFindFirstOrThrowArgs} args - Arguments to find a ProductCharacteristic
+     * @example
+     * // Get one ProductCharacteristic
+     * const productCharacteristic = await prisma.productCharacteristic.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProductCharacteristicFindFirstOrThrowArgs>(args?: SelectSubset<T, ProductCharacteristicFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProductCharacteristics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProductCharacteristics
+     * const productCharacteristics = await prisma.productCharacteristic.findMany()
+     * 
+     * // Get first 10 ProductCharacteristics
+     * const productCharacteristics = await prisma.productCharacteristic.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const productCharacteristicWithIdOnly = await prisma.productCharacteristic.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProductCharacteristicFindManyArgs>(args?: SelectSubset<T, ProductCharacteristicFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProductCharacteristic.
+     * @param {ProductCharacteristicCreateArgs} args - Arguments to create a ProductCharacteristic.
+     * @example
+     * // Create one ProductCharacteristic
+     * const ProductCharacteristic = await prisma.productCharacteristic.create({
+     *   data: {
+     *     // ... data to create a ProductCharacteristic
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProductCharacteristicCreateArgs>(args: SelectSubset<T, ProductCharacteristicCreateArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProductCharacteristics.
+     * @param {ProductCharacteristicCreateManyArgs} args - Arguments to create many ProductCharacteristics.
+     * @example
+     * // Create many ProductCharacteristics
+     * const productCharacteristic = await prisma.productCharacteristic.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProductCharacteristicCreateManyArgs>(args?: SelectSubset<T, ProductCharacteristicCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProductCharacteristics and returns the data saved in the database.
+     * @param {ProductCharacteristicCreateManyAndReturnArgs} args - Arguments to create many ProductCharacteristics.
+     * @example
+     * // Create many ProductCharacteristics
+     * const productCharacteristic = await prisma.productCharacteristic.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProductCharacteristics and only return the `id`
+     * const productCharacteristicWithIdOnly = await prisma.productCharacteristic.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProductCharacteristicCreateManyAndReturnArgs>(args?: SelectSubset<T, ProductCharacteristicCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProductCharacteristic.
+     * @param {ProductCharacteristicDeleteArgs} args - Arguments to delete one ProductCharacteristic.
+     * @example
+     * // Delete one ProductCharacteristic
+     * const ProductCharacteristic = await prisma.productCharacteristic.delete({
+     *   where: {
+     *     // ... filter to delete one ProductCharacteristic
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProductCharacteristicDeleteArgs>(args: SelectSubset<T, ProductCharacteristicDeleteArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProductCharacteristic.
+     * @param {ProductCharacteristicUpdateArgs} args - Arguments to update one ProductCharacteristic.
+     * @example
+     * // Update one ProductCharacteristic
+     * const productCharacteristic = await prisma.productCharacteristic.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProductCharacteristicUpdateArgs>(args: SelectSubset<T, ProductCharacteristicUpdateArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProductCharacteristics.
+     * @param {ProductCharacteristicDeleteManyArgs} args - Arguments to filter ProductCharacteristics to delete.
+     * @example
+     * // Delete a few ProductCharacteristics
+     * const { count } = await prisma.productCharacteristic.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProductCharacteristicDeleteManyArgs>(args?: SelectSubset<T, ProductCharacteristicDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductCharacteristics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProductCharacteristics
+     * const productCharacteristic = await prisma.productCharacteristic.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProductCharacteristicUpdateManyArgs>(args: SelectSubset<T, ProductCharacteristicUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductCharacteristics and returns the data updated in the database.
+     * @param {ProductCharacteristicUpdateManyAndReturnArgs} args - Arguments to update many ProductCharacteristics.
+     * @example
+     * // Update many ProductCharacteristics
+     * const productCharacteristic = await prisma.productCharacteristic.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProductCharacteristics and only return the `id`
+     * const productCharacteristicWithIdOnly = await prisma.productCharacteristic.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProductCharacteristicUpdateManyAndReturnArgs>(args: SelectSubset<T, ProductCharacteristicUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProductCharacteristic.
+     * @param {ProductCharacteristicUpsertArgs} args - Arguments to update or create a ProductCharacteristic.
+     * @example
+     * // Update or create a ProductCharacteristic
+     * const productCharacteristic = await prisma.productCharacteristic.upsert({
+     *   create: {
+     *     // ... data to create a ProductCharacteristic
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProductCharacteristic we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProductCharacteristicUpsertArgs>(args: SelectSubset<T, ProductCharacteristicUpsertArgs<ExtArgs>>): Prisma__ProductCharacteristicClient<$Result.GetResult<Prisma.$ProductCharacteristicPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProductCharacteristics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicCountArgs} args - Arguments to filter ProductCharacteristics to count.
+     * @example
+     * // Count the number of ProductCharacteristics
+     * const count = await prisma.productCharacteristic.count({
+     *   where: {
+     *     // ... the filter for the ProductCharacteristics we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProductCharacteristicCountArgs>(
+      args?: Subset<T, ProductCharacteristicCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProductCharacteristicCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProductCharacteristic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProductCharacteristicAggregateArgs>(args: Subset<T, ProductCharacteristicAggregateArgs>): Prisma.PrismaPromise<GetProductCharacteristicAggregateType<T>>
+
+    /**
+     * Group by ProductCharacteristic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCharacteristicGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProductCharacteristicGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProductCharacteristicGroupByArgs['orderBy'] }
+        : { orderBy?: ProductCharacteristicGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProductCharacteristicGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductCharacteristicGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProductCharacteristic model
+   */
+  readonly fields: ProductCharacteristicFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProductCharacteristic.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProductCharacteristicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProductCharacteristic model
+   */
+  interface ProductCharacteristicFieldRefs {
+    readonly id: FieldRef<"ProductCharacteristic", 'Int'>
+    readonly name: FieldRef<"ProductCharacteristic", 'String'>
+    readonly value: FieldRef<"ProductCharacteristic", 'Float'>
+    readonly unit: FieldRef<"ProductCharacteristic", 'String'>
+    readonly productId: FieldRef<"ProductCharacteristic", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProductCharacteristic findUnique
+   */
+  export type ProductCharacteristicFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCharacteristic to fetch.
+     */
+    where: ProductCharacteristicWhereUniqueInput
+  }
+
+  /**
+   * ProductCharacteristic findUniqueOrThrow
+   */
+  export type ProductCharacteristicFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCharacteristic to fetch.
+     */
+    where: ProductCharacteristicWhereUniqueInput
+  }
+
+  /**
+   * ProductCharacteristic findFirst
+   */
+  export type ProductCharacteristicFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCharacteristic to fetch.
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCharacteristics to fetch.
+     */
+    orderBy?: ProductCharacteristicOrderByWithRelationInput | ProductCharacteristicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductCharacteristics.
+     */
+    cursor?: ProductCharacteristicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCharacteristics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCharacteristics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductCharacteristics.
+     */
+    distinct?: ProductCharacteristicScalarFieldEnum | ProductCharacteristicScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCharacteristic findFirstOrThrow
+   */
+  export type ProductCharacteristicFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCharacteristic to fetch.
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCharacteristics to fetch.
+     */
+    orderBy?: ProductCharacteristicOrderByWithRelationInput | ProductCharacteristicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductCharacteristics.
+     */
+    cursor?: ProductCharacteristicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCharacteristics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCharacteristics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductCharacteristics.
+     */
+    distinct?: ProductCharacteristicScalarFieldEnum | ProductCharacteristicScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCharacteristic findMany
+   */
+  export type ProductCharacteristicFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductCharacteristics to fetch.
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductCharacteristics to fetch.
+     */
+    orderBy?: ProductCharacteristicOrderByWithRelationInput | ProductCharacteristicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProductCharacteristics.
+     */
+    cursor?: ProductCharacteristicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductCharacteristics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductCharacteristics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductCharacteristics.
+     */
+    distinct?: ProductCharacteristicScalarFieldEnum | ProductCharacteristicScalarFieldEnum[]
+  }
+
+  /**
+   * ProductCharacteristic create
+   */
+  export type ProductCharacteristicCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProductCharacteristic.
+     */
+    data: XOR<ProductCharacteristicCreateInput, ProductCharacteristicUncheckedCreateInput>
+  }
+
+  /**
+   * ProductCharacteristic createMany
+   */
+  export type ProductCharacteristicCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProductCharacteristics.
+     */
+    data: ProductCharacteristicCreateManyInput | ProductCharacteristicCreateManyInput[]
+  }
+
+  /**
+   * ProductCharacteristic createManyAndReturn
+   */
+  export type ProductCharacteristicCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProductCharacteristics.
+     */
+    data: ProductCharacteristicCreateManyInput | ProductCharacteristicCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProductCharacteristic update
+   */
+  export type ProductCharacteristicUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProductCharacteristic.
+     */
+    data: XOR<ProductCharacteristicUpdateInput, ProductCharacteristicUncheckedUpdateInput>
+    /**
+     * Choose, which ProductCharacteristic to update.
+     */
+    where: ProductCharacteristicWhereUniqueInput
+  }
+
+  /**
+   * ProductCharacteristic updateMany
+   */
+  export type ProductCharacteristicUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProductCharacteristics.
+     */
+    data: XOR<ProductCharacteristicUpdateManyMutationInput, ProductCharacteristicUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductCharacteristics to update
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * Limit how many ProductCharacteristics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProductCharacteristic updateManyAndReturn
+   */
+  export type ProductCharacteristicUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * The data used to update ProductCharacteristics.
+     */
+    data: XOR<ProductCharacteristicUpdateManyMutationInput, ProductCharacteristicUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductCharacteristics to update
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * Limit how many ProductCharacteristics to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProductCharacteristic upsert
+   */
+  export type ProductCharacteristicUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProductCharacteristic to update in case it exists.
+     */
+    where: ProductCharacteristicWhereUniqueInput
+    /**
+     * In case the ProductCharacteristic found by the `where` argument doesn't exist, create a new ProductCharacteristic with this data.
+     */
+    create: XOR<ProductCharacteristicCreateInput, ProductCharacteristicUncheckedCreateInput>
+    /**
+     * In case the ProductCharacteristic was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProductCharacteristicUpdateInput, ProductCharacteristicUncheckedUpdateInput>
+  }
+
+  /**
+   * ProductCharacteristic delete
+   */
+  export type ProductCharacteristicDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
+    /**
+     * Filter which ProductCharacteristic to delete.
+     */
+    where: ProductCharacteristicWhereUniqueInput
+  }
+
+  /**
+   * ProductCharacteristic deleteMany
+   */
+  export type ProductCharacteristicDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProductCharacteristics to delete
+     */
+    where?: ProductCharacteristicWhereInput
+    /**
+     * Limit how many ProductCharacteristics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProductCharacteristic without action
+   */
+  export type ProductCharacteristicDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductCharacteristic
+     */
+    select?: ProductCharacteristicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductCharacteristic
+     */
+    omit?: ProductCharacteristicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductCharacteristicInclude<ExtArgs> | null
   }
 
 
@@ -19303,6 +20534,17 @@ export namespace Prisma {
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
+  export const ProductCharacteristicScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    value: 'value',
+    unit: 'unit',
+    productId: 'productId'
+  };
+
+  export type ProductCharacteristicScalarFieldEnum = (typeof ProductCharacteristicScalarFieldEnum)[keyof typeof ProductCharacteristicScalarFieldEnum]
+
+
   export const ImageScalarFieldEnum: {
     id: 'id',
     url: 'url'
@@ -19588,6 +20830,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ProductImageListRelationFilter
     items?: ItemListRelationFilter
+    characteristics?: ProductCharacteristicListRelationFilter
     bannerProducts?: BannerProductListRelationFilter
     newsBlockProducts?: NewsBlockProductListRelationFilter
   }
@@ -19601,6 +20844,7 @@ export namespace Prisma {
     category?: CategoryOrderByWithRelationInput
     images?: ProductImageOrderByRelationAggregateInput
     items?: ItemOrderByRelationAggregateInput
+    characteristics?: ProductCharacteristicOrderByRelationAggregateInput
     bannerProducts?: BannerProductOrderByRelationAggregateInput
     newsBlockProducts?: NewsBlockProductOrderByRelationAggregateInput
   }
@@ -19617,6 +20861,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ProductImageListRelationFilter
     items?: ItemListRelationFilter
+    characteristics?: ProductCharacteristicListRelationFilter
     bannerProducts?: BannerProductListRelationFilter
     newsBlockProducts?: NewsBlockProductListRelationFilter
   }, "id">
@@ -19645,6 +20890,63 @@ export namespace Prisma {
     categoryId?: IntWithAggregatesFilter<"Product"> | number
   }
 
+  export type ProductCharacteristicWhereInput = {
+    AND?: ProductCharacteristicWhereInput | ProductCharacteristicWhereInput[]
+    OR?: ProductCharacteristicWhereInput[]
+    NOT?: ProductCharacteristicWhereInput | ProductCharacteristicWhereInput[]
+    id?: IntFilter<"ProductCharacteristic"> | number
+    name?: StringFilter<"ProductCharacteristic"> | string
+    value?: FloatFilter<"ProductCharacteristic"> | number
+    unit?: StringFilter<"ProductCharacteristic"> | string
+    productId?: IntFilter<"ProductCharacteristic"> | number
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type ProductCharacteristicOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    unit?: SortOrder
+    productId?: SortOrder
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type ProductCharacteristicWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ProductCharacteristicWhereInput | ProductCharacteristicWhereInput[]
+    OR?: ProductCharacteristicWhereInput[]
+    NOT?: ProductCharacteristicWhereInput | ProductCharacteristicWhereInput[]
+    name?: StringFilter<"ProductCharacteristic"> | string
+    value?: FloatFilter<"ProductCharacteristic"> | number
+    unit?: StringFilter<"ProductCharacteristic"> | string
+    productId?: IntFilter<"ProductCharacteristic"> | number
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "id">
+
+  export type ProductCharacteristicOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    unit?: SortOrder
+    productId?: SortOrder
+    _count?: ProductCharacteristicCountOrderByAggregateInput
+    _avg?: ProductCharacteristicAvgOrderByAggregateInput
+    _max?: ProductCharacteristicMaxOrderByAggregateInput
+    _min?: ProductCharacteristicMinOrderByAggregateInput
+    _sum?: ProductCharacteristicSumOrderByAggregateInput
+  }
+
+  export type ProductCharacteristicScalarWhereWithAggregatesInput = {
+    AND?: ProductCharacteristicScalarWhereWithAggregatesInput | ProductCharacteristicScalarWhereWithAggregatesInput[]
+    OR?: ProductCharacteristicScalarWhereWithAggregatesInput[]
+    NOT?: ProductCharacteristicScalarWhereWithAggregatesInput | ProductCharacteristicScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ProductCharacteristic"> | number
+    name?: StringWithAggregatesFilter<"ProductCharacteristic"> | string
+    value?: FloatWithAggregatesFilter<"ProductCharacteristic"> | number
+    unit?: StringWithAggregatesFilter<"ProductCharacteristic"> | string
+    productId?: IntWithAggregatesFilter<"ProductCharacteristic"> | number
+  }
+
   export type ImageWhereInput = {
     AND?: ImageWhereInput | ImageWhereInput[]
     OR?: ImageWhereInput[]
@@ -19668,15 +20970,15 @@ export namespace Prisma {
 
   export type ImageWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    url?: string
     AND?: ImageWhereInput | ImageWhereInput[]
     OR?: ImageWhereInput[]
     NOT?: ImageWhereInput | ImageWhereInput[]
-    url?: StringFilter<"Image"> | string
     productImages?: ProductImageListRelationFilter
     bannerImages?: BannerImageListRelationFilter
     newsImages?: NewsImageListRelationFilter
     newsBlockImages?: NewsBlockImageListRelationFilter
-  }, "id">
+  }, "id" | "url">
 
   export type ImageOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20430,6 +21732,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     items?: ItemCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
@@ -20442,6 +21745,7 @@ export namespace Prisma {
     categoryId: number
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
@@ -20453,6 +21757,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
@@ -20465,6 +21770,7 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -20489,6 +21795,58 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductCharacteristicCreateInput = {
+    name: string
+    value: number
+    unit: string
+    product: ProductCreateNestedOneWithoutCharacteristicsInput
+  }
+
+  export type ProductCharacteristicUncheckedCreateInput = {
+    id?: number
+    name: string
+    value: number
+    unit: string
+    productId: number
+  }
+
+  export type ProductCharacteristicUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    product?: ProductUpdateOneRequiredWithoutCharacteristicsNestedInput
+  }
+
+  export type ProductCharacteristicUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductCharacteristicCreateManyInput = {
+    id?: number
+    name: string
+    value: number
+    unit: string
+    productId: number
+  }
+
+  export type ProductCharacteristicUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProductCharacteristicUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    productId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ImageCreateInput = {
@@ -21272,6 +22630,12 @@ export namespace Prisma {
     none?: ItemWhereInput
   }
 
+  export type ProductCharacteristicListRelationFilter = {
+    every?: ProductCharacteristicWhereInput
+    some?: ProductCharacteristicWhereInput
+    none?: ProductCharacteristicWhereInput
+  }
+
   export type BannerProductListRelationFilter = {
     every?: BannerProductWhereInput
     some?: BannerProductWhereInput
@@ -21294,6 +22658,10 @@ export namespace Prisma {
   }
 
   export type ItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProductCharacteristicOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21374,6 +22742,47 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type ProductScalarRelationFilter = {
+    is?: ProductWhereInput
+    isNot?: ProductWhereInput
+  }
+
+  export type ProductCharacteristicCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    unit?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductCharacteristicAvgOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductCharacteristicMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    unit?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductCharacteristicMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    value?: SortOrder
+    unit?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductCharacteristicSumOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    productId?: SortOrder
+  }
+
   export type BannerImageListRelationFilter = {
     every?: BannerImageWhereInput
     some?: BannerImageWhereInput
@@ -21425,11 +22834,6 @@ export namespace Prisma {
 
   export type ImageSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type ProductScalarRelationFilter = {
-    is?: ProductWhereInput
-    isNot?: ProductWhereInput
   }
 
   export type ImageScalarRelationFilter = {
@@ -22010,6 +23414,13 @@ export namespace Prisma {
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
   }
 
+  export type ProductCharacteristicCreateNestedManyWithoutProductInput = {
+    create?: XOR<ProductCharacteristicCreateWithoutProductInput, ProductCharacteristicUncheckedCreateWithoutProductInput> | ProductCharacteristicCreateWithoutProductInput[] | ProductCharacteristicUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ProductCharacteristicCreateOrConnectWithoutProductInput | ProductCharacteristicCreateOrConnectWithoutProductInput[]
+    createMany?: ProductCharacteristicCreateManyProductInputEnvelope
+    connect?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+  }
+
   export type BannerProductCreateNestedManyWithoutProductInput = {
     create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
     connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
@@ -22036,6 +23447,13 @@ export namespace Prisma {
     connectOrCreate?: ItemCreateOrConnectWithoutProductInput | ItemCreateOrConnectWithoutProductInput[]
     createMany?: ItemCreateManyProductInputEnvelope
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<ProductCharacteristicCreateWithoutProductInput, ProductCharacteristicUncheckedCreateWithoutProductInput> | ProductCharacteristicCreateWithoutProductInput[] | ProductCharacteristicUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ProductCharacteristicCreateOrConnectWithoutProductInput | ProductCharacteristicCreateOrConnectWithoutProductInput[]
+    createMany?: ProductCharacteristicCreateManyProductInputEnvelope
+    connect?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
   }
 
   export type BannerProductUncheckedCreateNestedManyWithoutProductInput = {
@@ -22100,6 +23518,20 @@ export namespace Prisma {
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
   }
 
+  export type ProductCharacteristicUpdateManyWithoutProductNestedInput = {
+    create?: XOR<ProductCharacteristicCreateWithoutProductInput, ProductCharacteristicUncheckedCreateWithoutProductInput> | ProductCharacteristicCreateWithoutProductInput[] | ProductCharacteristicUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ProductCharacteristicCreateOrConnectWithoutProductInput | ProductCharacteristicCreateOrConnectWithoutProductInput[]
+    upsert?: ProductCharacteristicUpsertWithWhereUniqueWithoutProductInput | ProductCharacteristicUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: ProductCharacteristicCreateManyProductInputEnvelope
+    set?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    disconnect?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    delete?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    connect?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    update?: ProductCharacteristicUpdateWithWhereUniqueWithoutProductInput | ProductCharacteristicUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: ProductCharacteristicUpdateManyWithWhereWithoutProductInput | ProductCharacteristicUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: ProductCharacteristicScalarWhereInput | ProductCharacteristicScalarWhereInput[]
+  }
+
   export type BannerProductUpdateManyWithoutProductNestedInput = {
     create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
     connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
@@ -22156,6 +23588,20 @@ export namespace Prisma {
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
   }
 
+  export type ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<ProductCharacteristicCreateWithoutProductInput, ProductCharacteristicUncheckedCreateWithoutProductInput> | ProductCharacteristicCreateWithoutProductInput[] | ProductCharacteristicUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ProductCharacteristicCreateOrConnectWithoutProductInput | ProductCharacteristicCreateOrConnectWithoutProductInput[]
+    upsert?: ProductCharacteristicUpsertWithWhereUniqueWithoutProductInput | ProductCharacteristicUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: ProductCharacteristicCreateManyProductInputEnvelope
+    set?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    disconnect?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    delete?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    connect?: ProductCharacteristicWhereUniqueInput | ProductCharacteristicWhereUniqueInput[]
+    update?: ProductCharacteristicUpdateWithWhereUniqueWithoutProductInput | ProductCharacteristicUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: ProductCharacteristicUpdateManyWithWhereWithoutProductInput | ProductCharacteristicUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: ProductCharacteristicScalarWhereInput | ProductCharacteristicScalarWhereInput[]
+  }
+
   export type BannerProductUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<BannerProductCreateWithoutProductInput, BannerProductUncheckedCreateWithoutProductInput> | BannerProductCreateWithoutProductInput[] | BannerProductUncheckedCreateWithoutProductInput[]
     connectOrCreate?: BannerProductCreateOrConnectWithoutProductInput | BannerProductCreateOrConnectWithoutProductInput[]
@@ -22182,6 +23628,20 @@ export namespace Prisma {
     update?: NewsBlockProductUpdateWithWhereUniqueWithoutProductInput | NewsBlockProductUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: NewsBlockProductUpdateManyWithWhereWithoutProductInput | NewsBlockProductUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
+  }
+
+  export type ProductCreateNestedOneWithoutCharacteristicsInput = {
+    create?: XOR<ProductCreateWithoutCharacteristicsInput, ProductUncheckedCreateWithoutCharacteristicsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutCharacteristicsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type ProductUpdateOneRequiredWithoutCharacteristicsNestedInput = {
+    create?: XOR<ProductCreateWithoutCharacteristicsInput, ProductUncheckedCreateWithoutCharacteristicsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutCharacteristicsInput
+    upsert?: ProductUpsertWithoutCharacteristicsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutCharacteristicsInput, ProductUpdateWithoutCharacteristicsInput>, ProductUncheckedUpdateWithoutCharacteristicsInput>
   }
 
   export type ProductImageCreateNestedManyWithoutImageInput = {
@@ -23107,6 +24567,7 @@ export namespace Prisma {
     description?: string | null
     images?: ProductImageCreateNestedManyWithoutProductInput
     items?: ItemCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
@@ -23118,6 +24579,7 @@ export namespace Prisma {
     description?: string | null
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
@@ -23210,6 +24672,28 @@ export namespace Prisma {
 
   export type ItemCreateManyProductInputEnvelope = {
     data: ItemCreateManyProductInput | ItemCreateManyProductInput[]
+  }
+
+  export type ProductCharacteristicCreateWithoutProductInput = {
+    name: string
+    value: number
+    unit: string
+  }
+
+  export type ProductCharacteristicUncheckedCreateWithoutProductInput = {
+    id?: number
+    name: string
+    value: number
+    unit: string
+  }
+
+  export type ProductCharacteristicCreateOrConnectWithoutProductInput = {
+    where: ProductCharacteristicWhereUniqueInput
+    create: XOR<ProductCharacteristicCreateWithoutProductInput, ProductCharacteristicUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductCharacteristicCreateManyProductInputEnvelope = {
+    data: ProductCharacteristicCreateManyProductInput | ProductCharacteristicCreateManyProductInput[]
   }
 
   export type BannerProductCreateWithoutProductInput = {
@@ -23319,6 +24803,33 @@ export namespace Prisma {
     quantity?: IntFilter<"Item"> | number
   }
 
+  export type ProductCharacteristicUpsertWithWhereUniqueWithoutProductInput = {
+    where: ProductCharacteristicWhereUniqueInput
+    update: XOR<ProductCharacteristicUpdateWithoutProductInput, ProductCharacteristicUncheckedUpdateWithoutProductInput>
+    create: XOR<ProductCharacteristicCreateWithoutProductInput, ProductCharacteristicUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductCharacteristicUpdateWithWhereUniqueWithoutProductInput = {
+    where: ProductCharacteristicWhereUniqueInput
+    data: XOR<ProductCharacteristicUpdateWithoutProductInput, ProductCharacteristicUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ProductCharacteristicUpdateManyWithWhereWithoutProductInput = {
+    where: ProductCharacteristicScalarWhereInput
+    data: XOR<ProductCharacteristicUpdateManyMutationInput, ProductCharacteristicUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type ProductCharacteristicScalarWhereInput = {
+    AND?: ProductCharacteristicScalarWhereInput | ProductCharacteristicScalarWhereInput[]
+    OR?: ProductCharacteristicScalarWhereInput[]
+    NOT?: ProductCharacteristicScalarWhereInput | ProductCharacteristicScalarWhereInput[]
+    id?: IntFilter<"ProductCharacteristic"> | number
+    name?: StringFilter<"ProductCharacteristic"> | string
+    value?: FloatFilter<"ProductCharacteristic"> | number
+    unit?: StringFilter<"ProductCharacteristic"> | string
+    productId?: IntFilter<"ProductCharacteristic"> | number
+  }
+
   export type BannerProductUpsertWithWhereUniqueWithoutProductInput = {
     where: BannerProductWhereUniqueInput
     update: XOR<BannerProductUpdateWithoutProductInput, BannerProductUncheckedUpdateWithoutProductInput>
@@ -23365,6 +24876,68 @@ export namespace Prisma {
     NOT?: NewsBlockProductScalarWhereInput | NewsBlockProductScalarWhereInput[]
     blockId?: IntFilter<"NewsBlockProduct"> | number
     productId?: IntFilter<"NewsBlockProduct"> | number
+  }
+
+  export type ProductCreateWithoutCharacteristicsInput = {
+    name: string
+    price: number
+    description?: string | null
+    category: CategoryCreateNestedOneWithoutProductsInput
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    items?: ItemCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutCharacteristicsInput = {
+    id?: number
+    name: string
+    price: number
+    description?: string | null
+    categoryId: number
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
+    newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutCharacteristicsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutCharacteristicsInput, ProductUncheckedCreateWithoutCharacteristicsInput>
+  }
+
+  export type ProductUpsertWithoutCharacteristicsInput = {
+    update: XOR<ProductUpdateWithoutCharacteristicsInput, ProductUncheckedUpdateWithoutCharacteristicsInput>
+    create: XOR<ProductCreateWithoutCharacteristicsInput, ProductUncheckedCreateWithoutCharacteristicsInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutCharacteristicsInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutCharacteristicsInput, ProductUncheckedUpdateWithoutCharacteristicsInput>
+  }
+
+  export type ProductUpdateWithoutCharacteristicsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    items?: ItemUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutCharacteristicsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
+    newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductImageCreateWithoutImageInput = {
@@ -23536,6 +25109,7 @@ export namespace Prisma {
     description?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     items?: ItemCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
@@ -23547,6 +25121,7 @@ export namespace Prisma {
     description?: string | null
     categoryId: number
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
@@ -23593,6 +25168,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
@@ -23604,6 +25180,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -23730,6 +25307,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     items?: ItemCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
 
@@ -23741,6 +25319,7 @@ export namespace Prisma {
     categoryId: number
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
 
@@ -23795,6 +25374,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
 
@@ -23806,6 +25386,7 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
@@ -24234,6 +25815,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     items?: ItemCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
   }
 
@@ -24245,6 +25827,7 @@ export namespace Prisma {
     categoryId: number
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     items?: ItemUncheckedCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
   }
 
@@ -24299,6 +25882,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
   }
 
@@ -24310,6 +25894,7 @@ export namespace Prisma {
     categoryId?: IntFieldUpdateOperationsInput | number
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
@@ -24529,6 +26114,7 @@ export namespace Prisma {
     description?: string | null
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductCreateNestedManyWithoutProductInput
   }
@@ -24540,6 +26126,7 @@ export namespace Prisma {
     description?: string | null
     categoryId: number
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    characteristics?: ProductCharacteristicUncheckedCreateNestedManyWithoutProductInput
     bannerProducts?: BannerProductUncheckedCreateNestedManyWithoutProductInput
     newsBlockProducts?: NewsBlockProductUncheckedCreateNestedManyWithoutProductInput
   }
@@ -24608,6 +26195,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
@@ -24619,6 +26207,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -24697,6 +26286,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     images?: ProductImageUpdateManyWithoutProductNestedInput
     items?: ItemUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUpdateManyWithoutProductNestedInput
   }
@@ -24708,6 +26298,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     items?: ItemUncheckedUpdateManyWithoutProductNestedInput
+    characteristics?: ProductCharacteristicUncheckedUpdateManyWithoutProductNestedInput
     bannerProducts?: BannerProductUncheckedUpdateManyWithoutProductNestedInput
     newsBlockProducts?: NewsBlockProductUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -24728,6 +26319,13 @@ export namespace Prisma {
     id?: number
     orderId: number
     quantity: number
+  }
+
+  export type ProductCharacteristicCreateManyProductInput = {
+    id?: number
+    name: string
+    value: number
+    unit: string
   }
 
   export type BannerProductCreateManyProductInput = {
@@ -24767,6 +26365,26 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     orderId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductCharacteristicUpdateWithoutProductInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProductCharacteristicUncheckedUpdateWithoutProductInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProductCharacteristicUncheckedUpdateManyWithoutProductInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    value?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
   }
 
   export type BannerProductUpdateWithoutProductInput = {

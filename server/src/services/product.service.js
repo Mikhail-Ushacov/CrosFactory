@@ -30,7 +30,8 @@ class ProductService {
       where: { id: productId },
       include: { 
         category: true, 
-        images: { include: { image: true } } 
+        images: { include: { image: true } }, 
+        characteristics: true
       }
     });
 
@@ -55,6 +56,7 @@ class ProductService {
     
     // 1. Очищуємо та валідуємо вхідні дані
     const urls = JSON.parse(existing_urls || '[]');
+    const charList = JSON.parse(characteristics || '[]');
     const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
     
     // ВИДАЛЯЄМО ДУБЛІКАТИ (вирішує 500 помилку)
@@ -78,6 +80,13 @@ class ProductService {
               }
             }
           }))
+        },
+      characteristics: {
+          create: charList.map(c => ({
+            name: c.name,
+            value: parseFloat(c.value) || 0,
+            unit: c.unit
+          }))
         }
       },
       include: { images: { include: { image: true } } }
@@ -91,6 +100,7 @@ class ProductService {
     const { name, price, description, category_id, existing_urls } = data;
     
     const urls = JSON.parse(existing_urls || '[]');
+    const charList = JSON.parse(characteristics || '[]');
     const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
     
     // ВИДАЛЯЄМО ДУБЛІКАТИ (вирішує 500 помилку)
@@ -106,6 +116,7 @@ class ProductService {
 
       // 1. Видаляємо старі зв'язки
       await tx.productImage.deleteMany({ where: { productId } });
+      await tx.productCharacteristic.deleteMany({ where: { productId } });
 
       // 2. Оновлюємо товар
       return await tx.product.update({
@@ -123,6 +134,13 @@ class ProductService {
                   create: { url: url }
                 }
               }
+            }))
+          },
+        characteristics: {
+            create: charList.map(c => ({
+              name: c.name,
+              value: parseFloat(c.value) || 0,
+              unit: c.unit
             }))
           }
         },

@@ -24,6 +24,11 @@ export interface Product {
   category_slug: string;   // Приберіть "?"
   main_image: string;
   images: string[];
+  characteristics?: {
+    name: string;
+    value: number;
+    unit: string;
+  }[];
 }
 
 // --- Кошик ---

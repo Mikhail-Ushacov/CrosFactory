@@ -36,15 +36,27 @@ model Product {
 
   images ProductImage[]
   items  Item[]
+  
+  // Додано поле для зв'язку з характеристиками
+  characteristics ProductCharacteristic[]
 
-  // Зворотні зв'язки для банерів та блоків новин
   bannerProducts    BannerProduct[]
   newsBlockProducts NewsBlockProduct[]
 }
 
+model ProductCharacteristic {
+  id        Int     @id @default(autoincrement())
+  name      String  // Назва характеристики (напр., "Вага", "Ширина")
+  value     Float   // Числове значення
+  unit      String  // Одиниця виміру (напр., "кг", "см", "Вт")
+  
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
 model Image {
   id  Int    @id @default(autoincrement())
-  url String
+  url String @unique
 
   productImages   ProductImage[]
   bannerImages    BannerImage[]
