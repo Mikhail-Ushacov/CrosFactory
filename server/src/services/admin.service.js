@@ -15,12 +15,30 @@ class AdminService {
   }
 
   async getStats() {
-    const [orders, productsCount, usersCount] = await Promise.all([
+    const [
+      orders, 
+      productsCount, 
+      usersCount, 
+      categoriesCount, 
+      newsCount, 
+      bannersCount
+    ] = await Promise.all([
       prisma.order.findMany({ orderBy: { id: 'desc' }, take: 10 }),
       prisma.product.count(),
-      prisma.user.count()
+      prisma.user.count(),
+      prisma.category.count(),
+      prisma.news.count(),
+      prisma.banner.count()
     ]);
-    return { orders, productsCount, usersCount };
+
+    return { 
+      orders, 
+      productsCount, 
+      usersCount, 
+      categoriesCount, 
+      newsCount, 
+      bannersCount 
+    };
   }
 
   async getAll(model) {

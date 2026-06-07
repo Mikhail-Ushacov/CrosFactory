@@ -20,7 +20,7 @@ export const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post('/login', form);
+      const res = await api.post('/auth/login', form);
       login(res.data.token, res.data.user);
       navigate('/');
     } catch (err) {

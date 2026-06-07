@@ -22,7 +22,8 @@ model Category {
   name String
   slug String @unique
 
-  products Product[]
+  products         Product[]
+  bannerCategories BannerCategory[]
 }
 
 model Product {
@@ -36,20 +37,23 @@ model Product {
 
   images ProductImage[]
   items  Item[]
-  
+
   // Додано поле для зв'язку з характеристиками
   characteristics ProductCharacteristic[]
 
   bannerProducts    BannerProduct[]
   newsBlockProducts NewsBlockProduct[]
+
+  isOnSale  Boolean @default(false)
+  salePrice Float?
 }
 
 model ProductCharacteristic {
-  id        Int     @id @default(autoincrement())
-  name      String  // Назва характеристики (напр., "Вага", "Ширина")
-  value     Float   // Числове значення
-  unit      String  // Одиниця виміру (напр., "кг", "см", "Вт")
-  
+  id    Int    @id @default(autoincrement())
+  name  String // Назва характеристики (напр., "Вага", "Ширина")
+  value Float // Числове значення
+  unit  String // Одиниця виміру (напр., "кг", "см", "Вт")
+
   productId Int
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
@@ -83,8 +87,9 @@ model Banner {
   text        String
   order       Int    @default(0)
 
-  images   BannerImage[]
-  products BannerProduct[]
+  images           BannerImage[]
+  products         BannerProduct[]
+  bannerCategories BannerCategory[]
 }
 
 model BannerProduct {
@@ -94,6 +99,16 @@ model BannerProduct {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@id([bannerId, productId])
+}
+
+model BannerCategory {
+  bannerId   Int
+  categoryId Int
+
+  banner   Banner   @relation(fields: [bannerId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([bannerId, categoryId])
 }
 
 model BannerImage {

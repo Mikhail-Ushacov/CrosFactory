@@ -49,7 +49,7 @@ export const Checkout = () => {
   useEffect(() => {
     if (user) {
       setIsPrefilling(true);
-      api.get('/my-orders')
+      api.get('/orders/my')
         .then(res => {
           if (res.data && res.data.length > 0) {
             // Беремо найсвіжіше замовлення (вони відсортовані desc за id на бекенді)

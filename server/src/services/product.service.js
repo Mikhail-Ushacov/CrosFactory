@@ -52,7 +52,7 @@ class ProductService {
   }
 
   async create(data, files) {
-    const { name, price, description, category_id, existing_urls } = data;
+    const { name, price, description, category_id, existing_urls, characteristics } = data;
     
     // 1. Очищуємо та валідуємо вхідні дані
     const urls = JSON.parse(existing_urls || '[]');
@@ -97,7 +97,7 @@ class ProductService {
     const productId = parseInt(id);
     if (isNaN(productId)) throw new Error("Невірний ID товару");
 
-    const { name, price, description, category_id, existing_urls } = data;
+    const { name, price, description, category_id, existing_urls, characteristics } = data;
     
     const urls = JSON.parse(existing_urls || '[]');
     const charList = JSON.parse(characteristics || '[]');

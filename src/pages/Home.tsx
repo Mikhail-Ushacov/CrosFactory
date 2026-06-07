@@ -16,6 +16,8 @@ interface Banner {
   description: string;
   text: string;
   images: string[];
+  products?: { id: number }[];
+  categories?: { id: number }[];
 }
 
 interface NewsItem {
@@ -73,28 +75,37 @@ export const Home = () => {
   // Завантаження даних
   useEffect(() => {
     const loadAllData = async () => {
-      try {
-        const [resProducts, resCategories, resBanners, resNews] = await Promise.all([
-          api.get('/products'),
-          api.get('/categories'),
-          api.get('/banners'),
-          api.get('/news')
-        ]);
+  try {
+    const [resProducts, resCategories, resBanners, resNews] = await Promise.all([
+      api.get('/products'),
+      api.get('/categories'),
+      api.get('/banners'),
+      api.get('/news')
+    ]);
 
-        setProducts(resProducts.data);
-        setCategories(resCategories.data);
-        setBanners(resBanners.data);
-        setNews(resNews.data);
+    setProducts(resProducts.data);
+    setCategories(resCategories.data);
+    setBanners(resBanners.data);
+    setNews(resNews.data);
 
-        const viewedIds = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
-        const filtered = resProducts.data.filter((p: Product) => viewedIds.includes(p.id));
-        setRecentlyViewed(filtered);
-      } catch (err) {
-        console.error("Помилка завантаження даних:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    // Отримуємо ID переглянутих товарів
+    const savedIds = localStorage.getItem('recentlyViewed');
+    if (savedIds) {
+      const viewedIds: number[] = JSON.parse(savedIds);
+      
+      // Створюємо масив об'єктів товарів у тому ж порядку, що й ID
+      const viewedProducts = viewedIds
+        .map(id => resProducts.data.find((p: Product) => p.id === id))
+        .filter(Boolean); // Видаляємо undefined, якщо товар було видалено з бази
+        
+      setRecentlyViewed(viewedProducts);
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
     loadAllData();
 
@@ -160,6 +171,16 @@ export const Home = () => {
     }
   };
 
+  const getBannerLink = (banner: Banner) => {
+    if (banner.products && banner.products.length > 0) {
+      return `/product/${banner.products[0].id}`;
+    }
+    if (banner.categories && banner.categories.length > 0) {
+      return `/catalog?category=${banner.categories[0].id}`;
+    }
+    return "/catalog"; // Посилання за замовчуванням
+  };
+
   const productOfTheDay = products[0];
 
   if (isLoading) {
@@ -175,7 +196,7 @@ export const Home = () => {
     <div className="space-y-8 md:space-y-12 pb-10">
       
       {/* 1. Пошукова секція */}
-      <section className="max-w-2xl mx-auto px-4 w-full relative z-20" ref={searchRef}>
+      <section className="max-w-2xl mx-auto px-4 w-full relative z-50" ref={searchRef}>
         <form onSubmit={handleSearchSubmit} className="relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={20} />
           <input
@@ -201,7 +222,7 @@ export const Home = () => {
         </form>
 
         {isSearchOpen && searchQuery.trim().length > 1 && (
-          <div className="absolute top-full left-4 right-4 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-full left-4 right-4 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
             {(suggestedProducts.length > 0 || suggestedCategories.length > 0) ? (
               <div className="py-2">
                 {suggestedCategories.length > 0 && (
@@ -270,10 +291,8 @@ export const Home = () => {
               key={slide.id} 
               className={`absolute inset-0 transition-all duration-700 ease-in-out flex items-center ${
                 index === currentSlide 
-                  ? "opacity-100 translate-x-0 z-20" 
-                  : index < currentSlide 
-                    ? "opacity-0 -translate-x-full z-10" 
-                    : "opacity-0 translate-x-full z-10"
+                  ? "opacity-100 translate-x-0" 
+                  : "opacity-0 invisible" // Спрощено для стабільності
               }`}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
@@ -286,12 +305,18 @@ export const Home = () => {
                 <p className="text-sm md:text-xl text-slate-200 mb-6 md:mb-10 line-clamp-2">
                   {slide.description}
                 </p>
-                <Link to="/catalog" className="bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-indigo-700 hover:scale-105 transition-all inline-block shadow-lg shadow-indigo-500/30">
+                
+                {/* ВИПРАВЛЕНО: Динамічне посилання */}
+                <Link 
+                  to={getBannerLink(slide)} 
+                  className="bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-indigo-700 hover:scale-105 transition-all inline-block shadow-lg shadow-indigo-500/30"
+                >
                   {slide.text || "Перейти до каталогу"}
                 </Link>
               </div>
             </div>
           ))}
+
           
           {banners.length > 1 && (
             <>

@@ -4,16 +4,10 @@ const prisma = require('../config/prisma');
 const upload = require('../config/multer');
 const { protect, restrictTo } = require('../middleware/auth');
 const { BASE_URL } = require('../config/constants');
+const adminController = require('../controllers/admin.controller');
 
 // Доступ для Admin та Moderator (Статистика)
-router.get('/stats', protect, restrictTo('admin', 'moderator'), async (req, res) => {
-  const [orders, productsCount, usersCount] = await Promise.all([
-    prisma.order.findMany({ orderBy: { id: 'desc' }, take: 10 }),
-    prisma.product.count(),
-    prisma.user.count()
-  ]);
-  res.json({ orders, productsCount, usersCount });
-});
+router.get('/stats', protect, restrictTo('admin', 'moderator'), adminController.getStats);
 
 // ТІЛЬКИ для Admin (Керування БД)
 router.use(protect, restrictTo('admin'));

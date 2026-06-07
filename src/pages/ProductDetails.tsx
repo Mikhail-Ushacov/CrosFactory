@@ -12,6 +12,7 @@ export const ProductDetails = () => {
   const [isAdded, setIsAdded] = useState(false);
   const { addToCart } = useCart();
 
+  // 1. Хук завантаження продукту
   useEffect(() => {
     api.get<Product>(`/products/${id}`)
       .then(res => {
@@ -20,6 +21,22 @@ export const ProductDetails = () => {
       });
   }, [id]);
 
+  // 2. Хук для нещодавно переглянутих товарів
+  // ПЕРЕНЕСЕНО СЮДИ (до if (!product) return)
+  useEffect(() => {
+    if (product) { // Умова перенесена всередину хука
+      const savedIds = localStorage.getItem('recentlyViewed');
+      let viewedIds: number[] = savedIds ? JSON.parse(savedIds) : [];
+
+      viewedIds = viewedIds.filter(id => id !== product.id);
+      viewedIds.unshift(product.id);
+      viewedIds = viewedIds.slice(0, 10);
+
+      localStorage.setItem('recentlyViewed', JSON.stringify(viewedIds));
+    }
+  }, [product]);
+
+  // 3. ТІЛЬКИ ПІСЛЯ ВСІХ ХУКІВ робимо перевірку на null для JSX
   if (!product) return <div className="p-10 text-center text-slate-400">Завантаження...</div>;
 
   const handleAddToCart = () => {

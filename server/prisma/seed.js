@@ -215,3 +215,23 @@ main().catch((e) => {
   console.error('❌ Помилка при заповненні бази:', e);
   process.exit(1);
 });
+
+
+//Імпорт товарів
+const { exec } = require('child_process');
+
+exec(
+  'node import.js dev.db products-2026-06-01T14-45-16.json',
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error('Ошибка:', error);
+      return;
+    }
+
+    if (stderr) {
+      console.error('stderr:', stderr);
+    }
+
+    console.log('stdout:', stdout);
+  }
+);

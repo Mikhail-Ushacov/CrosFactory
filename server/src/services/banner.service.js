@@ -7,7 +7,8 @@ class BannerService {
       orderBy: { order: 'asc' },
       include: { 
         images: { include: { image: true } },
-        products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } }
+        products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } },
+        bannerCategories: { include: { category: true } } // Згідно з вашою схемою
       }
     });
     return banners.map(b => this._formatBanner(b));
@@ -18,7 +19,8 @@ class BannerService {
       where: { id: parseInt(id) },
       include: { 
         images: { include: { image: true } },
-        products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } }
+        products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } },
+        bannerCategories: { include: { category: true } } // Згідно з вашою схемою
       }
     });
     if (!banner) throw new Error("Банер не знайдено");
@@ -26,64 +28,82 @@ class BannerService {
   }
 
   async create(data, files) {
-    const { title, description, text, existing_urls } = data;
+    const { title, description, text, existing_urls, productIds, categoryIds } = data;
     const urls = JSON.parse(existing_urls || '[]');
+    const pIds = JSON.parse(productIds || '[]');
+    const cIds = JSON.parse(categoryIds || '[]');
+    
     const fileUrls = files.map(file => `${BASE_URL}/content/${file.filename}`);
     const allImages = [...urls, ...fileUrls];
 
     return await prisma.banner.create({
       data: {
-        title, description, text,
-        images: { create: allImages.map(url => ({ image: { create: { url } } })) }
+        title, 
+        description: description || "", 
+        text: text || "",
+        // ВИПРАВЛЕНО: використовуємо connectOrCreate
+        images: { 
+          create: allImages.map(url => ({ 
+            image: { 
+              connectOrCreate: {
+                where: { url },
+                create: { url }
+              }
+            } 
+          })) 
+        },
+        products: { create: pIds.map(pid => ({ product: { connect: { id: parseInt(pid) } } })) },
+        bannerCategories: { create: cIds.map(cid => ({ category: { connect: { id: parseInt(cid) } } })) }
       }
     });
   }
 
-  async updateOrder(orders) {
-  if (!Array.isArray(orders)) throw new Error("Дані мають бути масивом");
-
-  const updates = orders.map((item, index) => {
-    // Якщо item — це об'єкт (напр. {id: 15}), беремо item.id
-    // Якщо item — це число (напр. 15), беремо саме його
-    const id = typeof item === 'object' ? parseInt(item.id) : parseInt(item);
-    
-    // Порядок (order) — це просто індекс елемента в масиві
-    const orderValue = (typeof item === 'object' && item.order !== undefined) 
-      ? parseInt(item.order) 
-      : index;
-
-    if (isNaN(id)) return null;
-
-    return prisma.banner.update({
-      where: { id },
-      data: { order: orderValue },
-    });
-  }).filter(Boolean);
-
-  return await prisma.$transaction(updates);
-}
-
   async update(id, data, files) {
     const bannerId = parseInt(id);
-    const { title, description, text, existing_urls, productIds } = data;
+    const { title, description, text, existing_urls, productIds, categoryIds } = data;
     
     const urls = JSON.parse(existing_urls || '[]');
     const pIds = JSON.parse(productIds || '[]');
-    const fileUrls = files.map(file => `${BASE_URL}/content/${file.filename}`);
+    const cIds = JSON.parse(categoryIds || '[]');
+    
+    const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
     const allImages = [...urls, ...fileUrls];
 
-    // Атомарна операція: видаляємо старі зв'язки та створюємо нові
-    await prisma.bannerImage.deleteMany({ where: { bannerId } });
-    await prisma.bannerProduct.deleteMany({ where: { bannerId } });
+    return await prisma.$transaction(async (tx) => {
+      await tx.bannerImage.deleteMany({ where: { bannerId } });
+      await tx.bannerProduct.deleteMany({ where: { bannerId } });
+      await tx.bannerCategory.deleteMany({ where: { bannerId } });
 
-    return await prisma.banner.update({
-      where: { id: bannerId },
-      data: {
-        title, description, text,
-        images: { create: allImages.map(url => ({ image: { create: { url } } })) },
-        products: { create: pIds.map(pid => ({ product: { connect: { id: parseInt(pid) } } })) }
-      }
+      return await tx.banner.update({
+        where: { id: bannerId },
+        data: {
+          title, description, text,
+          // ВИПРАВЛЕНО: використовуємо connectOrCreate
+          images: { 
+            create: allImages.map(url => ({ 
+              image: { 
+                connectOrCreate: {
+                  where: { url },
+                  create: { url }
+                }
+              }
+            })) 
+          },
+          products: { create: pIds.map(pid => ({ product: { connect: { id: parseInt(pid) } } })) },
+          bannerCategories: { create: cIds.map(cid => ({ category: { connect: { id: parseInt(cid) } } })) }
+        }
+      });
     });
+  }
+
+  async updateOrder(orders) {
+    const updates = orders.map((item, index) => {
+      const id = typeof item === 'object' ? parseInt(item.id) : parseInt(item);
+      const orderValue = (typeof item === 'object' && item.order !== undefined) ? parseInt(item.order) : index;
+      if (isNaN(id)) return null;
+      return prisma.banner.update({ where: { id }, data: { order: orderValue } });
+    }).filter(Boolean);
+    return await prisma.$transaction(updates);
   }
 
   async delete(id) {
@@ -97,7 +117,9 @@ class BannerService {
       products: b.products.map(p => ({
         ...p.product,
         main_image: p.product.images[0]?.image.url || ''
-      }))
+      })),
+      // Форматуємо bannerCategories у плоский масив categories
+      categories: b.bannerCategories ? b.bannerCategories.map(bc => bc.category) : []
     };
   }
 }

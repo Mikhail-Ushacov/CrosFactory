@@ -9,7 +9,7 @@ export const UserProfile = () => {
   const [orders, setOrders] = useState<any[]>([]);
 
   useEffect(() => {
-    api.get('/my-orders').then(res => setOrders(res.data));
+    api.get('/orders/my').then(res => setOrders(res.data));
   }, []);
 
   return (

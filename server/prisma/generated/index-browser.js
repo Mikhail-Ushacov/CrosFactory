@@ -135,7 +135,9 @@ exports.Prisma.ProductScalarFieldEnum = {
   name: 'name',
   price: 'price',
   description: 'description',
-  categoryId: 'categoryId'
+  categoryId: 'categoryId',
+  isOnSale: 'isOnSale',
+  salePrice: 'salePrice'
 };
 
 exports.Prisma.ProductCharacteristicScalarFieldEnum = {
@@ -168,6 +170,11 @@ exports.Prisma.BannerScalarFieldEnum = {
 exports.Prisma.BannerProductScalarFieldEnum = {
   bannerId: 'bannerId',
   productId: 'productId'
+};
+
+exports.Prisma.BannerCategoryScalarFieldEnum = {
+  bannerId: 'bannerId',
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.BannerImageScalarFieldEnum = {
@@ -252,6 +259,7 @@ exports.Prisma.ModelName = {
   ProductImage: 'ProductImage',
   Banner: 'Banner',
   BannerProduct: 'BannerProduct',
+  BannerCategory: 'BannerCategory',
   BannerImage: 'BannerImage',
   News: 'News',
   NewsBlock: 'NewsBlock',

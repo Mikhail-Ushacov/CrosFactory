@@ -206,7 +206,7 @@ export const Catalog = () => {
                 onChange={(e) => setItemsPerPage(Number(e.target.value))}
                 className="appearance-none bg-white border border-slate-200 text-slate-900 text-sm rounded-lg focus:ring-2 focus:ring-indigo-500 block p-2 pr-8 cursor-pointer outline-none"
               >
-                {[4, 8, 12, 16, 24, 48].map(num => (
+                {[12, 24, 48, 96].map(num => (
                   <option key={num} value={num}>{num}</option>
                 ))}
               </select>

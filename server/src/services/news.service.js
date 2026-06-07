@@ -55,7 +55,12 @@ class NewsService {
         tag: tag || 'Новини',
         images: {
           create: mainFiles.map(f => ({
-            image: { create: { url: `${BASE_URL}/content/${f.filename}` } }
+            image: { 
+              connectOrCreate: {
+                where: { url: `${BASE_URL}/content/${f.filename}` },
+                create: { url: `${BASE_URL}/content/${f.filename}` }
+              }
+            }
           }))
         },
         contentBlocks: {

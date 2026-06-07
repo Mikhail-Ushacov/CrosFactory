@@ -24,10 +24,11 @@ import ProformaInvoice from './pages/Outvoice';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { UserProfile } from './pages/UserProfile';
-import { AdminProfile } from './pages/AdminProfile';
+import { AdminProfile } from './pages/profile/AdminProfile';
 import { AdminProductForm } from './pages/AdminProductForm';
 import { AdminContentManager } from './pages/AdminContentManager';
 import { AdminDatabaseManager } from './pages/DBmanager/AdminDatabaseManager';
+import { AdminCategoryForm } from './pages/AdminCategoryForm';
 import { BannerForm } from './pages/forms/BannerForm';
 import { NewsForm } from './pages/forms/NewsForm';
 import { NewsList } from './pages/NewsList';
@@ -217,6 +218,8 @@ function App() {
                   <Route path="/admin/content/banner/:id" element={<PrivateRoute roles={['admin', 'moderator']}><BannerForm /></PrivateRoute>} />
                   <Route path="/admin/content/news/new" element={<PrivateRoute roles={['admin', 'moderator']}><NewsForm /></PrivateRoute>} />
                   <Route path="/admin/content/news/:id" element={<PrivateRoute roles={['admin', 'moderator']}><NewsForm /></PrivateRoute>} />
+                  <Route path="/admin/category/new" element={<PrivateRoute roles={['admin', 'moderator']}><AdminCategoryForm /></PrivateRoute>} />
+                  <Route path="/admin/category/edit/:id" element={<PrivateRoute roles={['admin', 'moderator']}><AdminCategoryForm /></PrivateRoute>} />
                   <Route path="/news" element={<NewsList />} />
                   <Route path="/news/:id" element={<NewsDetails />} />
 
