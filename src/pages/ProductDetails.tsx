@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+// 1. Додаємо useNavigate до імпорту
+import { useParams, useNavigate } from 'react-router-dom'; 
 import { ChevronLeft, ShoppingBag, Check, Settings2 } from 'lucide-react';
 import type { Product } from '../types';
 import { useCart } from '../context/CartContext';
@@ -7,12 +8,12 @@ import api from '../api';
 
 export const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // 2. Ініціалізуємо хук
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImage, setActiveImage] = useState<string>('');
   const [isAdded, setIsAdded] = useState(false);
   const { addToCart } = useCart();
 
-  // 1. Хук завантаження продукту
   useEffect(() => {
     api.get<Product>(`/products/${id}`)
       .then(res => {
@@ -21,10 +22,8 @@ export const ProductDetails = () => {
       });
   }, [id]);
 
-  // 2. Хук для нещодавно переглянутих товарів
-  // ПЕРЕНЕСЕНО СЮДИ (до if (!product) return)
   useEffect(() => {
-    if (product) { // Умова перенесена всередину хука
+    if (product) {
       const savedIds = localStorage.getItem('recentlyViewed');
       let viewedIds: number[] = savedIds ? JSON.parse(savedIds) : [];
 
@@ -36,7 +35,6 @@ export const ProductDetails = () => {
     }
   }, [product]);
 
-  // 3. ТІЛЬКИ ПІСЛЯ ВСІХ ХУКІВ робимо перевірку на null для JSX
   if (!product) return <div className="p-10 text-center text-slate-400">Завантаження...</div>;
 
   const handleAddToCart = () => {
@@ -47,13 +45,17 @@ export const ProductDetails = () => {
 
   return (
     <div className="max-w-5xl mx-auto pb-20">
-      <Link to="/catalog" className="inline-flex items-center text-slate-500 hover:text-indigo-600 mb-6 transition-colors text-sm font-medium">
+      {/* 3. Замінюємо Link на button з navigate(-1) */}
+      <button 
+        onClick={() => navigate(-1)} 
+        className="inline-flex items-center text-slate-500 hover:text-indigo-600 mb-6 transition-colors text-sm font-medium bg-transparent border-none p-0 cursor-pointer"
+      >
         <ChevronLeft size={18} />
         <span>Назад до каталогу</span>
-      </Link>
+      </button>
 
       <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12">
-        {/* Галерея */}
+        {/* Решта коду без змін... */}
         <div className="space-y-3">
           <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-white border border-slate-100 shadow-sm">
             {activeImage ? (
@@ -83,7 +85,6 @@ export const ProductDetails = () => {
           </div>
         </div>
 
-        {/* Інформація */}
         <div className="flex flex-col">
           <div className="mb-4">
             <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-bold uppercase tracking-widest">
@@ -117,15 +118,13 @@ export const ProductDetails = () => {
             )}
           </div>
 
-          {/* Опис */}
           <div className="bg-white rounded-2xl p-5 md:p-6 border border-slate-100 mb-6">
             <h3 className="font-bold text-slate-900 mb-2 text-sm uppercase tracking-wider">Опис товару</h3>
             <p className="text-slate-600 leading-relaxed text-sm">
-              {product.description || "Технічний опис товару наразі оновлюється. Ми гарантуємо повну відповідність технічним нормам."}
+              {product.description || "Технічний опис товару наразі оновлюється."}
             </p>
           </div>
 
-          {/* НОВИЙ БЛОК: ХАРАКТЕРИСТИКИ */}
           {product.characteristics && product.characteristics.length > 0 && (
             <div className="bg-slate-50 rounded-2xl p-5 md:p-6 border border-slate-100 mb-8">
               <div className="flex items-center gap-2 mb-4">
@@ -135,7 +134,7 @@ export const ProductDetails = () => {
               <div className="space-y-3">
                 {product.characteristics.map((char, index) => (
                   <div key={index} className="flex justify-between items-end gap-4 text-sm border-b border-slate-200 pb-1.5 last:border-0 last:pb-0">
-                    <span className="text-slate-500 whitespace-nowrap">{char.name}</span>
+                    <span className="text-slate-500">{char.name}</span>
                     <div className="flex-1 border-b border-dotted border-slate-300 mb-1"></div>
                     <span className="font-bold text-slate-900 whitespace-nowrap">
                       {char.value} {char.unit}
@@ -164,17 +163,6 @@ export const ProductDetails = () => {
               </>
             )}
           </button>
-
-          <div className="mt-8 border-t border-slate-100 pt-6 grid grid-cols-2 gap-4">
-            <div className="text-center p-3 bg-white rounded-xl border border-slate-100">
-              <p className="text-[10px] text-slate-400 uppercase font-bold">Доставка</p>
-              <p className="text-xs font-semibold text-slate-900">По всій Україні</p>
-            </div>
-            <div className="text-center p-3 bg-white rounded-xl border border-slate-100">
-              <p className="text-[10px] text-slate-400 uppercase font-bold">Оплата</p>
-              <p className="text-xs font-semibold text-slate-900">Безготівка / ПДВ</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
