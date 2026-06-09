@@ -25,3 +25,37 @@ body {
   text-align: left !important;
   display: block !important;
 }
+
+
+/* range-slider-container - контейнер для повзунків */
+.range-slider-container .range-input {
+  pointer-events: none; /* Щоб лінія не заважала ловити thumb */
+  z-index: 2;
+}
+
+/* Стилізація thumb для Chrome/Safari/Edge */
+.range-slider-container .range-input::-webkit-slider-thumb {
+  pointer-events: auto; /* Повертаємо можливість тягнути кнопку */
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #4f39f6;
+  border: 4px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+
+/* Стилізація thumb для Firefox */
+.range-slider-container .range-input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #4f39f6;
+  border: 4px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}

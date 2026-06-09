@@ -34,6 +34,7 @@ import { NewsForm } from './pages/forms/NewsForm';
 import { NewsList } from './pages/NewsList';
 import { NewsDetails } from './pages/NewsDetails';
 import { Home } from './pages/home/HomePage';
+import { SmartCatalog } from './pages/catalog/SmartCatalog';
 
 // Оновлений PrivateRoute
 const PrivateRoute = ({ children, roles }: { children: React.ReactNode, roles?: ('user' | 'admin' | 'moderator')[] }) => {
@@ -95,6 +96,11 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (v: boolea
           <NavLink to="/catalog" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
             <LayoutGrid size={20} />
             <span>Каталог</span>
+          </NavLink>
+
+          <NavLink to="/smart-catalog" className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
+            <LayoutGrid size={20} />
+            <span>Новий Каталог</span>
           </NavLink>
 
           <NavLink to="/cart" className={({ isActive }) => `flex items-center justify-between px-4 py-3 rounded-xl transition-all ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-slate-500 hover:bg-slate-50"}`}>
@@ -222,6 +228,10 @@ function App() {
                   <Route path="/admin/category/edit/:id" element={<PrivateRoute roles={['admin', 'moderator']}><AdminCategoryForm /></PrivateRoute>} />
                   <Route path="/news" element={<NewsList />} />
                   <Route path="/news/:id" element={<NewsDetails />} />
+
+                  <Route path="/smart-catalog" element={<SmartCatalog />} />
+                  <Route path="/smart-catalog" element={<SmartCatalog />} />
+                  <Route path="/smart-catalog/:categorySlug" element={<SmartCatalog />} />  
 
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

@@ -6,7 +6,8 @@ class ProductService {
     const products = await prisma.product.findMany({
       include: { 
         category: true, 
-        images: { include: { image: true }, take: 1 } 
+        images: { include: { image: true }, take: 1 },
+        characteristics: true
       }
     });
     return products.map(p => ({
@@ -14,7 +15,8 @@ class ProductService {
       category_id: p.categoryId,
       category_name: p.category.name,
       category_slug: p.category.slug,
-      main_image: p.images[0]?.image.url || null
+      main_image: p.images[0]?.image.url || null,
+      characteristics: p.characteristics
     }));
   }
 
