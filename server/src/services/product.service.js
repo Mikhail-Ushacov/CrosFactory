@@ -52,7 +52,7 @@ class ProductService {
   }
 
   async create(data, files) {
-    const { name, price, description, category_id, existing_urls, characteristics } = data;
+    const { name, price, description, category_id, existing_urls, characteristics, isOnSale, salePrice } = data;
     
     // 1. Очищуємо та валідуємо вхідні дані
     const urls = JSON.parse(existing_urls || '[]');
@@ -70,6 +70,8 @@ class ProductService {
         name,
         price: parseFloat(price) || 0,
         description: description || "",
+        isOnSale: isOnSale === 'true', // Приходить як рядок з FormData
+        salePrice: isOnSale === 'true' ? parseFloat(salePrice) : null,
         category: { connect: { id: catId } },
         images: {
           create: allImages.map(url => ({
@@ -97,7 +99,7 @@ class ProductService {
     const productId = parseInt(id);
     if (isNaN(productId)) throw new Error("Невірний ID товару");
 
-    const { name, price, description, category_id, existing_urls, characteristics } = data;
+    const { name, price, description, category_id, existing_urls, characteristics, isOnSale, salePrice } = data;
     
     const urls = JSON.parse(existing_urls || '[]');
     const charList = JSON.parse(characteristics || '[]');
@@ -125,6 +127,8 @@ class ProductService {
           name,
           price: parseFloat(price) || 0,
           description: description || "",
+          isOnSale: isOnSale === 'true',
+          salePrice: isOnSale === 'true' ? parseFloat(salePrice) : null,
           category: { connect: { id: catId } },
           images: {
             create: allImages.map(url => ({

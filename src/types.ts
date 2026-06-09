@@ -2,7 +2,7 @@
 export interface User {
   id: number;
   login: string;
-  role: 'admin'| 'moderator' | 'user';
+  role: 'admin' | 'moderator' | 'user';
 }
 
 // --- Категорії ---
@@ -10,6 +10,9 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
+  _count?: {
+    products: number;
+  };
 }
 
 // --- Товари ---
@@ -18,12 +21,22 @@ export interface Product {
   name: string;
   price: number;
   description: string;
-  categoryId: number;      // Для Prisma
-  category_id: number;     // Додайте це (те, що приходить з сервісу)
-  category_name: string;   // Приберіть "?" (сервіс завжди повертає назву або 'Без категорії')
-  category_slug: string;   // Приберіть "?"
+  
+  // Поля категорій
+  categoryId: number;      // Згідно з Prisma
+  category_id: number;     // Для сумісності з сервісом
+  category_name: string;
+  category_slug: string;
+  
+  // Медіа
   main_image: string;
   images: string[];
+  
+  // --- НОВІ ПОЛЯ ДЛЯ ЗНИЖОК ---
+  isOnSale: boolean;
+  salePrice: number | null;
+  // ---------------------------
+
   characteristics?: {
     name: string;
     value: number;
@@ -41,22 +54,19 @@ export interface Order {
   id: number;
   userId: number;
   sum: number;
-  date: string; // Приходить як ISO string (напр. "2024-05-10T14:17:26Z")
+  date: string; 
   
-  // Дані покупця
   customerType: 'individual' | 'business';
   customerName: string;
   email: string;
   phone: string;
   address: string;
 
-  // Реквізити для бізнесу (опціонально)
   edrpou?: string | null;
   iban?: string | null;
   bank?: string | null;
   taxStatus?: string | null;
 
-  // Склад замовлення (якщо завантажено через include)
   items?: OrderItem[];
 }
 
@@ -65,7 +75,7 @@ export interface OrderItem {
   orderId: number;
   productId: number;
   quantity: number;
-  product?: Product; // Для відображення назви/фото в накладних
+  product?: Product;
 }
 
 // --- Контент (Банери та Новини) ---
@@ -74,24 +84,36 @@ export interface Banner {
   title: string;
   description: string;
   text: string;
-  images: string[]; // Масив URL
+  order: number;
+  images: string[];
+  categories?: Category[];
+  products?: (Product & { main_image: string })[];
 }
 
 export interface News {
   id: number;
   title: string;
   description: string;
-  text: string;
-  date: string;
   tag: string;
-  images: string[]; // Масив URL
+  date: string;
+  images: string[];
+  contentBlocks?: NewsBlock[];
 }
 
-// --- Аутентифікація (Відповідь від сервера) ---
+export interface NewsBlock {
+  id: number;
+  title?: string;
+  text?: string;
+  order: number;
+  images: string[];
+  products: (Product & { main_image: string })[];
+}
+
+// --- Аутентифікація ---
 export interface AuthResponse {
   token: string;
   user: {
     login: string;
-    role: 'admin' | 'user';
+    role: 'admin' | 'moderator' | 'user'; // Додано 'moderator' для відповідності
   };
 }

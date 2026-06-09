@@ -170,38 +170,80 @@ const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChan
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-50">
-          {products.map((product: any) => (
-            <tr key={product.id} className="hover:bg-slate-50/50 transition-colors">
-              <td className="p-4">
-                <div className="flex items-center gap-3">
-                  {product.main_image ? (
-                    <img src={product.main_image} className="w-10 h-10 rounded-lg object-cover" alt="" />
-                  ) : (
-                    <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300">
-                      <Package size={16} />
+          {products.map((product: any) => {
+            // Розрахунок відсотка для відображення
+            const discountPercent = product.isOnSale && product.price > 0 && product.salePrice
+              ? Math.round(((product.price - product.salePrice) / product.price) * 100)
+              : 0;
+
+            return (
+              <tr key={product.id} className="hover:bg-slate-50/50 transition-colors">
+                <td className="p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      {product.main_image ? (
+                        <img src={product.main_image} className="w-10 h-10 rounded-lg object-cover" alt="" />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300">
+                          <Package size={16} />
+                        </div>
+                      )}
+                      {/* Маленький індикатор акції на фото */}
+                      {product.isOnSale && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-white" />
+                      )}
                     </div>
-                  )}                      
-                  <span className="font-semibold text-slate-900">{product.name}</span>
-                </div>
-              </td>
-              <td className="p-4 text-sm text-slate-500">
-                <span className="px-2 py-1 bg-slate-100 rounded-md text-[11px] font-bold uppercase">
-                  {product.category_name || 'Без категорії'}
-                </span>
-              </td>
-              <td className="p-4 font-bold text-indigo-600">{product.price.toLocaleString()} ₴</td>
-              <td className="p-4 text-right">
-                <div className="flex justify-end gap-1">
-                  <Link to={`/admin/product/edit/${product.id}`} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all">
-                    <Edit2 size={18} />
-                  </Link>
-                  <button onClick={() => onDelete(product.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
-                    <Trash2 size={18} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+                    <span className="font-semibold text-slate-900">{product.name}</span>
+                  </div>
+                </td>
+                <td className="p-4 text-sm text-slate-500">
+                  <span className="px-2 py-1 bg-slate-100 rounded-md text-[11px] font-bold uppercase">
+                    {product.category_name || 'Без категорії'}
+                  </span>
+                </td>
+                <td className="p-4 min-w-[140px]">
+                  {product.isOnSale ? (
+                    <div className="flex flex-col gap-0">
+                      {/* Контейнер для основної ціни та знижки */}
+                      <div className="flex items-center gap-2 leading-none">
+                        <span className="font-black text-rose-600 whitespace-nowrap text-[15px]">
+                          {product.salePrice.toLocaleString()} ₴
+                        </span>
+                        <span className="text-[10px] font-black bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded-md border border-rose-100 flex-shrink-0">
+                          -{discountPercent}%
+                        </span>
+                      </div>
+                      
+                      {/* Стара ціна знизу */}
+                      <span className="text-[11px] text-slate-400 line-through decoration-slate-300 mt-0.5">
+                        {product.price.toLocaleString()} ₴
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="font-bold text-slate-700 whitespace-nowrap">
+                      {product.price.toLocaleString()} ₴
+                    </span>
+                  )}
+                </td>
+                <td className="p-4 text-right">
+                  <div className="flex justify-end gap-1">
+                    <Link 
+                      to={`/admin/product/edit/${product.id}`} 
+                      className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                    >
+                      <Edit2 size={18} />
+                    </Link>
+                    <button 
+                      onClick={() => onDelete(product.id)} 
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
