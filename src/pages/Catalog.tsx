@@ -233,7 +233,14 @@ export const Catalog = () => {
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
         {currentItems.map(product => (
-          <div key={product.id} className="bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-2 md:p-3 hover:shadow-xl transition-all group flex flex-col">
+          <div key={product.id} className="bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-2 md:p-3 hover:shadow-xl transition-all group flex flex-col relative">
+            {/* Бейдж знижки */}
+            {product.isOnSale && product.salePrice && (
+              <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded-lg shadow-lg">
+                -{Math.round(((product.price - product.salePrice) / product.price) * 100)}%
+              </div>
+            )}
+
             <Link to={`/product/${product.id}`} className="flex-1">
               <div className="aspect-square rounded-xl md:rounded-2xl overflow-hidden mb-3 md:mb-4 bg-slate-50">
                 {product.main_image ? (
@@ -259,9 +266,22 @@ export const Catalog = () => {
             </Link>
             
             <div className="px-1 md:px-2 flex items-center justify-between mt-3">
-              <span className="font-bold text-indigo-600 text-sm md:text-base">
-                {product.price.toLocaleString()} ₴
-              </span>
+              <div className="flex flex-col">
+                {product.isOnSale && product.salePrice ? (
+                  <>
+                    <span className="text-[10px] md:text-xs text-slate-400 line-through decoration-red-400">
+                      {product.price.toLocaleString()} ₴
+                    </span>
+                    <span className="font-bold text-red-600 text-sm md:text-base">
+                      {product.salePrice.toLocaleString()} ₴
+                    </span>
+                  </>
+                ) : (
+                  <span className="font-bold text-indigo-600 text-sm md:text-base">
+                    {product.price.toLocaleString()} ₴
+                  </span>
+                )}
+              </div>
               <button 
                 onClick={() => addToCart(product)}
                 className="bg-slate-100 text-slate-900 p-2 rounded-lg hover:bg-indigo-600 hover:text-white transition-colors cursor-pointer"

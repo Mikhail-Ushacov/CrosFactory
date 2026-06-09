@@ -337,9 +337,22 @@ export const Checkout = () => {
                     <p className="text-sm font-semibold text-slate-800 truncate">{item.name}</p>
                     <p className="text-xs text-slate-400">{item.quantity} шт.</p>
                   </div>
-                  <p className="text-sm font-bold text-slate-900">
-                    {(item.price * item.quantity).toLocaleString()} ₴
-                  </p>
+                  <div className="text-right">
+                    {item.isOnSale && item.salePrice ? (
+                      <>
+                        <p className="text-[10px] text-slate-400 line-through">
+                          {(item.price * item.quantity).toLocaleString()} ₴
+                        </p>
+                        <p className="text-sm font-bold text-red-600">
+                          {(item.salePrice * item.quantity).toLocaleString()} ₴
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-sm font-bold text-slate-900">
+                        {(item.price * item.quantity).toLocaleString()} ₴
+                      </p>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

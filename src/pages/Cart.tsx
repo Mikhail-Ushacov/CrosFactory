@@ -29,10 +29,23 @@ export const Cart = () => {
               <img src={item.main_image} className="w-20 h-20 object-cover rounded-2xl bg-slate-50" />
               <div className="flex-1">
                 <h3 className="font-semibold text-slate-900">{item.name}</h3>
-                <p className="text-sm text-slate-400">Количество: {item.quantity}</p>
+                <p className="text-sm text-slate-400">Кількість: {item.quantity}</p>
               </div>
               <div className="text-right">
-                <p className="font-bold text-slate-900">{(item.price * item.quantity).toLocaleString()} ₽</p>
+                {item.isOnSale && item.salePrice ? (
+                  <>
+                    <p className="text-xs text-slate-400 line-through decoration-red-300">
+                      {(item.price * item.quantity).toLocaleString()} ₴
+                    </p>
+                    <p className="font-bold text-red-600">
+                      {(item.salePrice * item.quantity).toLocaleString()} ₴
+                    </p>
+                  </>
+                ) : (
+                  <p className="font-bold text-slate-900">
+                    {(item.price * item.quantity).toLocaleString()} ₴
+                  </p>
+                )}
                 <button 
                   onClick={() => removeFromCart(item.id)}
                   className="text-red-400 hover:text-red-600 transition-colors mt-1"

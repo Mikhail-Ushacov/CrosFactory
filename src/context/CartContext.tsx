@@ -47,7 +47,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearCart = () => setCart([]);
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // ОНОВЛЕНО: Розрахунок суми з урахуванням знижок
+  const total = cart.reduce((sum, item) => {
+    // Визначаємо актуальну ціну: якщо є знижка — беремо salePrice, інакше — звичайну price
+    const actualPrice = item.isOnSale && item.salePrice ? item.salePrice : item.price;
+    return sum + actualPrice * item.quantity;
+  }, 0);
   
   return (
     <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, total, totalItems }}>

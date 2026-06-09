@@ -95,9 +95,26 @@ export const ProductDetails = () => {
           </div>
 
           <div className="mb-6">
-            <p className="text-2xl md:text-3xl font-black text-indigo-600">
-              {product.price.toLocaleString()} ₴
-            </p>
+            {product.isOnSale && product.salePrice ? (
+              <div className="space-y-1">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl md:text-4xl font-black text-red-600">
+                    {product.salePrice.toLocaleString()} ₴
+                  </span>
+                  <span className="text-lg text-slate-400 line-through">
+                    {product.price.toLocaleString()} ₴
+                  </span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-bold">
+                  Економія: {(product.price - product.salePrice).toLocaleString()} ₴ 
+                  ({Math.round(((product.price - product.salePrice) / product.price) * 100)}%)
+                </div>
+              </div>
+            ) : (
+              <p className="text-2xl md:text-3xl font-black text-indigo-600">
+                {product.price.toLocaleString()} ₴
+              </p>
+            )}
           </div>
 
           {/* Опис */}
