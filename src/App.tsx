@@ -33,7 +33,7 @@ import { BannerForm } from './pages/forms/BannerForm';
 import { NewsForm } from './pages/forms/NewsForm';
 import { NewsList } from './pages/NewsList';
 import { NewsDetails } from './pages/NewsDetails';
-import { Home } from './pages/Home';
+import { Home } from './pages/home/HomePage';
 
 // Оновлений PrivateRoute
 const PrivateRoute = ({ children, roles }: { children: React.ReactNode, roles?: ('user' | 'admin' | 'moderator')[] }) => {
