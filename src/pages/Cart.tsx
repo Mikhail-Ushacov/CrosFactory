@@ -1,10 +1,9 @@
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
-import { Trash2, ArrowRight, ShoppingBag } from 'lucide-react'; 
-
+import { Trash2, ArrowRight, ShoppingBag, Plus, Minus } from 'lucide-react';
 
 export const Cart = () => {
-  const { cart, removeFromCart, total } = useCart();
+  const { cart, removeFromCart, updateQuantity, total } = useCart();
 
   if (cart.length === 0) {
     return (
@@ -12,25 +11,48 @@ export const Cart = () => {
         <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400">
           <ShoppingBag size={40} />
         </div>
-        <h2 className="text-xl font-semibold mb-2">Корзина пуста</h2>
-        <Link to="/" className="text-indigo-600 font-medium hover:underline">Вернуться в магазин</Link>
+        <h2 className="text-xl font-semibold mb-2">Кошик порожній</h2>
+        <Link to="/" className="text-indigo-600 font-medium hover:underline">Повернутися в магазин</Link>
       </div>
     );
   }
 
   return (
     <div className="max-w-4xl">
-      <h1 className="text-3xl font-bold mb-10">Корзина</h1>
+      <h1 className="text-3xl font-bold mb-10">Кошик</h1>
       
       <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm">
         <div className="divide-y divide-slate-50">
           {cart.map(item => (
             <div key={item.id} className="p-6 flex items-center gap-6">
               <img src={item.main_image} className="w-20 h-20 object-cover rounded-2xl bg-slate-50" />
+              
               <div className="flex-1">
-                <h3 className="font-semibold text-slate-900">{item.name}</h3>
-                <p className="text-sm text-slate-400">Кількість: {item.quantity}</p>
+                <h3 className="font-semibold text-slate-900 mb-2">{item.name}</h3>
+                
+                {/* Блок керування кількістю */}
+                <div className="flex items-center gap-3">
+                  <button 
+                    onClick={() => updateQuantity(item.id, -1)}
+                    disabled={item.quantity <= 1}
+                    className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  >
+                    <Minus size={14} />
+                  </button>
+                  
+                  <span className="font-bold text-slate-700 min-w-[20px] text-center">
+                    {item.quantity}
+                  </span>
+                  
+                  <button 
+                    onClick={() => updateQuantity(item.id, 1)}
+                    className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all"
+                  >
+                    <Plus size={14} />
+                  </button>
+                </div>
               </div>
+
               <div className="text-right">
                 {item.isOnSale && item.salePrice ? (
                   <>
@@ -46,9 +68,11 @@ export const Cart = () => {
                     {(item.price * item.quantity).toLocaleString()} ₴
                   </p>
                 )}
+                
                 <button 
                   onClick={() => removeFromCart(item.id)}
-                  className="text-red-400 hover:text-red-600 transition-colors mt-1"
+                  className="text-slate-300 hover:text-red-500 transition-colors mt-2"
+                  title="Видалити"
                 >
                   <Trash2 size={18} />
                 </button>
@@ -57,16 +81,17 @@ export const Cart = () => {
           ))}
         </div>
         
-        <div className="bg-slate-50/50 p-8 flex justify-between items-center">
+        {/* Підсумок */}
+        <div className="bg-slate-50/50 p-8 flex flex-col sm:flex-row justify-between items-center gap-6">
           <div>
-            <p className="text-sm text-slate-500 uppercase tracking-wider font-semibold">Итого к оплате</p>
-            <p className="text-3xl font-black text-slate-900">{total.toLocaleString()} ₽</p>
+            <p className="text-sm text-slate-500 uppercase tracking-wider font-semibold">Разом до оплати</p>
+            <p className="text-3xl font-black text-slate-900">{total.toLocaleString()} ₴</p>
           </div>
           <Link 
             to="/checkout" 
-            className="flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200"
           >
-            К оформлению <ArrowRight size={20} />
+            До оформлення <ArrowRight size={20} />
           </Link>
         </div>
       </div>

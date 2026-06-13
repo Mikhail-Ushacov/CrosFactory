@@ -5,6 +5,7 @@ interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product) => void;
   removeFromCart: (id: number) => void;
+  updateQuantity: (id: number, delta: number) => void; // Новий метод
   clearCart: () => void;
   total: number;
   totalItems: number;
@@ -54,9 +55,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const actualPrice = item.isOnSale && item.salePrice ? item.salePrice : item.price;
     return sum + actualPrice * item.quantity;
   }, 0);
+
+   const updateQuantity = (id: number, delta: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.id === id) {
+        // Обмежуємо мінімальну кількість одиницею
+        const newQuantity = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    }));
+  };
   
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, total, totalItems }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, total, totalItems }}>
       {children}
     </CartContext.Provider>
   );
