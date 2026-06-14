@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ArrowLeft, ImagePlus, X, Loader2, Plus, Trash2 } from 'lucide-react';
 import api from '../../api';
-import { type ProductPreview, ProductSelector, LoadingState } from './func/ContentShared';
+import { type ProductPreview, ProductSelector, LoadingState } from '../../context/ContentShared';
 
 interface ContentBlock {
   id: string;

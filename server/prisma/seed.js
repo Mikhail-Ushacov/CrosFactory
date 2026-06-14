@@ -204,6 +204,46 @@ async function main() {
         }
       }
     });
+
+    await prisma.order.create({
+      data: {
+        userId: admin.id,
+        sum: allProducts[0].price + allProducts[1].price,
+        customerType: 'individual',
+        customerName: 'Іван Петренко',
+        email: 'ivan@example.com',
+        phone: '+380990000000',
+        address: 'Київ, вул. Хрещатик, 1',
+        items: {
+          create: [
+            { productId: allProducts[0].id, quantity: 1 },
+            { productId: allProducts[1].id, quantity: 1 }
+          ]
+        }
+      }
+    });
+
+    // Бізнес замовлення
+    await prisma.order.create({
+      data: {
+        userId: admin.id,
+        sum: allProducts[2].price * 2,
+        customerType: 'business',
+        customerName: 'ТОВ "Сучасні Технології"',
+        email: 'corp@tech.ua',
+        phone: '+380441112233',
+        address: 'Львів, вул. Промислова, 10',
+        edrpou: '12345678',
+        iban: 'UA123456789012345678901234567',
+        bank: 'ПриватБанк',
+        taxStatus: 'Платник ПДВ',
+        items: {
+          create: [
+            { productId: allProducts[2].id, quantity: 2 }
+          ]
+        }
+      }
+    });
   }
   console.log('🛒 Тестові замовлення створені');
 

@@ -6,9 +6,34 @@ class OrderService {
     const { cartItems, totalPrice, userData, type, details } = body;
     let userId;
 
+    // 1. Перевірка наявності товарів у базі перед створенням замовлення
+    const productIds = cartItems.map(item => parseInt(item.id));
+    const existingProducts = await prisma.product.findMany({
+      where: { id: { in: productIds } },
+      select: { id: true }
+    });
+
+    const existingIds = existingProducts.map(p => p.id);
+    const missingIds = productIds.filter(id => !existingIds.includes(id));
+
+    if (missingIds.length > 0) {
+      const error = new Error(`Товари з ID ${missingIds.join(', ')} більше не існують. Оновіть кошик.`);
+      error.statusCode = 400;
+      throw error;
+    }
+
+    // 2. Логіка з користувачем
     if (userFromToken) {
+      // Перевіряємо, чи користувач все ще існує в БД
+      const dbUser = await prisma.user.findUnique({ where: { id: userFromToken.id } });
+      if (!dbUser) {
+        const error = new Error("Користувача не знайдено. Будь ласка, перезайдіть в акаунт.");
+        error.statusCode = 401;
+        throw error;
+      }
       userId = userFromToken.id;
     } else {
+      // Для гостя створюємо нового користувача
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       const newUser = await prisma.user.create({
         data: { login: userData.login, password: hashedPassword, role: 'user' }
@@ -16,6 +41,7 @@ class OrderService {
       userId = newUser.id;
     }
 
+    // 3. Створення замовлення
     return await prisma.order.create({
       data: {
         userId,
@@ -30,7 +56,10 @@ class OrderService {
         bank: details.bank || null,
         taxStatus: details.taxStatus || null,
         items: {
-          create: cartItems.map(item => ({ productId: item.id, quantity: item.quantity }))
+          create: cartItems.map(item => ({ 
+            productId: parseInt(item.id), 
+            quantity: parseInt(item.quantity) 
+          }))
         }
       }
     });
@@ -39,7 +68,8 @@ class OrderService {
   async getMyOrders(userId) {
     return await prisma.order.findMany({
       where: { userId },
-      orderBy: { id: 'desc' }
+      orderBy: { id: 'desc' },
+      include: { items: { include: { product: true } } }
     });
   }
 
@@ -50,4 +80,5 @@ class OrderService {
     });
   }
 }
+
 module.exports = new OrderService();

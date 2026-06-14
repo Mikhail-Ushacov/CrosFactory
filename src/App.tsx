@@ -28,7 +28,7 @@ import { AdminProfile } from './pages/profile/AdminProfile';
 import { AdminProductForm } from './pages/productForm/AdminProductForm';
 import { AdminContentManager } from './pages/AdminContentManager';
 import { AdminDatabaseManager } from './pages/DBmanager/AdminDatabaseManager';
-import { AdminCategoryForm } from './pages/AdminCategoryForm';
+import { AdminCategoryForm } from './pages/categoryForm/AdminCategoryForm';
 import { BannerForm } from './pages/forms/BannerForm';
 import { NewsForm } from './pages/forms/NewsForm';
 import { NewsList } from './pages/NewsList';

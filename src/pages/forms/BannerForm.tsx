@@ -8,7 +8,7 @@ import {
   ProductSelector, 
   CategorySelector, 
   LoadingState 
-} from './func/ContentShared';
+} from '../../context/ContentShared';
 
 export const BannerForm = () => {
   const { id } = useParams();
