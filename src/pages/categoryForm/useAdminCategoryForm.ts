@@ -9,7 +9,7 @@ export const useAdminCategoryForm = () => {
   
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
-  const [form, setForm] = useState({ name: '', slug: '' });
+  const [form, setForm] = useState({ name: '', slug: '', isHidden: false });
 
   // Товари
   const [allProducts, setAllProducts] = useState<any[]>([]);
@@ -30,7 +30,11 @@ export const useAdminCategoryForm = () => {
 
         if (id) {
           const catRes = await api.get(`/categories/${id}`);
-          setForm({ name: catRes.data.name, slug: catRes.data.slug });
+          setForm({ 
+            name: catRes.data.name, 
+            slug: catRes.data.slug,
+            isHidden: !!catRes.data.isHidden 
+          });
           setSelectedIds(catRes.data.products?.map((p: any) => p.id) || []);
         }
       } catch (err) {

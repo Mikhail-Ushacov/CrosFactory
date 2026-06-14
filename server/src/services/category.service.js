@@ -21,10 +21,10 @@ class CategoryService {
   }
 
   async create(data) {
-    const { name, slug, productIds } = data;
+    const { name, slug, isHidden, productIds } = data;
     return await prisma.$transaction(async (tx) => {
       const category = await tx.category.create({
-        data: { name, slug }
+        data: { name, slug, isHidden: !!isHidden }
       });
 
       if (productIds && productIds.length > 0) {
@@ -39,17 +39,25 @@ class CategoryService {
 
   async update(id, data) {
     const categoryId = parseInt(id);
-    const { name, slug, productIds } = data;
+    const { name, slug, isHidden, productIds } = data;
 
     return await prisma.$transaction(async (tx) => {
+      // Створюємо об'єкт лише з тими полями, які реально прийшли
+      const updateData = {};
+      if (name !== undefined) updateData.name = name;
+      if (slug !== undefined) updateData.slug = slug;
+      if (isHidden !== undefined) updateData.isHidden = !!isHidden;
+
       const updatedCategory = await tx.category.update({
         where: { id: categoryId },
-        data: { name, slug }
+        data: updateData
       });
 
+      // Якщо прийшли ID товарів - оновлюємо зв'язки
       if (productIds) {
         const ids = productIds.map(pid => parseInt(pid));
-        // Прив'язуємо обрані товари до цієї категорії
+        // Спочатку відв'язуємо всі товари, які були в цій категорії (опціонально, залежить від бізнес-логіки)
+        // Або просто додаємо нові:
         await tx.product.updateMany({
           where: { id: { in: ids } },
           data: { categoryId }

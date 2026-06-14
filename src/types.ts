@@ -10,6 +10,7 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
+  isHidden: boolean;
   _count?: {
     products: number;
   };

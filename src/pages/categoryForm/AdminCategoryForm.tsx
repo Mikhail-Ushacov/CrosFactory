@@ -54,6 +54,18 @@ export const AdminCategoryForm = () => {
               />
             </div>
           </div>
+          <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <input 
+              type="checkbox" 
+              id="isHidden"
+              className="w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              checked={form.isHidden} 
+              onChange={e => setForm({...form, isHidden: e.target.checked})}
+            />
+            <label htmlFor="isHidden" className="text-sm font-bold text-slate-600 cursor-pointer">
+              Приховати категорію з загального каталогу
+            </label>
+          </div>
         </div>
 
         {/* Секція: Таблиця вибору товарів */}

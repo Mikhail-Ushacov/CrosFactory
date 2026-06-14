@@ -96,6 +96,15 @@ export const useAdminProfile = () => {
     }
   };
 
+  const handleToggleCategoryVisibility = async (id: number, currentStatus: boolean) => {
+  try {
+    await api.put(`/categories/${id}`, { isHidden: !currentStatus });
+    fetchData(); // Оновлюємо дані
+  } catch (err) {
+    alert("Помилка при зміні статусу");
+  }
+};
+
   return {
     // States
     loading,
@@ -109,6 +118,7 @@ export const useAdminProfile = () => {
     setCurrentPage,
     itemsPerPage,
     setItemsPerPage,
+    handleToggleCategoryVisibility,
     // Data
     stats,
     newsCount,

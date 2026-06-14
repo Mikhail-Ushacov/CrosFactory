@@ -21,7 +21,7 @@ const RangeFilterItem = ({
   const [tempValues, setTempValues] = useState(initialValues);
 
   // Оновлюємо локальні значення, якщо параметри скинуті ззовні
-  useEffect(() => {
+   useEffect(() => {
     setTempValues(initialValues);
   }, [initialValues]);
 

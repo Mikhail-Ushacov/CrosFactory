@@ -39,6 +39,11 @@ export type ProductCharacteristic = $Result.DefaultSelection<Prisma.$ProductChar
  */
 export type Image = $Result.DefaultSelection<Prisma.$ImagePayload>
 /**
+ * Model CategoryImage
+ * 
+ */
+export type CategoryImage = $Result.DefaultSelection<Prisma.$CategoryImagePayload>
+/**
  * Model ProductImage
  * 
  */
@@ -269,6 +274,16 @@ export class PrismaClient<
     * ```
     */
   get image(): Prisma.ImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.categoryImage`: Exposes CRUD operations for the **CategoryImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CategoryImages
+    * const categoryImages = await prisma.categoryImage.findMany()
+    * ```
+    */
+  get categoryImage(): Prisma.CategoryImageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.productImage`: Exposes CRUD operations for the **ProductImage** model.
@@ -828,6 +843,7 @@ export namespace Prisma {
     Product: 'Product',
     ProductCharacteristic: 'ProductCharacteristic',
     Image: 'Image',
+    CategoryImage: 'CategoryImage',
     ProductImage: 'ProductImage',
     Banner: 'Banner',
     BannerProduct: 'BannerProduct',
@@ -855,7 +871,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "product" | "productCharacteristic" | "image" | "productImage" | "banner" | "bannerProduct" | "bannerCategory" | "bannerImage" | "news" | "newsBlock" | "newsBlockImage" | "newsBlockProduct" | "newsImage" | "order" | "item"
+      modelProps: "user" | "category" | "product" | "productCharacteristic" | "image" | "categoryImage" | "productImage" | "banner" | "bannerProduct" | "bannerCategory" | "bannerImage" | "news" | "newsBlock" | "newsBlockImage" | "newsBlockProduct" | "newsImage" | "order" | "item"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1226,6 +1242,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ImageCountArgs<ExtArgs>
             result: $Utils.Optional<ImageCountAggregateOutputType> | number
+          }
+        }
+      }
+      CategoryImage: {
+        payload: Prisma.$CategoryImagePayload<ExtArgs>
+        fields: Prisma.CategoryImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CategoryImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CategoryImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>
+          }
+          findFirst: {
+            args: Prisma.CategoryImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CategoryImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>
+          }
+          findMany: {
+            args: Prisma.CategoryImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>[]
+          }
+          create: {
+            args: Prisma.CategoryImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>
+          }
+          createMany: {
+            args: Prisma.CategoryImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CategoryImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>[]
+          }
+          delete: {
+            args: Prisma.CategoryImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>
+          }
+          update: {
+            args: Prisma.CategoryImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.CategoryImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CategoryImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CategoryImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.CategoryImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryImagePayload>
+          }
+          aggregate: {
+            args: Prisma.CategoryImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCategoryImage>
+          }
+          groupBy: {
+            args: Prisma.CategoryImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CategoryImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CategoryImageCountArgs<ExtArgs>
+            result: $Utils.Optional<CategoryImageCountAggregateOutputType> | number
           }
         }
       }
@@ -2230,6 +2320,7 @@ export namespace Prisma {
     product?: ProductOmit
     productCharacteristic?: ProductCharacteristicOmit
     image?: ImageOmit
+    categoryImage?: CategoryImageOmit
     productImage?: ProductImageOmit
     banner?: BannerOmit
     bannerProduct?: BannerProductOmit
@@ -2355,11 +2446,13 @@ export namespace Prisma {
   export type CategoryCountOutputType = {
     products: number
     bannerCategories: number
+    images: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | CategoryCountOutputTypeCountProductsArgs
     bannerCategories?: boolean | CategoryCountOutputTypeCountBannerCategoriesArgs
+    images?: boolean | CategoryCountOutputTypeCountImagesArgs
   }
 
   // Custom InputTypes
@@ -2385,6 +2478,13 @@ export namespace Prisma {
    */
   export type CategoryCountOutputTypeCountBannerCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BannerCategoryWhereInput
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryImageWhereInput
   }
 
 
@@ -2464,6 +2564,7 @@ export namespace Prisma {
     bannerImages: number
     newsImages: number
     newsBlockImages: number
+    categoryImages: number
   }
 
   export type ImageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2471,6 +2572,7 @@ export namespace Prisma {
     bannerImages?: boolean | ImageCountOutputTypeCountBannerImagesArgs
     newsImages?: boolean | ImageCountOutputTypeCountNewsImagesArgs
     newsBlockImages?: boolean | ImageCountOutputTypeCountNewsBlockImagesArgs
+    categoryImages?: boolean | ImageCountOutputTypeCountCategoryImagesArgs
   }
 
   // Custom InputTypes
@@ -2510,6 +2612,13 @@ export namespace Prisma {
    */
   export type ImageCountOutputTypeCountNewsBlockImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NewsBlockImageWhereInput
+  }
+
+  /**
+   * ImageCountOutputType without action
+   */
+  export type ImageCountOutputTypeCountCategoryImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryImageWhereInput
   }
 
 
@@ -3795,18 +3904,21 @@ export namespace Prisma {
     id: number | null
     name: string | null
     slug: string | null
+    isHidden: boolean | null
   }
 
   export type CategoryMaxAggregateOutputType = {
     id: number | null
     name: string | null
     slug: string | null
+    isHidden: boolean | null
   }
 
   export type CategoryCountAggregateOutputType = {
     id: number
     name: number
     slug: number
+    isHidden: number
     _all: number
   }
 
@@ -3823,18 +3935,21 @@ export namespace Prisma {
     id?: true
     name?: true
     slug?: true
+    isHidden?: true
   }
 
   export type CategoryMaxAggregateInputType = {
     id?: true
     name?: true
     slug?: true
+    isHidden?: true
   }
 
   export type CategoryCountAggregateInputType = {
     id?: true
     name?: true
     slug?: true
+    isHidden?: true
     _all?: true
   }
 
@@ -3928,6 +4043,7 @@ export namespace Prisma {
     id: number
     name: string
     slug: string
+    isHidden: boolean
     _count: CategoryCountAggregateOutputType | null
     _avg: CategoryAvgAggregateOutputType | null
     _sum: CategorySumAggregateOutputType | null
@@ -3953,8 +4069,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     slug?: boolean
+    isHidden?: boolean
     products?: boolean | Category$productsArgs<ExtArgs>
     bannerCategories?: boolean | Category$bannerCategoriesArgs<ExtArgs>
+    images?: boolean | Category$imagesArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
@@ -3962,24 +4080,28 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     slug?: boolean
+    isHidden?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     slug?: boolean
+    isHidden?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectScalar = {
     id?: boolean
     name?: boolean
     slug?: boolean
+    isHidden?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "isHidden", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Category$productsArgs<ExtArgs>
     bannerCategories?: boolean | Category$bannerCategoriesArgs<ExtArgs>
+    images?: boolean | Category$imagesArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3990,11 +4112,13 @@ export namespace Prisma {
     objects: {
       products: Prisma.$ProductPayload<ExtArgs>[]
       bannerCategories: Prisma.$BannerCategoryPayload<ExtArgs>[]
+      images: Prisma.$CategoryImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
       slug: string
+      isHidden: boolean
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -4391,6 +4515,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     products<T extends Category$productsArgs<ExtArgs> = {}>(args?: Subset<T, Category$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bannerCategories<T extends Category$bannerCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Category$bannerCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    images<T extends Category$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Category$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4423,6 +4548,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Category", 'Int'>
     readonly name: FieldRef<"Category", 'String'>
     readonly slug: FieldRef<"Category", 'String'>
+    readonly isHidden: FieldRef<"Category", 'Boolean'>
   }
     
 
@@ -4859,6 +4985,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BannerCategoryScalarFieldEnum | BannerCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category.images
+   */
+  export type Category$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    where?: CategoryImageWhereInput
+    orderBy?: CategoryImageOrderByWithRelationInput | CategoryImageOrderByWithRelationInput[]
+    cursor?: CategoryImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CategoryImageScalarFieldEnum | CategoryImageScalarFieldEnum[]
   }
 
   /**
@@ -7436,6 +7586,7 @@ export namespace Prisma {
     bannerImages?: boolean | Image$bannerImagesArgs<ExtArgs>
     newsImages?: boolean | Image$newsImagesArgs<ExtArgs>
     newsBlockImages?: boolean | Image$newsBlockImagesArgs<ExtArgs>
+    categoryImages?: boolean | Image$categoryImagesArgs<ExtArgs>
     _count?: boolean | ImageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["image"]>
 
@@ -7460,6 +7611,7 @@ export namespace Prisma {
     bannerImages?: boolean | Image$bannerImagesArgs<ExtArgs>
     newsImages?: boolean | Image$newsImagesArgs<ExtArgs>
     newsBlockImages?: boolean | Image$newsBlockImagesArgs<ExtArgs>
+    categoryImages?: boolean | Image$categoryImagesArgs<ExtArgs>
     _count?: boolean | ImageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7472,6 +7624,7 @@ export namespace Prisma {
       bannerImages: Prisma.$BannerImagePayload<ExtArgs>[]
       newsImages: Prisma.$NewsImagePayload<ExtArgs>[]
       newsBlockImages: Prisma.$NewsBlockImagePayload<ExtArgs>[]
+      categoryImages: Prisma.$CategoryImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7874,6 +8027,7 @@ export namespace Prisma {
     bannerImages<T extends Image$bannerImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$bannerImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BannerImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     newsImages<T extends Image$newsImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$newsImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     newsBlockImages<T extends Image$newsBlockImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$newsBlockImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsBlockImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    categoryImages<T extends Image$categoryImagesArgs<ExtArgs> = {}>(args?: Subset<T, Image$categoryImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8392,6 +8546,30 @@ export namespace Prisma {
   }
 
   /**
+   * Image.categoryImages
+   */
+  export type Image$categoryImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    where?: CategoryImageWhereInput
+    orderBy?: CategoryImageOrderByWithRelationInput | CategoryImageOrderByWithRelationInput[]
+    cursor?: CategoryImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CategoryImageScalarFieldEnum | CategoryImageScalarFieldEnum[]
+  }
+
+  /**
    * Image without action
    */
   export type ImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8407,6 +8585,1091 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ImageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CategoryImage
+   */
+
+  export type AggregateCategoryImage = {
+    _count: CategoryImageCountAggregateOutputType | null
+    _avg: CategoryImageAvgAggregateOutputType | null
+    _sum: CategoryImageSumAggregateOutputType | null
+    _min: CategoryImageMinAggregateOutputType | null
+    _max: CategoryImageMaxAggregateOutputType | null
+  }
+
+  export type CategoryImageAvgAggregateOutputType = {
+    id: number | null
+    categoryId: number | null
+    imageId: number | null
+  }
+
+  export type CategoryImageSumAggregateOutputType = {
+    id: number | null
+    categoryId: number | null
+    imageId: number | null
+  }
+
+  export type CategoryImageMinAggregateOutputType = {
+    id: number | null
+    categoryId: number | null
+    imageId: number | null
+  }
+
+  export type CategoryImageMaxAggregateOutputType = {
+    id: number | null
+    categoryId: number | null
+    imageId: number | null
+  }
+
+  export type CategoryImageCountAggregateOutputType = {
+    id: number
+    categoryId: number
+    imageId: number
+    _all: number
+  }
+
+
+  export type CategoryImageAvgAggregateInputType = {
+    id?: true
+    categoryId?: true
+    imageId?: true
+  }
+
+  export type CategoryImageSumAggregateInputType = {
+    id?: true
+    categoryId?: true
+    imageId?: true
+  }
+
+  export type CategoryImageMinAggregateInputType = {
+    id?: true
+    categoryId?: true
+    imageId?: true
+  }
+
+  export type CategoryImageMaxAggregateInputType = {
+    id?: true
+    categoryId?: true
+    imageId?: true
+  }
+
+  export type CategoryImageCountAggregateInputType = {
+    id?: true
+    categoryId?: true
+    imageId?: true
+    _all?: true
+  }
+
+  export type CategoryImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CategoryImage to aggregate.
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryImages to fetch.
+     */
+    orderBy?: CategoryImageOrderByWithRelationInput | CategoryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CategoryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CategoryImages
+    **/
+    _count?: true | CategoryImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CategoryImageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CategoryImageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CategoryImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CategoryImageMaxAggregateInputType
+  }
+
+  export type GetCategoryImageAggregateType<T extends CategoryImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateCategoryImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCategoryImage[P]>
+      : GetScalarType<T[P], AggregateCategoryImage[P]>
+  }
+
+
+
+
+  export type CategoryImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryImageWhereInput
+    orderBy?: CategoryImageOrderByWithAggregationInput | CategoryImageOrderByWithAggregationInput[]
+    by: CategoryImageScalarFieldEnum[] | CategoryImageScalarFieldEnum
+    having?: CategoryImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CategoryImageCountAggregateInputType | true
+    _avg?: CategoryImageAvgAggregateInputType
+    _sum?: CategoryImageSumAggregateInputType
+    _min?: CategoryImageMinAggregateInputType
+    _max?: CategoryImageMaxAggregateInputType
+  }
+
+  export type CategoryImageGroupByOutputType = {
+    id: number
+    categoryId: number
+    imageId: number
+    _count: CategoryImageCountAggregateOutputType | null
+    _avg: CategoryImageAvgAggregateOutputType | null
+    _sum: CategoryImageSumAggregateOutputType | null
+    _min: CategoryImageMinAggregateOutputType | null
+    _max: CategoryImageMaxAggregateOutputType | null
+  }
+
+  type GetCategoryImageGroupByPayload<T extends CategoryImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CategoryImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CategoryImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CategoryImageGroupByOutputType[P]>
+            : GetScalarType<T[P], CategoryImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CategoryImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    imageId?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["categoryImage"]>
+
+  export type CategoryImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    imageId?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["categoryImage"]>
+
+  export type CategoryImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    imageId?: boolean
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["categoryImage"]>
+
+  export type CategoryImageSelectScalar = {
+    id?: boolean
+    categoryId?: boolean
+    imageId?: boolean
+  }
+
+  export type CategoryImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "categoryId" | "imageId", ExtArgs["result"]["categoryImage"]>
+  export type CategoryImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }
+  export type CategoryImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }
+  export type CategoryImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    image?: boolean | ImageDefaultArgs<ExtArgs>
+  }
+
+  export type $CategoryImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CategoryImage"
+    objects: {
+      category: Prisma.$CategoryPayload<ExtArgs>
+      image: Prisma.$ImagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      categoryId: number
+      imageId: number
+    }, ExtArgs["result"]["categoryImage"]>
+    composites: {}
+  }
+
+  type CategoryImageGetPayload<S extends boolean | null | undefined | CategoryImageDefaultArgs> = $Result.GetResult<Prisma.$CategoryImagePayload, S>
+
+  type CategoryImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CategoryImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CategoryImageCountAggregateInputType | true
+    }
+
+  export interface CategoryImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CategoryImage'], meta: { name: 'CategoryImage' } }
+    /**
+     * Find zero or one CategoryImage that matches the filter.
+     * @param {CategoryImageFindUniqueArgs} args - Arguments to find a CategoryImage
+     * @example
+     * // Get one CategoryImage
+     * const categoryImage = await prisma.categoryImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CategoryImageFindUniqueArgs>(args: SelectSubset<T, CategoryImageFindUniqueArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CategoryImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CategoryImageFindUniqueOrThrowArgs} args - Arguments to find a CategoryImage
+     * @example
+     * // Get one CategoryImage
+     * const categoryImage = await prisma.categoryImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CategoryImageFindUniqueOrThrowArgs>(args: SelectSubset<T, CategoryImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CategoryImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageFindFirstArgs} args - Arguments to find a CategoryImage
+     * @example
+     * // Get one CategoryImage
+     * const categoryImage = await prisma.categoryImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CategoryImageFindFirstArgs>(args?: SelectSubset<T, CategoryImageFindFirstArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CategoryImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageFindFirstOrThrowArgs} args - Arguments to find a CategoryImage
+     * @example
+     * // Get one CategoryImage
+     * const categoryImage = await prisma.categoryImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CategoryImageFindFirstOrThrowArgs>(args?: SelectSubset<T, CategoryImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CategoryImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CategoryImages
+     * const categoryImages = await prisma.categoryImage.findMany()
+     * 
+     * // Get first 10 CategoryImages
+     * const categoryImages = await prisma.categoryImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const categoryImageWithIdOnly = await prisma.categoryImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CategoryImageFindManyArgs>(args?: SelectSubset<T, CategoryImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CategoryImage.
+     * @param {CategoryImageCreateArgs} args - Arguments to create a CategoryImage.
+     * @example
+     * // Create one CategoryImage
+     * const CategoryImage = await prisma.categoryImage.create({
+     *   data: {
+     *     // ... data to create a CategoryImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends CategoryImageCreateArgs>(args: SelectSubset<T, CategoryImageCreateArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CategoryImages.
+     * @param {CategoryImageCreateManyArgs} args - Arguments to create many CategoryImages.
+     * @example
+     * // Create many CategoryImages
+     * const categoryImage = await prisma.categoryImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CategoryImageCreateManyArgs>(args?: SelectSubset<T, CategoryImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CategoryImages and returns the data saved in the database.
+     * @param {CategoryImageCreateManyAndReturnArgs} args - Arguments to create many CategoryImages.
+     * @example
+     * // Create many CategoryImages
+     * const categoryImage = await prisma.categoryImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CategoryImages and only return the `id`
+     * const categoryImageWithIdOnly = await prisma.categoryImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CategoryImageCreateManyAndReturnArgs>(args?: SelectSubset<T, CategoryImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CategoryImage.
+     * @param {CategoryImageDeleteArgs} args - Arguments to delete one CategoryImage.
+     * @example
+     * // Delete one CategoryImage
+     * const CategoryImage = await prisma.categoryImage.delete({
+     *   where: {
+     *     // ... filter to delete one CategoryImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CategoryImageDeleteArgs>(args: SelectSubset<T, CategoryImageDeleteArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CategoryImage.
+     * @param {CategoryImageUpdateArgs} args - Arguments to update one CategoryImage.
+     * @example
+     * // Update one CategoryImage
+     * const categoryImage = await prisma.categoryImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CategoryImageUpdateArgs>(args: SelectSubset<T, CategoryImageUpdateArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CategoryImages.
+     * @param {CategoryImageDeleteManyArgs} args - Arguments to filter CategoryImages to delete.
+     * @example
+     * // Delete a few CategoryImages
+     * const { count } = await prisma.categoryImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CategoryImageDeleteManyArgs>(args?: SelectSubset<T, CategoryImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CategoryImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CategoryImages
+     * const categoryImage = await prisma.categoryImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CategoryImageUpdateManyArgs>(args: SelectSubset<T, CategoryImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CategoryImages and returns the data updated in the database.
+     * @param {CategoryImageUpdateManyAndReturnArgs} args - Arguments to update many CategoryImages.
+     * @example
+     * // Update many CategoryImages
+     * const categoryImage = await prisma.categoryImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CategoryImages and only return the `id`
+     * const categoryImageWithIdOnly = await prisma.categoryImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CategoryImageUpdateManyAndReturnArgs>(args: SelectSubset<T, CategoryImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CategoryImage.
+     * @param {CategoryImageUpsertArgs} args - Arguments to update or create a CategoryImage.
+     * @example
+     * // Update or create a CategoryImage
+     * const categoryImage = await prisma.categoryImage.upsert({
+     *   create: {
+     *     // ... data to create a CategoryImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CategoryImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CategoryImageUpsertArgs>(args: SelectSubset<T, CategoryImageUpsertArgs<ExtArgs>>): Prisma__CategoryImageClient<$Result.GetResult<Prisma.$CategoryImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CategoryImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageCountArgs} args - Arguments to filter CategoryImages to count.
+     * @example
+     * // Count the number of CategoryImages
+     * const count = await prisma.categoryImage.count({
+     *   where: {
+     *     // ... the filter for the CategoryImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends CategoryImageCountArgs>(
+      args?: Subset<T, CategoryImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CategoryImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CategoryImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CategoryImageAggregateArgs>(args: Subset<T, CategoryImageAggregateArgs>): Prisma.PrismaPromise<GetCategoryImageAggregateType<T>>
+
+    /**
+     * Group by CategoryImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CategoryImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CategoryImageGroupByArgs['orderBy'] }
+        : { orderBy?: CategoryImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CategoryImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoryImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CategoryImage model
+   */
+  readonly fields: CategoryImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CategoryImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CategoryImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    image<T extends ImageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ImageDefaultArgs<ExtArgs>>): Prisma__ImageClient<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CategoryImage model
+   */
+  interface CategoryImageFieldRefs {
+    readonly id: FieldRef<"CategoryImage", 'Int'>
+    readonly categoryId: FieldRef<"CategoryImage", 'Int'>
+    readonly imageId: FieldRef<"CategoryImage", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CategoryImage findUnique
+   */
+  export type CategoryImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryImage to fetch.
+     */
+    where: CategoryImageWhereUniqueInput
+  }
+
+  /**
+   * CategoryImage findUniqueOrThrow
+   */
+  export type CategoryImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryImage to fetch.
+     */
+    where: CategoryImageWhereUniqueInput
+  }
+
+  /**
+   * CategoryImage findFirst
+   */
+  export type CategoryImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryImage to fetch.
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryImages to fetch.
+     */
+    orderBy?: CategoryImageOrderByWithRelationInput | CategoryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CategoryImages.
+     */
+    cursor?: CategoryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CategoryImages.
+     */
+    distinct?: CategoryImageScalarFieldEnum | CategoryImageScalarFieldEnum[]
+  }
+
+  /**
+   * CategoryImage findFirstOrThrow
+   */
+  export type CategoryImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryImage to fetch.
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryImages to fetch.
+     */
+    orderBy?: CategoryImageOrderByWithRelationInput | CategoryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CategoryImages.
+     */
+    cursor?: CategoryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CategoryImages.
+     */
+    distinct?: CategoryImageScalarFieldEnum | CategoryImageScalarFieldEnum[]
+  }
+
+  /**
+   * CategoryImage findMany
+   */
+  export type CategoryImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which CategoryImages to fetch.
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CategoryImages to fetch.
+     */
+    orderBy?: CategoryImageOrderByWithRelationInput | CategoryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CategoryImages.
+     */
+    cursor?: CategoryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CategoryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CategoryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CategoryImages.
+     */
+    distinct?: CategoryImageScalarFieldEnum | CategoryImageScalarFieldEnum[]
+  }
+
+  /**
+   * CategoryImage create
+   */
+  export type CategoryImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CategoryImage.
+     */
+    data: XOR<CategoryImageCreateInput, CategoryImageUncheckedCreateInput>
+  }
+
+  /**
+   * CategoryImage createMany
+   */
+  export type CategoryImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CategoryImages.
+     */
+    data: CategoryImageCreateManyInput | CategoryImageCreateManyInput[]
+  }
+
+  /**
+   * CategoryImage createManyAndReturn
+   */
+  export type CategoryImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many CategoryImages.
+     */
+    data: CategoryImageCreateManyInput | CategoryImageCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CategoryImage update
+   */
+  export type CategoryImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CategoryImage.
+     */
+    data: XOR<CategoryImageUpdateInput, CategoryImageUncheckedUpdateInput>
+    /**
+     * Choose, which CategoryImage to update.
+     */
+    where: CategoryImageWhereUniqueInput
+  }
+
+  /**
+   * CategoryImage updateMany
+   */
+  export type CategoryImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CategoryImages.
+     */
+    data: XOR<CategoryImageUpdateManyMutationInput, CategoryImageUncheckedUpdateManyInput>
+    /**
+     * Filter which CategoryImages to update
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * Limit how many CategoryImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CategoryImage updateManyAndReturn
+   */
+  export type CategoryImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * The data used to update CategoryImages.
+     */
+    data: XOR<CategoryImageUpdateManyMutationInput, CategoryImageUncheckedUpdateManyInput>
+    /**
+     * Filter which CategoryImages to update
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * Limit how many CategoryImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CategoryImage upsert
+   */
+  export type CategoryImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CategoryImage to update in case it exists.
+     */
+    where: CategoryImageWhereUniqueInput
+    /**
+     * In case the CategoryImage found by the `where` argument doesn't exist, create a new CategoryImage with this data.
+     */
+    create: XOR<CategoryImageCreateInput, CategoryImageUncheckedCreateInput>
+    /**
+     * In case the CategoryImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CategoryImageUpdateInput, CategoryImageUncheckedUpdateInput>
+  }
+
+  /**
+   * CategoryImage delete
+   */
+  export type CategoryImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
+    /**
+     * Filter which CategoryImage to delete.
+     */
+    where: CategoryImageWhereUniqueInput
+  }
+
+  /**
+   * CategoryImage deleteMany
+   */
+  export type CategoryImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CategoryImages to delete
+     */
+    where?: CategoryImageWhereInput
+    /**
+     * Limit how many CategoryImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CategoryImage without action
+   */
+  export type CategoryImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryImage
+     */
+    select?: CategoryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CategoryImage
+     */
+    omit?: CategoryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryImageInclude<ExtArgs> | null
   }
 
 
@@ -21780,7 +23043,8 @@ export namespace Prisma {
   export const CategoryScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    slug: 'slug'
+    slug: 'slug',
+    isHidden: 'isHidden'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -21816,6 +23080,15 @@ export namespace Prisma {
   };
 
   export type ImageScalarFieldEnum = (typeof ImageScalarFieldEnum)[keyof typeof ImageScalarFieldEnum]
+
+
+  export const CategoryImageScalarFieldEnum: {
+    id: 'id',
+    categoryId: 'categoryId',
+    imageId: 'imageId'
+  };
+
+  export type CategoryImageScalarFieldEnum = (typeof CategoryImageScalarFieldEnum)[keyof typeof CategoryImageScalarFieldEnum]
 
 
   export const ProductImageScalarFieldEnum: {
@@ -21976,16 +23249,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'Boolean'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'Float'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
@@ -22058,16 +23331,20 @@ export namespace Prisma {
     id?: IntFilter<"Category"> | number
     name?: StringFilter<"Category"> | string
     slug?: StringFilter<"Category"> | string
+    isHidden?: BoolFilter<"Category"> | boolean
     products?: ProductListRelationFilter
     bannerCategories?: BannerCategoryListRelationFilter
+    images?: CategoryImageListRelationFilter
   }
 
   export type CategoryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    isHidden?: SortOrder
     products?: ProductOrderByRelationAggregateInput
     bannerCategories?: BannerCategoryOrderByRelationAggregateInput
+    images?: CategoryImageOrderByRelationAggregateInput
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -22077,14 +23354,17 @@ export namespace Prisma {
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     name?: StringFilter<"Category"> | string
+    isHidden?: BoolFilter<"Category"> | boolean
     products?: ProductListRelationFilter
     bannerCategories?: BannerCategoryListRelationFilter
+    images?: CategoryImageListRelationFilter
   }, "id" | "slug">
 
   export type CategoryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    isHidden?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _avg?: CategoryAvgOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
@@ -22099,6 +23379,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Category"> | number
     name?: StringWithAggregatesFilter<"Category"> | string
     slug?: StringWithAggregatesFilter<"Category"> | string
+    isHidden?: BoolWithAggregatesFilter<"Category"> | boolean
   }
 
   export type ProductWhereInput = {
@@ -22250,6 +23531,7 @@ export namespace Prisma {
     bannerImages?: BannerImageListRelationFilter
     newsImages?: NewsImageListRelationFilter
     newsBlockImages?: NewsBlockImageListRelationFilter
+    categoryImages?: CategoryImageListRelationFilter
   }
 
   export type ImageOrderByWithRelationInput = {
@@ -22259,6 +23541,7 @@ export namespace Prisma {
     bannerImages?: BannerImageOrderByRelationAggregateInput
     newsImages?: NewsImageOrderByRelationAggregateInput
     newsBlockImages?: NewsBlockImageOrderByRelationAggregateInput
+    categoryImages?: CategoryImageOrderByRelationAggregateInput
   }
 
   export type ImageWhereUniqueInput = Prisma.AtLeast<{
@@ -22271,6 +23554,7 @@ export namespace Prisma {
     bannerImages?: BannerImageListRelationFilter
     newsImages?: NewsImageListRelationFilter
     newsBlockImages?: NewsBlockImageListRelationFilter
+    categoryImages?: CategoryImageListRelationFilter
   }, "id" | "url">
 
   export type ImageOrderByWithAggregationInput = {
@@ -22289,6 +23573,57 @@ export namespace Prisma {
     NOT?: ImageScalarWhereWithAggregatesInput | ImageScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Image"> | number
     url?: StringWithAggregatesFilter<"Image"> | string
+  }
+
+  export type CategoryImageWhereInput = {
+    AND?: CategoryImageWhereInput | CategoryImageWhereInput[]
+    OR?: CategoryImageWhereInput[]
+    NOT?: CategoryImageWhereInput | CategoryImageWhereInput[]
+    id?: IntFilter<"CategoryImage"> | number
+    categoryId?: IntFilter<"CategoryImage"> | number
+    imageId?: IntFilter<"CategoryImage"> | number
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    image?: XOR<ImageScalarRelationFilter, ImageWhereInput>
+  }
+
+  export type CategoryImageOrderByWithRelationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
+    category?: CategoryOrderByWithRelationInput
+    image?: ImageOrderByWithRelationInput
+  }
+
+  export type CategoryImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    categoryId_imageId?: CategoryImageCategoryIdImageIdCompoundUniqueInput
+    AND?: CategoryImageWhereInput | CategoryImageWhereInput[]
+    OR?: CategoryImageWhereInput[]
+    NOT?: CategoryImageWhereInput | CategoryImageWhereInput[]
+    categoryId?: IntFilter<"CategoryImage"> | number
+    imageId?: IntFilter<"CategoryImage"> | number
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    image?: XOR<ImageScalarRelationFilter, ImageWhereInput>
+  }, "id" | "categoryId_imageId">
+
+  export type CategoryImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
+    _count?: CategoryImageCountOrderByAggregateInput
+    _avg?: CategoryImageAvgOrderByAggregateInput
+    _max?: CategoryImageMaxOrderByAggregateInput
+    _min?: CategoryImageMinOrderByAggregateInput
+    _sum?: CategoryImageSumOrderByAggregateInput
+  }
+
+  export type CategoryImageScalarWhereWithAggregatesInput = {
+    AND?: CategoryImageScalarWhereWithAggregatesInput | CategoryImageScalarWhereWithAggregatesInput[]
+    OR?: CategoryImageScalarWhereWithAggregatesInput[]
+    NOT?: CategoryImageScalarWhereWithAggregatesInput | CategoryImageScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"CategoryImage"> | number
+    categoryId?: IntWithAggregatesFilter<"CategoryImage"> | number
+    imageId?: IntWithAggregatesFilter<"CategoryImage"> | number
   }
 
   export type ProductImageWhereInput = {
@@ -23027,48 +24362,59 @@ export namespace Prisma {
   export type CategoryCreateInput = {
     name: string
     slug: string
+    isHidden?: boolean
     products?: ProductCreateNestedManyWithoutCategoryInput
     bannerCategories?: BannerCategoryCreateNestedManyWithoutCategoryInput
+    images?: CategoryImageCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateInput = {
     id?: number
     name: string
     slug: string
+    isHidden?: boolean
     products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
     bannerCategories?: BannerCategoryUncheckedCreateNestedManyWithoutCategoryInput
+    images?: CategoryImageUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductUpdateManyWithoutCategoryNestedInput
     bannerCategories?: BannerCategoryUpdateManyWithoutCategoryNestedInput
+    images?: CategoryImageUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
     bannerCategories?: BannerCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+    images?: CategoryImageUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
     id?: number
     name: string
     slug: string
+    isHidden?: boolean
   }
 
   export type CategoryUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CategoryUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductCreateInput = {
@@ -23215,6 +24561,7 @@ export namespace Prisma {
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateInput = {
@@ -23224,6 +24571,7 @@ export namespace Prisma {
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageUpdateInput = {
@@ -23232,6 +24580,7 @@ export namespace Prisma {
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateInput = {
@@ -23241,6 +24590,7 @@ export namespace Prisma {
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type ImageCreateManyInput = {
@@ -23255,6 +24605,44 @@ export namespace Prisma {
   export type ImageUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CategoryImageCreateInput = {
+    category: CategoryCreateNestedOneWithoutImagesInput
+    image: ImageCreateNestedOneWithoutCategoryImagesInput
+  }
+
+  export type CategoryImageUncheckedCreateInput = {
+    id?: number
+    categoryId: number
+    imageId: number
+  }
+
+  export type CategoryImageUpdateInput = {
+    category?: CategoryUpdateOneRequiredWithoutImagesNestedInput
+    image?: ImageUpdateOneRequiredWithoutCategoryImagesNestedInput
+  }
+
+  export type CategoryImageUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    categoryId?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CategoryImageCreateManyInput = {
+    id?: number
+    categoryId: number
+    imageId: number
+  }
+
+  export type CategoryImageUpdateManyMutationInput = {
+
+  }
+
+  export type CategoryImageUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    categoryId?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProductImageCreateInput = {
@@ -23950,6 +25338,11 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type ProductListRelationFilter = {
     every?: ProductWhereInput
     some?: ProductWhereInput
@@ -23962,6 +25355,12 @@ export namespace Prisma {
     none?: BannerCategoryWhereInput
   }
 
+  export type CategoryImageListRelationFilter = {
+    every?: CategoryImageWhereInput
+    some?: CategoryImageWhereInput
+    none?: CategoryImageWhereInput
+  }
+
   export type ProductOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -23970,10 +25369,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type CategoryImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    isHidden?: SortOrder
   }
 
   export type CategoryAvgOrderByAggregateInput = {
@@ -23984,16 +25388,26 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    isHidden?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    isHidden?: SortOrder
   }
 
   export type CategorySumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -24019,11 +25433,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -24174,14 +25583,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -24295,6 +25696,41 @@ export namespace Prisma {
   export type ImageScalarRelationFilter = {
     is?: ImageWhereInput
     isNot?: ImageWhereInput
+  }
+
+  export type CategoryImageCategoryIdImageIdCompoundUniqueInput = {
+    categoryId: number
+    imageId: number
+  }
+
+  export type CategoryImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type CategoryImageAvgOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type CategoryImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type CategoryImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
+  }
+
+  export type CategoryImageSumOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    imageId?: SortOrder
   }
 
   export type ProductImageProductIdImageIdCompoundUniqueInput = {
@@ -24852,6 +26288,13 @@ export namespace Prisma {
     connect?: BannerCategoryWhereUniqueInput | BannerCategoryWhereUniqueInput[]
   }
 
+  export type CategoryImageCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<CategoryImageCreateWithoutCategoryInput, CategoryImageUncheckedCreateWithoutCategoryInput> | CategoryImageCreateWithoutCategoryInput[] | CategoryImageUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutCategoryInput | CategoryImageCreateOrConnectWithoutCategoryInput[]
+    createMany?: CategoryImageCreateManyCategoryInputEnvelope
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+  }
+
   export type ProductUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<ProductCreateWithoutCategoryInput, ProductUncheckedCreateWithoutCategoryInput> | ProductCreateWithoutCategoryInput[] | ProductUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutCategoryInput | ProductCreateOrConnectWithoutCategoryInput[]
@@ -24864,6 +26307,17 @@ export namespace Prisma {
     connectOrCreate?: BannerCategoryCreateOrConnectWithoutCategoryInput | BannerCategoryCreateOrConnectWithoutCategoryInput[]
     createMany?: BannerCategoryCreateManyCategoryInputEnvelope
     connect?: BannerCategoryWhereUniqueInput | BannerCategoryWhereUniqueInput[]
+  }
+
+  export type CategoryImageUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<CategoryImageCreateWithoutCategoryInput, CategoryImageUncheckedCreateWithoutCategoryInput> | CategoryImageCreateWithoutCategoryInput[] | CategoryImageUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutCategoryInput | CategoryImageCreateOrConnectWithoutCategoryInput[]
+    createMany?: CategoryImageCreateManyCategoryInputEnvelope
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type ProductUpdateManyWithoutCategoryNestedInput = {
@@ -24894,6 +26348,20 @@ export namespace Prisma {
     deleteMany?: BannerCategoryScalarWhereInput | BannerCategoryScalarWhereInput[]
   }
 
+  export type CategoryImageUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<CategoryImageCreateWithoutCategoryInput, CategoryImageUncheckedCreateWithoutCategoryInput> | CategoryImageCreateWithoutCategoryInput[] | CategoryImageUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutCategoryInput | CategoryImageCreateOrConnectWithoutCategoryInput[]
+    upsert?: CategoryImageUpsertWithWhereUniqueWithoutCategoryInput | CategoryImageUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: CategoryImageCreateManyCategoryInputEnvelope
+    set?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    disconnect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    delete?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    update?: CategoryImageUpdateWithWhereUniqueWithoutCategoryInput | CategoryImageUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: CategoryImageUpdateManyWithWhereWithoutCategoryInput | CategoryImageUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
+  }
+
   export type ProductUncheckedUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<ProductCreateWithoutCategoryInput, ProductUncheckedCreateWithoutCategoryInput> | ProductCreateWithoutCategoryInput[] | ProductUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutCategoryInput | ProductCreateOrConnectWithoutCategoryInput[]
@@ -24920,6 +26388,20 @@ export namespace Prisma {
     update?: BannerCategoryUpdateWithWhereUniqueWithoutCategoryInput | BannerCategoryUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: BannerCategoryUpdateManyWithWhereWithoutCategoryInput | BannerCategoryUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: BannerCategoryScalarWhereInput | BannerCategoryScalarWhereInput[]
+  }
+
+  export type CategoryImageUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<CategoryImageCreateWithoutCategoryInput, CategoryImageUncheckedCreateWithoutCategoryInput> | CategoryImageCreateWithoutCategoryInput[] | CategoryImageUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutCategoryInput | CategoryImageCreateOrConnectWithoutCategoryInput[]
+    upsert?: CategoryImageUpsertWithWhereUniqueWithoutCategoryInput | CategoryImageUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: CategoryImageCreateManyCategoryInputEnvelope
+    set?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    disconnect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    delete?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    update?: CategoryImageUpdateWithWhereUniqueWithoutCategoryInput | CategoryImageUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: CategoryImageUpdateManyWithWhereWithoutCategoryInput | CategoryImageUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
   }
 
   export type CategoryCreateNestedOneWithoutProductsInput = {
@@ -25008,10 +26490,6 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -25212,6 +26690,13 @@ export namespace Prisma {
     connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
   }
 
+  export type CategoryImageCreateNestedManyWithoutImageInput = {
+    create?: XOR<CategoryImageCreateWithoutImageInput, CategoryImageUncheckedCreateWithoutImageInput> | CategoryImageCreateWithoutImageInput[] | CategoryImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutImageInput | CategoryImageCreateOrConnectWithoutImageInput[]
+    createMany?: CategoryImageCreateManyImageInputEnvelope
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+  }
+
   export type ProductImageUncheckedCreateNestedManyWithoutImageInput = {
     create?: XOR<ProductImageCreateWithoutImageInput, ProductImageUncheckedCreateWithoutImageInput> | ProductImageCreateWithoutImageInput[] | ProductImageUncheckedCreateWithoutImageInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutImageInput | ProductImageCreateOrConnectWithoutImageInput[]
@@ -25238,6 +26723,13 @@ export namespace Prisma {
     connectOrCreate?: NewsBlockImageCreateOrConnectWithoutImageInput | NewsBlockImageCreateOrConnectWithoutImageInput[]
     createMany?: NewsBlockImageCreateManyImageInputEnvelope
     connect?: NewsBlockImageWhereUniqueInput | NewsBlockImageWhereUniqueInput[]
+  }
+
+  export type CategoryImageUncheckedCreateNestedManyWithoutImageInput = {
+    create?: XOR<CategoryImageCreateWithoutImageInput, CategoryImageUncheckedCreateWithoutImageInput> | CategoryImageCreateWithoutImageInput[] | CategoryImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutImageInput | CategoryImageCreateOrConnectWithoutImageInput[]
+    createMany?: CategoryImageCreateManyImageInputEnvelope
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
   }
 
   export type ProductImageUpdateManyWithoutImageNestedInput = {
@@ -25296,6 +26788,20 @@ export namespace Prisma {
     deleteMany?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
   }
 
+  export type CategoryImageUpdateManyWithoutImageNestedInput = {
+    create?: XOR<CategoryImageCreateWithoutImageInput, CategoryImageUncheckedCreateWithoutImageInput> | CategoryImageCreateWithoutImageInput[] | CategoryImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutImageInput | CategoryImageCreateOrConnectWithoutImageInput[]
+    upsert?: CategoryImageUpsertWithWhereUniqueWithoutImageInput | CategoryImageUpsertWithWhereUniqueWithoutImageInput[]
+    createMany?: CategoryImageCreateManyImageInputEnvelope
+    set?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    disconnect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    delete?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    update?: CategoryImageUpdateWithWhereUniqueWithoutImageInput | CategoryImageUpdateWithWhereUniqueWithoutImageInput[]
+    updateMany?: CategoryImageUpdateManyWithWhereWithoutImageInput | CategoryImageUpdateManyWithWhereWithoutImageInput[]
+    deleteMany?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
+  }
+
   export type ProductImageUncheckedUpdateManyWithoutImageNestedInput = {
     create?: XOR<ProductImageCreateWithoutImageInput, ProductImageUncheckedCreateWithoutImageInput> | ProductImageCreateWithoutImageInput[] | ProductImageUncheckedCreateWithoutImageInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutImageInput | ProductImageCreateOrConnectWithoutImageInput[]
@@ -25350,6 +26856,48 @@ export namespace Prisma {
     update?: NewsBlockImageUpdateWithWhereUniqueWithoutImageInput | NewsBlockImageUpdateWithWhereUniqueWithoutImageInput[]
     updateMany?: NewsBlockImageUpdateManyWithWhereWithoutImageInput | NewsBlockImageUpdateManyWithWhereWithoutImageInput[]
     deleteMany?: NewsBlockImageScalarWhereInput | NewsBlockImageScalarWhereInput[]
+  }
+
+  export type CategoryImageUncheckedUpdateManyWithoutImageNestedInput = {
+    create?: XOR<CategoryImageCreateWithoutImageInput, CategoryImageUncheckedCreateWithoutImageInput> | CategoryImageCreateWithoutImageInput[] | CategoryImageUncheckedCreateWithoutImageInput[]
+    connectOrCreate?: CategoryImageCreateOrConnectWithoutImageInput | CategoryImageCreateOrConnectWithoutImageInput[]
+    upsert?: CategoryImageUpsertWithWhereUniqueWithoutImageInput | CategoryImageUpsertWithWhereUniqueWithoutImageInput[]
+    createMany?: CategoryImageCreateManyImageInputEnvelope
+    set?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    disconnect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    delete?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    connect?: CategoryImageWhereUniqueInput | CategoryImageWhereUniqueInput[]
+    update?: CategoryImageUpdateWithWhereUniqueWithoutImageInput | CategoryImageUpdateWithWhereUniqueWithoutImageInput[]
+    updateMany?: CategoryImageUpdateManyWithWhereWithoutImageInput | CategoryImageUpdateManyWithWhereWithoutImageInput[]
+    deleteMany?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
+  }
+
+  export type CategoryCreateNestedOneWithoutImagesInput = {
+    create?: XOR<CategoryCreateWithoutImagesInput, CategoryUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutImagesInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type ImageCreateNestedOneWithoutCategoryImagesInput = {
+    create?: XOR<ImageCreateWithoutCategoryImagesInput, ImageUncheckedCreateWithoutCategoryImagesInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutCategoryImagesInput
+    connect?: ImageWhereUniqueInput
+  }
+
+  export type CategoryUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<CategoryCreateWithoutImagesInput, CategoryUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutImagesInput
+    upsert?: CategoryUpsertWithoutImagesInput
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutImagesInput, CategoryUpdateWithoutImagesInput>, CategoryUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type ImageUpdateOneRequiredWithoutCategoryImagesNestedInput = {
+    create?: XOR<ImageCreateWithoutCategoryImagesInput, ImageUncheckedCreateWithoutCategoryImagesInput>
+    connectOrCreate?: ImageCreateOrConnectWithoutCategoryImagesInput
+    upsert?: ImageUpsertWithoutCategoryImagesInput
+    connect?: ImageWhereUniqueInput
+    update?: XOR<XOR<ImageUpdateToOneWithWhereWithoutCategoryImagesInput, ImageUpdateWithoutCategoryImagesInput>, ImageUncheckedUpdateWithoutCategoryImagesInput>
   }
 
   export type ProductCreateNestedOneWithoutImagesInput = {
@@ -26013,6 +27561,19 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -26025,11 +27586,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -26085,14 +27641,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26264,6 +27812,24 @@ export namespace Prisma {
     data: BannerCategoryCreateManyCategoryInput | BannerCategoryCreateManyCategoryInput[]
   }
 
+  export type CategoryImageCreateWithoutCategoryInput = {
+    image: ImageCreateNestedOneWithoutCategoryImagesInput
+  }
+
+  export type CategoryImageUncheckedCreateWithoutCategoryInput = {
+    id?: number
+    imageId: number
+  }
+
+  export type CategoryImageCreateOrConnectWithoutCategoryInput = {
+    where: CategoryImageWhereUniqueInput
+    create: XOR<CategoryImageCreateWithoutCategoryInput, CategoryImageUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CategoryImageCreateManyCategoryInputEnvelope = {
+    data: CategoryImageCreateManyCategoryInput | CategoryImageCreateManyCategoryInput[]
+  }
+
   export type ProductUpsertWithWhereUniqueWithoutCategoryInput = {
     where: ProductWhereUniqueInput
     update: XOR<ProductUpdateWithoutCategoryInput, ProductUncheckedUpdateWithoutCategoryInput>
@@ -26317,17 +27883,46 @@ export namespace Prisma {
     categoryId?: IntFilter<"BannerCategory"> | number
   }
 
+  export type CategoryImageUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: CategoryImageWhereUniqueInput
+    update: XOR<CategoryImageUpdateWithoutCategoryInput, CategoryImageUncheckedUpdateWithoutCategoryInput>
+    create: XOR<CategoryImageCreateWithoutCategoryInput, CategoryImageUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CategoryImageUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: CategoryImageWhereUniqueInput
+    data: XOR<CategoryImageUpdateWithoutCategoryInput, CategoryImageUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type CategoryImageUpdateManyWithWhereWithoutCategoryInput = {
+    where: CategoryImageScalarWhereInput
+    data: XOR<CategoryImageUpdateManyMutationInput, CategoryImageUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type CategoryImageScalarWhereInput = {
+    AND?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
+    OR?: CategoryImageScalarWhereInput[]
+    NOT?: CategoryImageScalarWhereInput | CategoryImageScalarWhereInput[]
+    id?: IntFilter<"CategoryImage"> | number
+    categoryId?: IntFilter<"CategoryImage"> | number
+    imageId?: IntFilter<"CategoryImage"> | number
+  }
+
   export type CategoryCreateWithoutProductsInput = {
     name: string
     slug: string
+    isHidden?: boolean
     bannerCategories?: BannerCategoryCreateNestedManyWithoutCategoryInput
+    images?: CategoryImageCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutProductsInput = {
     id?: number
     name: string
     slug: string
+    isHidden?: boolean
     bannerCategories?: BannerCategoryUncheckedCreateNestedManyWithoutCategoryInput
+    images?: CategoryImageUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutProductsInput = {
@@ -26443,14 +28038,18 @@ export namespace Prisma {
   export type CategoryUpdateWithoutProductsInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     bannerCategories?: BannerCategoryUpdateManyWithoutCategoryNestedInput
+    images?: CategoryImageUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutProductsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     bannerCategories?: BannerCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+    images?: CategoryImageUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type ProductImageUpsertWithWhereUniqueWithoutProductInput = {
@@ -26721,6 +28320,24 @@ export namespace Prisma {
     data: NewsBlockImageCreateManyImageInput | NewsBlockImageCreateManyImageInput[]
   }
 
+  export type CategoryImageCreateWithoutImageInput = {
+    category: CategoryCreateNestedOneWithoutImagesInput
+  }
+
+  export type CategoryImageUncheckedCreateWithoutImageInput = {
+    id?: number
+    categoryId: number
+  }
+
+  export type CategoryImageCreateOrConnectWithoutImageInput = {
+    where: CategoryImageWhereUniqueInput
+    create: XOR<CategoryImageCreateWithoutImageInput, CategoryImageUncheckedCreateWithoutImageInput>
+  }
+
+  export type CategoryImageCreateManyImageInputEnvelope = {
+    data: CategoryImageCreateManyImageInput | CategoryImageCreateManyImageInput[]
+  }
+
   export type ProductImageUpsertWithWhereUniqueWithoutImageInput = {
     where: ProductImageWhereUniqueInput
     update: XOR<ProductImageUpdateWithoutImageInput, ProductImageUncheckedUpdateWithoutImageInput>
@@ -26812,6 +28429,122 @@ export namespace Prisma {
     imageId?: IntFilter<"NewsBlockImage"> | number
   }
 
+  export type CategoryImageUpsertWithWhereUniqueWithoutImageInput = {
+    where: CategoryImageWhereUniqueInput
+    update: XOR<CategoryImageUpdateWithoutImageInput, CategoryImageUncheckedUpdateWithoutImageInput>
+    create: XOR<CategoryImageCreateWithoutImageInput, CategoryImageUncheckedCreateWithoutImageInput>
+  }
+
+  export type CategoryImageUpdateWithWhereUniqueWithoutImageInput = {
+    where: CategoryImageWhereUniqueInput
+    data: XOR<CategoryImageUpdateWithoutImageInput, CategoryImageUncheckedUpdateWithoutImageInput>
+  }
+
+  export type CategoryImageUpdateManyWithWhereWithoutImageInput = {
+    where: CategoryImageScalarWhereInput
+    data: XOR<CategoryImageUpdateManyMutationInput, CategoryImageUncheckedUpdateManyWithoutImageInput>
+  }
+
+  export type CategoryCreateWithoutImagesInput = {
+    name: string
+    slug: string
+    isHidden?: boolean
+    products?: ProductCreateNestedManyWithoutCategoryInput
+    bannerCategories?: BannerCategoryCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutImagesInput = {
+    id?: number
+    name: string
+    slug: string
+    isHidden?: boolean
+    products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
+    bannerCategories?: BannerCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutImagesInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutImagesInput, CategoryUncheckedCreateWithoutImagesInput>
+  }
+
+  export type ImageCreateWithoutCategoryImagesInput = {
+    url: string
+    productImages?: ProductImageCreateNestedManyWithoutImageInput
+    bannerImages?: BannerImageCreateNestedManyWithoutImageInput
+    newsImages?: NewsImageCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
+  }
+
+  export type ImageUncheckedCreateWithoutCategoryImagesInput = {
+    id?: number
+    url: string
+    productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
+    bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
+    newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
+    newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
+  }
+
+  export type ImageCreateOrConnectWithoutCategoryImagesInput = {
+    where: ImageWhereUniqueInput
+    create: XOR<ImageCreateWithoutCategoryImagesInput, ImageUncheckedCreateWithoutCategoryImagesInput>
+  }
+
+  export type CategoryUpsertWithoutImagesInput = {
+    update: XOR<CategoryUpdateWithoutImagesInput, CategoryUncheckedUpdateWithoutImagesInput>
+    create: XOR<CategoryCreateWithoutImagesInput, CategoryUncheckedCreateWithoutImagesInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutImagesInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutImagesInput, CategoryUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type CategoryUpdateWithoutImagesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
+    products?: ProductUpdateManyWithoutCategoryNestedInput
+    bannerCategories?: BannerCategoryUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutImagesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
+    products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
+    bannerCategories?: BannerCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type ImageUpsertWithoutCategoryImagesInput = {
+    update: XOR<ImageUpdateWithoutCategoryImagesInput, ImageUncheckedUpdateWithoutCategoryImagesInput>
+    create: XOR<ImageCreateWithoutCategoryImagesInput, ImageUncheckedCreateWithoutCategoryImagesInput>
+    where?: ImageWhereInput
+  }
+
+  export type ImageUpdateToOneWithWhereWithoutCategoryImagesInput = {
+    where?: ImageWhereInput
+    data: XOR<ImageUpdateWithoutCategoryImagesInput, ImageUncheckedUpdateWithoutCategoryImagesInput>
+  }
+
+  export type ImageUpdateWithoutCategoryImagesInput = {
+    url?: StringFieldUpdateOperationsInput | string
+    productImages?: ProductImageUpdateManyWithoutImageNestedInput
+    bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
+    newsImages?: NewsImageUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
+  }
+
+  export type ImageUncheckedUpdateWithoutCategoryImagesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
+    bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
+    newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
+    newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
+  }
+
   export type ProductCreateWithoutImagesInput = {
     name: string
     price: number
@@ -26849,6 +28582,7 @@ export namespace Prisma {
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutProductImagesInput = {
@@ -26857,6 +28591,7 @@ export namespace Prisma {
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutProductImagesInput = {
@@ -26918,6 +28653,7 @@ export namespace Prisma {
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutProductImagesInput = {
@@ -26926,6 +28662,7 @@ export namespace Prisma {
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type BannerImageCreateWithoutBannerInput = {
@@ -27179,14 +28916,18 @@ export namespace Prisma {
   export type CategoryCreateWithoutBannerCategoriesInput = {
     name: string
     slug: string
+    isHidden?: boolean
     products?: ProductCreateNestedManyWithoutCategoryInput
+    images?: CategoryImageCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutBannerCategoriesInput = {
     id?: number
     name: string
     slug: string
+    isHidden?: boolean
     products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
+    images?: CategoryImageUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutBannerCategoriesInput = {
@@ -27238,14 +28979,18 @@ export namespace Prisma {
   export type CategoryUpdateWithoutBannerCategoriesInput = {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductUpdateManyWithoutCategoryNestedInput
+    images?: CategoryImageUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutBannerCategoriesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
+    images?: CategoryImageUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type BannerCreateWithoutImagesInput = {
@@ -27277,6 +29022,7 @@ export namespace Prisma {
     productImages?: ProductImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutBannerImagesInput = {
@@ -27285,6 +29031,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutBannerImagesInput = {
@@ -27338,6 +29085,7 @@ export namespace Prisma {
     productImages?: ProductImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutBannerImagesInput = {
@@ -27346,6 +29094,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type NewsBlockCreateWithoutNewsInput = {
@@ -27579,6 +29328,7 @@ export namespace Prisma {
     productImages?: ProductImageCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
     newsImages?: NewsImageCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutNewsBlockImagesInput = {
@@ -27587,6 +29337,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
     newsImages?: NewsImageUncheckedCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutNewsBlockImagesInput = {
@@ -27638,6 +29389,7 @@ export namespace Prisma {
     productImages?: ProductImageUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutNewsBlockImagesInput = {
@@ -27646,6 +29398,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
     newsImages?: NewsImageUncheckedUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type NewsBlockCreateWithoutProductsInput = {
@@ -27795,6 +29548,7 @@ export namespace Prisma {
     productImages?: ProductImageCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageCreateNestedManyWithoutImageInput
   }
 
   export type ImageUncheckedCreateWithoutNewsImagesInput = {
@@ -27803,6 +29557,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedCreateNestedManyWithoutImageInput
     bannerImages?: BannerImageUncheckedCreateNestedManyWithoutImageInput
     newsBlockImages?: NewsBlockImageUncheckedCreateNestedManyWithoutImageInput
+    categoryImages?: CategoryImageUncheckedCreateNestedManyWithoutImageInput
   }
 
   export type ImageCreateOrConnectWithoutNewsImagesInput = {
@@ -27854,6 +29609,7 @@ export namespace Prisma {
     productImages?: ProductImageUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUpdateManyWithoutImageNestedInput
   }
 
   export type ImageUncheckedUpdateWithoutNewsImagesInput = {
@@ -27862,6 +29618,7 @@ export namespace Prisma {
     productImages?: ProductImageUncheckedUpdateManyWithoutImageNestedInput
     bannerImages?: BannerImageUncheckedUpdateManyWithoutImageNestedInput
     newsBlockImages?: NewsBlockImageUncheckedUpdateManyWithoutImageNestedInput
+    categoryImages?: CategoryImageUncheckedUpdateManyWithoutImageNestedInput
   }
 
   export type UserCreateWithoutOrdersInput = {
@@ -28164,6 +29921,11 @@ export namespace Prisma {
     bannerId: number
   }
 
+  export type CategoryImageCreateManyCategoryInput = {
+    id?: number
+    imageId: number
+  }
+
   export type ProductUpdateWithoutCategoryInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
@@ -28210,6 +29972,20 @@ export namespace Prisma {
 
   export type BannerCategoryUncheckedUpdateManyWithoutCategoryInput = {
     bannerId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CategoryImageUpdateWithoutCategoryInput = {
+    image?: ImageUpdateOneRequiredWithoutCategoryImagesNestedInput
+  }
+
+  export type CategoryImageUncheckedUpdateWithoutCategoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CategoryImageUncheckedUpdateManyWithoutCategoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    imageId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProductImageCreateManyProductInput = {
@@ -28333,6 +30109,11 @@ export namespace Prisma {
     blockId: number
   }
 
+  export type CategoryImageCreateManyImageInput = {
+    id?: number
+    categoryId: number
+  }
+
   export type ProductImageUpdateWithoutImageInput = {
     product?: ProductUpdateOneRequiredWithoutImagesNestedInput
   }
@@ -28387,6 +30168,20 @@ export namespace Prisma {
   export type NewsBlockImageUncheckedUpdateManyWithoutImageInput = {
     id?: IntFieldUpdateOperationsInput | number
     blockId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CategoryImageUpdateWithoutImageInput = {
+    category?: CategoryUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type CategoryImageUncheckedUpdateWithoutImageInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    categoryId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CategoryImageUncheckedUpdateManyWithoutImageInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    categoryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type BannerImageCreateManyBannerInput = {

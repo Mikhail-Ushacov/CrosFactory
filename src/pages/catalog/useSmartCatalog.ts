@@ -62,6 +62,14 @@ export const useSmartCatalog = () => {
     }
   }, [selectedCategory]);
 
+  useEffect(() => {
+    api.get<Category[]>('/categories').then((res) => {
+      // ВИПРАВЛЕНО: Фільтруємо приховані категорії тут
+      const visibleCategories = res.data.filter(cat => !cat.isHidden);
+      setCategories(visibleCategories);
+    });
+  }, []);
+
   // Розрахунок динамічних фільтрів (Min/Max для ціни та характеристик)
   const dynamicFilters = useMemo(() => {
     const filters: { [key: string]: FilterGroup } = {};

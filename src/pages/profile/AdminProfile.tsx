@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   Edit2, Trash2, PlusCircle, ShoppingCart, Users, 
   TrendingUp, Shield, Package, Search, 
-  ChevronLeft, ChevronRight, Layers, Newspaper 
+  ChevronLeft, ChevronRight, Layers, Newspaper, Eye, EyeOff 
 } from 'lucide-react';
 import { useAdminProfile } from './useAdminProfile';
 
@@ -16,7 +16,7 @@ export const AdminProfile = () => {
     itemsPerPage, setItemsPerPage,
     stats, newsCount, bannersCount, totalContentCount,
     paginatedProducts, filteredCategories,
-    totalPages, handleDeleteProduct, handleDeleteCategory
+    totalPages, handleDeleteProduct, handleDeleteCategory, handleToggleCategoryVisibility
   } = useAdminProfile();
 
   if (loading) return <div className="p-10 text-center text-slate-500">Завантаження...</div>;
@@ -133,7 +133,8 @@ export const AdminProfile = () => {
         ) : (
           <CategoriesGrid 
             categories={filteredCategories} 
-            onDelete={handleDeleteCategory} 
+            onDelete={handleDeleteCategory}
+            onToggleVisibility={handleToggleCategoryVisibility} 
           />
         )}
       </div>
@@ -263,14 +264,29 @@ const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChan
   </>
 );
 
-const CategoriesGrid = ({ categories, onDelete }: any) => (
+const CategoriesGrid = ({ categories, onDelete, onToggleVisibility }: any) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
     {categories.map((cat: any) => (
-      <div key={cat.id} className="bg-slate-50 p-4 rounded-2xl flex items-center justify-between group hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-slate-100">
-        <div>
-          <p className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{cat.name}</p>
-          <p className="text-[10px] font-bold text-slate-400 uppercase">{cat._count?.products || 0} товарів</p>
+      <div key={cat.id} className={`bg-slate-50 p-4 rounded-2xl flex items-center justify-between group hover:bg-white hover:shadow-md transition-all border ${cat.isHidden ? 'border-dashed border-amber-200 opacity-75' : 'border-transparent hover:border-slate-100'}`}>
+        <div className="flex items-center gap-4">
+          {/* Чекбокс/Кнопка видимості */}
+          <button 
+            onClick={() => onToggleVisibility(cat.id, cat.isHidden)}
+            className={`p-2 rounded-xl transition-all ${cat.isHidden ? 'bg-amber-100 text-amber-600' : 'bg-indigo-50 text-indigo-600'}`}
+            title={cat.isHidden ? "Приховано від користувачів" : "Видно всім"}
+          >
+            {cat.isHidden ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+          
+          <div>
+            <p className={`font-bold transition-colors ${cat.isHidden ? 'text-slate-400' : 'text-slate-900 group-hover:text-emerald-600'}`}>
+              {cat.name} 
+              {cat.isHidden && <span className="ml-2 text-[9px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded uppercase tracking-tighter">Приховано</span>}
+            </p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">{cat._count?.products || 0} товарів</p>
+          </div>
         </div>
+
         <div className="flex gap-1">
           <Link to={`/admin/category/edit/${cat.id}`} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-white rounded-xl">
             <Edit2 size={16} />
