@@ -19,12 +19,52 @@ class BannerService {
       where: { id: parseInt(id) },
       include: { 
         images: { include: { image: true } },
-        products: { include: { product: { include: { images: { include: { image: true }, take: 1 } } } } },
-        bannerCategories: { include: { category: true } } // Згідно з вашою схемою
+        products: { 
+          include: { 
+            product: { 
+              include: { images: { include: { image: true }, take: 1 } } 
+            } 
+          } 
+        },
+        bannerCategories: { 
+          include: { 
+            category: { 
+              include: { 
+                products: { // Підтягуємо товари з категорій
+                  include: { images: { include: { image: true }, take: 1 } }
+                } 
+              } 
+            } 
+          } 
+        }
       }
     });
     if (!banner) throw new Error("Банер не знайдено");
-    return this._formatBanner(banner);
+
+    // Форматуємо дані для фронтенда
+    const formattedBanner = this._formatBanner(banner);
+    
+    // Збираємо унікальний список усіх товарів (і прямих, і з категорій)
+    const categoryProducts = banner.bannerCategories.flatMap(bc => 
+      bc.category.products.map(p => ({
+        ...p,
+        main_image: p.images[0]?.image.url || ''
+      }))
+    );
+
+    const directProducts = banner.products.map(p => ({
+      ...p.product,
+      main_image: p.product.images[0]?.image.url || ''
+    }));
+
+    // Об'єднуємо та видаляємо дублікати за ID
+    const allProductsMap = new Map();
+    [...directProducts, ...categoryProducts].forEach(p => allProductsMap.set(p.id, p));
+    
+    return {
+      ...formattedBanner,
+      allLinkedProducts: Array.from(allProductsMap.values())
+    };
   }
 
   async create(data, files) {

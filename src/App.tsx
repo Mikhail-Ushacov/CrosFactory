@@ -35,6 +35,7 @@ import { NewsList } from './pages/NewsList';
 import { NewsDetails } from './pages/NewsDetails';
 import { Home } from './pages/home/HomePage';
 import { SmartCatalog } from './pages/catalog/SmartCatalog';
+import { PromotionPage } from './pages/PromotionPage';
 
 // Оновлений PrivateRoute
 const PrivateRoute = ({ children, roles }: { children: React.ReactNode, roles?: ('user' | 'admin' | 'moderator')[] }) => {
@@ -232,6 +233,7 @@ function App() {
                   <Route path="/smart-catalog" element={<SmartCatalog />} />
                   <Route path="/smart-catalog" element={<SmartCatalog />} />
                   <Route path="/smart-catalog/:categorySlug" element={<SmartCatalog />} />  
+                  <Route path="/promotion/:id" element={<PromotionPage />} />
 
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

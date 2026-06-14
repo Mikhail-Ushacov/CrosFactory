@@ -173,9 +173,9 @@ export const useHomeData = () => {
   };
 
   const getBannerLink = (banner: Banner) => {
-    if (banner.products && banner.products.length > 0) return `/product/${banner.products[0].id}`;
-    if (banner.categories && banner.categories.length > 0) return `/catalog?category=${banner.categories[0].id}`;
-    return "/catalog";
+    // if (banner.products && banner.products.length > 0) return `/product/${banner.products[0].id}`;
+    // if (banner.categories && banner.categories.length > 0) return `/catalog?category=${banner.categories[0].id}`;
+    return `/promotion/${banner.id}`;
   };
 
   return {
