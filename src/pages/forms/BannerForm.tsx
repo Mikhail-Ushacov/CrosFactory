@@ -25,10 +25,10 @@ export const BannerForm = () => {
   const [catSearchQuery, setCatSearchQuery] = useState('');
   const [isCatSearchActive, setIsCatSearchActive] = useState(false);
 
-  // Стан для форми (тепер одиночні об'єкти замість масивів для бізнес-логіки)
+  // Стан форми
   const [form, setForm] = useState({ title: '', description: '', btnText: '' });
-  const [selectedProduct, setSelectedProduct] = useState<ProductPreview | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryPreview | null>(null);
+  const [selectedProducts, setSelectedProducts] = useState<ProductPreview[]>([]); // Масив для безлічі товарів
+  const [selectedCategory, setSelectedCategory] = useState<CategoryPreview | null>(null); // Одиночна категорія
   const [image, setImage] = useState<{file?: File, preview: string, isExisting?: boolean} | null>(null);
 
   useEffect(() => {
@@ -43,10 +43,16 @@ export const BannerForm = () => {
           description: data.description || '',
           btnText: data.text || ''
         });
-        // Беремо лише перший елемент, якщо вони є
         if (data.images?.length > 0) setImage({ preview: data.images[0], isExisting: true });
-        if (data.products?.length > 0) setSelectedProduct(data.products[0]);
-        if (data.categories?.length > 0) setSelectedCategory(data.categories[0]);
+        
+        // Відновлюємо дані: або товари, або категорію
+        if (data.products?.length > 0) {
+          setSelectedProducts(data.products);
+          setSelectedCategory(null);
+        } else if (data.categories?.length > 0) {
+          setSelectedCategory(data.categories[0]);
+          setSelectedProducts([]);
+        }
         
         setIsLoading(false);
       }).catch((err) => {
@@ -64,6 +70,22 @@ export const BannerForm = () => {
     c.name.toLowerCase().includes(catSearchQuery.toLowerCase())
   );
 
+  // --- ЛОГІКА ПЕРЕМИКАННЯ (АБО-АБО) ---
+
+  const handleAddCategory = (c: CategoryPreview) => {
+    setSelectedCategory(c);
+    setSelectedProducts([]); // Очищаємо всі вибрані товари
+    setIsCatSearchActive(false);
+  };
+
+  const handleAddProduct = (p: ProductPreview) => {
+    setSelectedCategory(null); // Очищаємо вибрану категорію
+    if (!selectedProducts.find(item => item.id === p.id)) {
+      setSelectedProducts([...selectedProducts, p]);
+    }
+    setIsSearchActive(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -73,8 +95,9 @@ export const BannerForm = () => {
     formData.append('description', form.description);
     formData.append('text', form.btnText);
 
-    // Відправляємо як масиви з 1 елементом, щоб не ламати існуючий бекенд
-    formData.append('productIds', JSON.stringify(selectedProduct ? [selectedProduct.id] : []));
+    // Відправляємо масив ID товарів або порожній масив
+    formData.append('productIds', JSON.stringify(selectedProducts.map(p => p.id)));
+    // Відправляємо масив з одним ID категорії або порожній масив
     formData.append('categoryIds', JSON.stringify(selectedCategory ? [selectedCategory.id] : []));
     
     if (image) {
@@ -97,10 +120,9 @@ export const BannerForm = () => {
     }
   };
 
-  // Функція для генерації посилання для передогляду
   const getPreviewLink = () => {
-    if (selectedProduct) return `/product/${selectedProduct.id}`;
-    if (selectedCategory) return `/catalog?category=${selectedCategory.id}` ;
+    if (selectedProducts.length > 0) return `/product/${selectedProducts[0].id} (+${selectedProducts.length - 1})`;
+    if (selectedCategory) return `/catalog?category=${selectedCategory.id}`;
     return null;
   };
 
@@ -108,7 +130,7 @@ export const BannerForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto pb-20">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 mb-6 hover:text-indigo-600 transition-colors">
+      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 mb-6 hover:text-indigo-600 transition-colors cursor-pointer">
         <ArrowLeft size={20} /> Назад
       </button>
 
@@ -138,15 +160,11 @@ export const BannerForm = () => {
           </div>
 
           <div className="space-y-6 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-            <p className="text-xs font-bold text-slate-400 uppercase">Оберіть ціль переходу (тільки одне):</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Виберіть або категорію, або товари</p>
             
             <CategorySelector 
               selectedCategories={selectedCategory ? [selectedCategory] : []}
-              onAdd={(c) => {
-                setSelectedCategory(c);
-                setSelectedProduct(null); // Очищуємо товар
-                setIsCatSearchActive(false);
-              }}
+              onAdd={handleAddCategory}
               onRemove={() => setSelectedCategory(null)}
               isActive={isCatSearchActive}
               setIsActive={setIsCatSearchActive}
@@ -161,13 +179,9 @@ export const BannerForm = () => {
             </div>
 
             <ProductSelector 
-              selectedProducts={selectedProduct ? [selectedProduct] : []} 
-              onAdd={(p) => {
-                setSelectedProduct(p);
-                setSelectedCategory(null); // Очищуємо категорію
-                setIsSearchActive(false);
-              }} 
-              onRemove={() => setSelectedProduct(null)}
+              selectedProducts={selectedProducts} 
+              onAdd={handleAddProduct} 
+              onRemove={(pid) => setSelectedProducts(selectedProducts.filter(p => p.id !== pid))}
               isActive={isSearchActive}
               setIsActive={setIsSearchActive}
               searchQuery={searchQuery}
@@ -185,7 +199,7 @@ export const BannerForm = () => {
                   <button 
                     type="button" 
                     onClick={() => setImage(null)} 
-                    className="absolute top-4 right-4 bg-white/90 text-red-500 p-2 rounded-xl shadow-lg hover:bg-white transition-colors"
+                    className="absolute top-4 right-4 bg-white/90 text-red-500 p-2 rounded-xl shadow-lg hover:bg-white transition-colors cursor-pointer"
                   >
                     <X size={20}/>
                   </button>
@@ -209,7 +223,7 @@ export const BannerForm = () => {
           </div>
         </div>
 
-        <button disabled={isSaving} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 disabled:opacity-50 shadow-xl shadow-indigo-200 transition-all active:scale-[0.98]">
+        <button disabled={isSaving} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 disabled:opacity-50 shadow-xl shadow-indigo-200 transition-all active:scale-[0.98] cursor-pointer">
           {isSaving ? <Loader2 className="animate-spin" /> : <Save size={20} />} Зберегти банер
         </button>
       </form>
