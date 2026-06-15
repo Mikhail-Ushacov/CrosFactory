@@ -18,18 +18,22 @@ const RangeFilterItem = ({
   initialValues, 
   onCommit 
 }: any) => {
-  const [tempValues, setTempValues] = useState(initialValues);
+  const [tempValues, setTempValues] = useState<Array<number | ''>>(initialValues);
 
   // Оновлюємо локальні значення, якщо параметри скинуті ззовні
    useEffect(() => {
     setTempValues(initialValues);
   }, [initialValues]);
 
-  const minP = ((tempValues[0] - data.min) / (data.max - data.min)) * 100;
-  const maxP = ((tempValues[1] - data.min) / (data.max - data.min)) * 100;
+  const v0 = tempValues[0] === '' ? data.min : tempValues[0];
+  const v1 = tempValues[1] === '' ? data.max : tempValues[1];
+  const minP = ((v0 - data.min) / (data.max - data.min)) * 100;
+  const maxP = ((v1 - data.min) / (data.max - data.min)) * 100;
 
   const handleCommit = () => {
-    onCommit(filterKey, tempValues[0], tempValues[1]);
+    const committedMin = tempValues[0] === '' ? data.min : Number(tempValues[0]);
+    const committedMax = tempValues[1] === '' ? data.max : Number(tempValues[1]);
+    onCommit(filterKey, committedMin, committedMax);
   };
 
   return (
@@ -47,7 +51,8 @@ const RangeFilterItem = ({
         <input
           type="number"
           value={tempValues[0]}
-          onChange={(e) => setTempValues([Math.min(Number(e.target.value), tempValues[1]), tempValues[1]])}
+          placeholder={String(data.min)}
+          onChange={(e) => setTempValues([e.target.value === '' ? '' : Math.min(Number(e.target.value), tempValues[1] === '' ? data.max : Number(tempValues[1])), tempValues[1]])}
           onBlur={handleCommit}
           className="w-full bg-white border border-slate-200 rounded-2xl p-2 text-sm font-bold text-center focus:ring-2 focus:ring-indigo-500 outline-none"
         />
@@ -55,7 +60,8 @@ const RangeFilterItem = ({
         <input
           type="number"
           value={tempValues[1]}
-          onChange={(e) => setTempValues([tempValues[0], Math.max(Number(e.target.value), tempValues[0])])}
+          placeholder={String(data.max)}
+          onChange={(e) => setTempValues([tempValues[0], e.target.value === '' ? '' : Math.max(Number(e.target.value), tempValues[0] === '' ? data.min : Number(tempValues[0]))])}
           onBlur={handleCommit}
           className="w-full bg-white border border-slate-200 rounded-2xl p-2 text-sm font-bold text-center focus:ring-2 focus:ring-indigo-500 outline-none"
         />
@@ -78,9 +84,9 @@ const RangeFilterItem = ({
           type="range"
           min={data.min}
           max={data.max}
-          value={tempValues[0]}
+          value={tempValues[0] === '' ? data.min : tempValues[0]}
           step={1}
-          onChange={(e) => setTempValues([Math.min(Number(e.target.value), tempValues[1] - 1), tempValues[1]])}
+          onChange={(e) => { const other = tempValues[1] === '' ? data.max : Number(tempValues[1]); setTempValues([Math.min(Number(e.target.value), other - 1), tempValues[1]]) }}
           onMouseUp={handleCommit}
           onTouchEnd={handleCommit}
           className="range-input absolute w-full appearance-none bg-transparent pointer-events-none"
@@ -90,9 +96,9 @@ const RangeFilterItem = ({
           type="range"
           min={data.min}
           max={data.max}
-          value={tempValues[1]}
+          value={tempValues[1] === '' ? data.max : tempValues[1]}
           step={1}
-          onChange={(e) => setTempValues([tempValues[0], Math.max(Number(e.target.value), tempValues[0] + 1)])}
+          onChange={(e) => { const other = tempValues[0] === '' ? data.min : Number(tempValues[0]); setTempValues([tempValues[0], Math.max(Number(e.target.value), other + 1)]) }}
           onMouseUp={handleCommit}
           onTouchEnd={handleCommit}
           className="range-input absolute w-full appearance-none bg-transparent pointer-events-none"

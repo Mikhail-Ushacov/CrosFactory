@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// Шляхи тепер мають два рівні вгору (../../), оскільки файл у папці /pages/AdminProductForm/
 import api from '../../api'; 
-import type { Category, Product } from '../../types';
+import type { Category, Product, PaginatedResponse } from '../../types';
 
 export interface ImageItem {
   id: string;
@@ -13,7 +12,7 @@ export interface ImageItem {
 
 export interface Characteristic {
   name: string;
-  value: number;
+  value: number | '';
   unit: string;
 }
 
@@ -26,21 +25,27 @@ export const useProductForm = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    name: string;
+    price: number | '';
+    description: string;
+    category_id: number;
+    isOnSale: boolean;
+    salePrice: number | '';
+  }>({
     name: '',
-    price: 0,
+    price: '',
     description: '',
     category_id: 0,
     isOnSale: false,
-    salePrice: 0,
+    salePrice: '',
   });
 
-  const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountPercent, setDiscountPercent] = useState<number | ''>('');
   const [images, setImages] = useState<ImageItem[]>([]);
   const [characteristics, setCharacteristics] = useState<Characteristic[]>([]);
 
   useEffect(() => {
-    // Завантаження категорій з типізацією відповіді
     api.get<PaginatedResponse<Category>>('/categories').then((res) => {
       const cats = res.data.data;
       setCategories(cats);
@@ -49,26 +54,26 @@ export const useProductForm = () => {
       }
     });
 
-    // Завантаження товару з типізацією відповіді
     if (id) {
       api.get<Product>(`/products/${id}`)
         .then((res) => {
           const p = res.data;
           setForm({
             name: p.name,
-            price: p.price,
+            price: p.price ?? '',
             description: p.description || '',
             category_id: p.category_id,
             isOnSale: p.isOnSale || false,
-            salePrice: p.salePrice || 0,
+            salePrice: p.isOnSale && p.salePrice ? p.salePrice : '',
           });
 
           if (p.isOnSale && p.price > 0 && p.salePrice) {
             setDiscountPercent(Math.round(((p.price - p.salePrice) / p.price) * 100));
+          } else {
+            setDiscountPercent('');
           }
 
           if (p.images) {
-            // Припускаємо, що p.images приходить як масив рядків (URL)
             setImages(p.images.map((url: string) => ({
               id: Math.random().toString(),
               type: 'url' as const,
@@ -77,48 +82,69 @@ export const useProductForm = () => {
             })));
           }
 
-          if (p.characteristics) setCharacteristics(p.characteristics);
+          if (p.characteristics) {
+            setCharacteristics(p.characteristics);
+          }
         })
         .catch(() => alert('Помилка завантаження'))
         .finally(() => setIsLoading(false));
     }
   }, [id]);
-
-  // --- Решта методів залишається такою ж, як у попередній відповіді ---
   
-  const handlePriceChange = (val: number) => {
+  const handlePriceChange = (val: number | '') => {
     setForm((prev) => {
       const updated = { ...prev, price: val };
       if (updated.isOnSale) {
-        updated.salePrice = Math.round(val * (1 - discountPercent / 100));
+        if (val === '') {
+          updated.salePrice = '';
+        } else {
+          updated.salePrice = Math.round(val * (1 - (Number(discountPercent) || 0) / 100));
+        }
       }
       return updated;
     });
   };
 
-  const handleDiscountPercentChange = (percent: number) => {
+  const handleDiscountPercentChange = (percent: number | '') => {
+    if (percent === '') {
+      setDiscountPercent('');
+      setForm((prev) => ({ ...prev, salePrice: '' }));
+      return;
+    }
     const safePercent = Math.min(100, Math.max(0, percent));
     setDiscountPercent(safePercent);
-    setForm((prev) => ({
-      ...prev,
-      salePrice: Math.round(prev.price * (1 - safePercent / 100)),
-    }));
+    setForm((prev) => {
+      const basePrice = Number(prev.price) || 0;
+      return {
+        ...prev,
+        salePrice: Math.round(basePrice * (1 - safePercent / 100)),
+      };
+    });
   };
 
-  const handleSalePriceChange = (sPrice: number) => {
-    setForm((prev) => ({ ...prev, salePrice: sPrice }));
-    if (form.price > 0) {
-      setDiscountPercent(Math.round(((form.price - sPrice) / form.price) * 100));
+  const handleSalePriceChange = (sPrice: number | '') => {
+    if (sPrice === '' || sPrice === 0) {
+      setDiscountPercent('');
+      setForm((prev) => ({ ...prev, salePrice: sPrice }));
+      return;
     }
+    setForm((prev) => {
+      const basePrice = Number(prev.price) || 0;
+      if (basePrice > 0) {
+        setDiscountPercent(Math.round(((basePrice - sPrice) / basePrice) * 100));
+      }
+      return { ...prev, salePrice: sPrice };
+    });
   };
 
   const toggleSale = (checked: boolean) => {
     setForm((prev) => ({ 
         ...prev, 
         isOnSale: checked,
-        salePrice: checked ? Math.round(prev.price * 0.9) : 0 
+        salePrice: checked ? (prev.price === '' ? '' : Math.round(Number(prev.price) * 0.9)) : '' 
     }));
     if (checked) setDiscountPercent(10);
+    else setDiscountPercent('');
   };
 
   const handleFileChange = (files: FileList | null) => {
@@ -140,12 +166,18 @@ export const useProductForm = () => {
 
   const removeImage = (imgId: string) => setImages(images.filter((img) => img.id !== imgId));
 
-  const addCharacteristic = () => setCharacteristics([...characteristics, { name: '', value: 0, unit: '' }]);
+  const addCharacteristic = () => setCharacteristics([...characteristics, { name: '', value: '', unit: '' }]);
+  
   const updateChar = (index: number, field: keyof Characteristic, val: any) => {
     const updated = [...characteristics];
-    updated[index] = { ...updated[index], [field]: val };
+    let finalVal = val;
+    if (field === 'value') {
+      finalVal = val === '' ? '' : Number(val);
+    }
+    updated[index] = { ...updated[index], [field]: finalVal };
     setCharacteristics(updated);
   };
+  
   const removeChar = (index: number) => setCharacteristics(characteristics.filter((_, i) => i !== index));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -154,12 +186,17 @@ export const useProductForm = () => {
 
     const formData = new FormData();
     formData.append('name', form.name);
-    formData.append('price', String(form.price));
+    formData.append('price', String(form.price === '' ? 0 : form.price));
     formData.append('description', form.description);
     formData.append('category_id', String(form.category_id));
     formData.append('isOnSale', String(form.isOnSale));
-    formData.append('salePrice', String(form.isOnSale ? form.salePrice : 0));
-    formData.append('characteristics', JSON.stringify(characteristics));
+    formData.append('salePrice', String(form.isOnSale ? (form.salePrice === '' ? 0 : form.salePrice) : 0));
+    
+    const cleanCharacteristics = characteristics.map(c => ({
+      ...c,
+      value: c.value === '' ? 0 : Number(c.value)
+    }));
+    formData.append('characteristics', JSON.stringify(cleanCharacteristics));
 
     const existingUrls: string[] = [];
     images.forEach((img) => {

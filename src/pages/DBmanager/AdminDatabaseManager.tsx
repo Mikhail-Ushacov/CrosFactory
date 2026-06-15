@@ -84,7 +84,7 @@ export const AdminDatabaseManager = () => {
         <div key={key} className="col-span-full">
           {label}
           <textarea 
-            value={value || ''} 
+            value={value ?? ''} 
             onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
             className={`${baseInputClass} min-h-[100px]`}
           />
@@ -98,7 +98,7 @@ export const AdminDatabaseManager = () => {
         {label}
         <input 
           type={['price', 'quantity', 'oldPrice'].includes(key) ? 'number' : 'text'}
-          value={value || ''} 
+          value={value ?? ''} 
           onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
           className={baseInputClass}
         />

@@ -26,7 +26,7 @@ export const AdminProductForm = () => {
     <div className="max-w-5xl mx-auto pb-20 px-4">
       <button 
         onClick={() => navigate('/admin')} 
-        className="flex items-center gap-2 text-slate-500 mb-6 hover:text-indigo-600 transition-colors"
+        className="flex items-center gap-2 text-slate-500 mb-6 hover:text-indigo-600 transition-colors cursor-pointer"
       >
         <ArrowLeft size={20} /> До списку
       </button>
@@ -60,14 +60,14 @@ export const AdminProductForm = () => {
                   <div>
                     <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1.5 ml-1">Ціна (₴)</label>
                     <input 
-                      type="number" required className="w-full p-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-indigo-300"
-                      value={form.price} onChange={e => handlePriceChange(Number(e.target.value))}
+                      type="number" required placeholder="0" className="w-full p-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-indigo-300"
+                      value={form.price} onChange={e => handlePriceChange(e.target.value === '' ? '' : Number(e.target.value))}
                     />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1.5 ml-1">Категорія</label>
                     <select 
-                      className="w-full p-3.5 bg-white border border-slate-100 rounded-xl outline-none appearance-none"
+                      className="w-full p-3.5 bg-white border border-slate-100 rounded-xl outline-none appearance-none cursor-pointer"
                       value={form.category_id} onChange={e => setForm({...form, category_id: Number(e.target.value)})}
                     >
                       {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -95,15 +95,15 @@ export const AdminProductForm = () => {
                       <div>
                         <label className="block text-[10px] font-bold text-rose-400 uppercase mb-1.5 ml-1">Знижка %</label>
                         <input 
-                          type="number" className="w-full p-3.5 bg-rose-50/30 border border-rose-100 rounded-xl outline-none focus:border-rose-300 text-rose-600 font-bold"
-                          value={discountPercent} onChange={e => handleDiscountPercentChange(Number(e.target.value))}
+                          type="number" placeholder="0" className="w-full p-3.5 bg-rose-50/30 border border-rose-100 rounded-xl outline-none focus:border-rose-300 text-rose-600 font-bold"
+                          value={discountPercent} onChange={e => handleDiscountPercentChange(e.target.value === '' ? '' : Number(e.target.value))}
                         />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-rose-400 uppercase mb-1.5 ml-1">Ціна зі знижкою</label>
                         <input 
-                          type="number" className="w-full p-3.5 bg-rose-50/30 border border-rose-100 rounded-xl outline-none focus:border-rose-300 text-rose-600 font-black"
-                          value={form.salePrice} onChange={e => handleSalePriceChange(Number(e.target.value))}
+                          type="number" placeholder="0" className="w-full p-3.5 bg-rose-50/30 border border-rose-100 rounded-xl outline-none focus:border-rose-300 text-rose-600 font-black"
+                          value={form.salePrice} onChange={e => handleSalePriceChange(e.target.value === '' ? '' : Number(e.target.value))}
                         />
                       </div>
                     </div>
@@ -126,7 +126,7 @@ export const AdminProductForm = () => {
                 <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                   <Settings2 size={16} /> Технічні параметри
                 </h2>
-                <button type="button" onClick={addCharacteristic} className="text-xs font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+                <button type="button" onClick={addCharacteristic} className="text-xs font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer">
                   <Plus size={14} /> Додати параметр
                 </button>
               </div>
@@ -134,9 +134,9 @@ export const AdminProductForm = () => {
                 {characteristics.map((char, index) => (
                   <div key={index} className="flex gap-2 items-center bg-slate-50 p-2 rounded-2xl border border-slate-100">
                     <input placeholder="Назва" className="flex-1 p-2 bg-transparent outline-none text-sm" value={char.name} onChange={e => updateChar(index, 'name', e.target.value)} />
-                    <input type="number" placeholder="Значення" className="w-20 p-2 bg-white rounded-lg outline-none text-sm text-center" value={char.value} onChange={e => updateChar(index, 'value', e.target.value)} />
+                    <input type="number" placeholder="0" className="w-20 p-2 bg-white rounded-lg outline-none text-sm text-center" value={char.value} onChange={e => updateChar(index, 'value', e.target.value)} />
                     <input placeholder="Од." className="w-16 p-2 bg-transparent outline-none text-sm text-center" value={char.unit} onChange={e => updateChar(index, 'unit', e.target.value)} />
-                    <button type="button" onClick={() => removeChar(index)} className="p-2 text-slate-300 hover:text-rose-500"><Trash2 size={18} /></button>
+                    <button type="button" onClick={() => removeChar(index)} className="p-2 text-slate-300 hover:text-rose-500 cursor-pointer"><Trash2 size={18} /></button>
                   </div>
                 ))}
               </div>
@@ -155,7 +155,7 @@ export const AdminProductForm = () => {
                   placeholder="Вставте URL..." value={urlInput} onChange={e => setUrlInput(e.target.value)}
                 />
               </div>
-              <button type="button" onClick={addImageUrl} className="bg-slate-900 text-white px-5 rounded-xl hover:bg-black transition-colors">ОК</button>
+              <button type="button" onClick={addImageUrl} className="bg-slate-900 text-white px-5 rounded-xl hover:bg-black transition-colors cursor-pointer">ОК</button>
             </div>
 
             <div className="border-2 border-dashed border-slate-200 rounded-[2rem] p-8 text-center hover:border-indigo-400 hover:bg-indigo-50/30 transition-all cursor-pointer relative group">
@@ -168,7 +168,7 @@ export const AdminProductForm = () => {
               {images.map((img) => (
                 <div key={img.id} className="relative aspect-square rounded-2xl overflow-hidden bg-slate-100 border group shadow-sm">
                   <img src={img.preview} className="w-full h-full object-cover" alt="" />
-                  <button type="button" onClick={() => removeImage(img.id)} className="absolute top-1 right-1 p-1.5 bg-white/90 backdrop-blur rounded-lg text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button type="button" onClick={() => removeImage(img.id)} className="absolute top-1 right-1 p-1.5 bg-white/90 backdrop-blur rounded-lg text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                     <X size={14} />
                   </button>
                 </div>
@@ -178,7 +178,7 @@ export const AdminProductForm = () => {
             <div className="pt-10">
               <button 
                 type="submit" disabled={isSaving}
-                className={`w-full py-5 rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl 
+                className={`w-full py-5 rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl cursor-pointer
                   ${isSaving ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100 hover:-translate-y-1'}`}
               >
                 {isSaving ? <Loader2 className="animate-spin" size={22} /> : <Save size={22} />}
