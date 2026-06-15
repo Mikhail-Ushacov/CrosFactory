@@ -25,32 +25,30 @@ export const Cart = () => {
         <div className="divide-y divide-slate-50">
           {cart.map(item => (
             <div key={item.id} className="p-6 flex items-center gap-6">
-              <img src={item.main_image} className="w-20 h-20 object-cover rounded-2xl bg-slate-50" />
+              <Link to={`/product/${item.id}`} className="flex items-center gap-4 flex-1">
+                <img src={item.main_image} className="w-20 h-20 object-cover rounded-2xl bg-slate-50 shrink-0" />
+                <h3 className="font-semibold text-slate-900 hover:text-indigo-600 transition-colors">{item.name}</h3>
+              </Link>
               
-              <div className="flex-1">
-                <h3 className="font-semibold text-slate-900 mb-2">{item.name}</h3>
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => updateQuantity(item.id, -1)}
+                  disabled={item.quantity <= 1}
+                  className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  <Minus size={14} />
+                </button>
                 
-                {/* Блок керування кількістю */}
-                <div className="flex items-center gap-3">
-                  <button 
-                    onClick={() => updateQuantity(item.id, -1)}
-                    disabled={item.quantity <= 1}
-                    className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                  >
-                    <Minus size={14} />
-                  </button>
-                  
-                  <span className="font-bold text-slate-700 min-w-[20px] text-center">
-                    {item.quantity}
-                  </span>
-                  
-                  <button 
-                    onClick={() => updateQuantity(item.id, 1)}
-                    className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all"
-                  >
-                    <Plus size={14} />
-                  </button>
-                </div>
+                <span className="font-bold text-slate-700 min-w-[20px] text-center">
+                  {item.quantity}
+                </span>
+                
+                <button 
+                  onClick={() => updateQuantity(item.id, 1)}
+                  className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all"
+                >
+                  <Plus size={14} />
+                </button>
               </div>
 
               <div className="text-right">
