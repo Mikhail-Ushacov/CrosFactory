@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import type { Product, Category } from '../../types';
+import type { Product, Category, PaginatedResponse } from '../../types';
 import api from '../../api';
+import { useDebounce } from '../../hooks/useDebounce';
 
 export interface Banner {
   id: number;
@@ -25,18 +26,20 @@ export interface NewsItem {
 }
 
 export const useHomeData = () => {
-  const [products, setProducts] = useState<Product[]>([]);
   const [discountedProducts, setDiscountedProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
   
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentProductSlide, setCurrentProductSlide] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
+  const [suggestedCategories, setSuggestedCategories] = useState<Category[]>([]);
   
   const searchRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -45,7 +48,6 @@ export const useHomeData = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
-  // --- ЛОГІКА СЛАЙДЕРІВ ---
   const nextSlide = useCallback(() => {
     setCurrentSlide((s) => (banners.length > 0 ? (s === banners.length - 1 ? 0 : s + 1) : 0));
   }, [banners.length]);
@@ -74,32 +76,26 @@ export const useHomeData = () => {
     }
   }, [banners.length, discountedProducts.length, nextSlide, nextProduct]);
 
-  // Завантаження даних
   useEffect(() => {
-    const loadAllData = async () => {
+    const loadCoreData = async () => {
       try {
-        const [resProducts, resCategories, resBanners, resNews] = await Promise.all([
-          api.get('/products'),
-          api.get('/categories'),
+        const [resDiscounted, resBanners, resNews] = await Promise.all([
+          api.get<PaginatedResponse<Product>>('/products', { params: { isOnSale: 'true', limit: 8 } }),
           api.get('/banners'),
-          api.get('/news')
+          api.get<PaginatedResponse<NewsItem>>('/news', { params: { limit: 9 } })
         ]);
 
-        setProducts(resProducts.data);
-        setCategories(resCategories.data);
+        setDiscountedProducts(resDiscounted.data.data);
         setBanners(resBanners.data);
-        setNews(resNews.data);
-
-        const filteredDiscounted = resProducts.data.filter((p: Product) => p.isOnSale && p.salePrice !== null);
-        setDiscountedProducts(filteredDiscounted);
+        setNews(resNews.data.data);
 
         const savedIds = localStorage.getItem('recentlyViewed');
         if (savedIds) {
-          const viewedIds: number[] = JSON.parse(savedIds);
-          const viewedProducts = viewedIds
-            .map(id => resProducts.data.find((p: Product) => p.id === id))
-            .filter(Boolean);
-          setRecentlyViewed(viewedProducts);
+          const viewedIds = JSON.parse(savedIds);
+          if (viewedIds.length > 0) {
+            const resViewed = await api.post<Product[]>('/products/batch', { ids: viewedIds });
+            setRecentlyViewed(resViewed.data);
+          }
         }
       } catch (err) {
         console.error(err);
@@ -108,9 +104,8 @@ export const useHomeData = () => {
       }
     };
 
-    loadAllData();
+    loadCoreData();
 
-    // Логіка кліку зовні для пошуку
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchOpen(false);
@@ -121,6 +116,21 @@ export const useHomeData = () => {
   }, []);
 
   useEffect(() => {
+    if (debouncedSearchQuery.trim().length > 1) {
+      Promise.all([
+        api.get<PaginatedResponse<Product>>('/products', { params: { search: debouncedSearchQuery, limit: 5 } }),
+        api.get<PaginatedResponse<Category>>('/categories', { params: { search: debouncedSearchQuery, limit: 3 } })
+      ]).then(([pRes, cRes]) => {
+        setSuggestedProducts(pRes.data.data);
+        setSuggestedCategories(cRes.data.data);
+      });
+    } else {
+      setSuggestedProducts([]);
+      setSuggestedCategories([]);
+    }
+  }, [debouncedSearchQuery]);
+
+  useEffect(() => {
     startTimers();
     return () => { 
         if (timerRef.current) clearInterval(timerRef.current); 
@@ -128,7 +138,6 @@ export const useHomeData = () => {
     };
   }, [banners, discountedProducts, startTimers]);
 
-  // Свайпи
   const touchStart = useRef<number>(0);
   const touchEnd = useRef<number>(0);
 
@@ -154,15 +163,6 @@ export const useHomeData = () => {
       startTimers();
     }
   };
-
-  // Пошукові підказки
-  const suggestedProducts = searchQuery.trim().length > 1
-    ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5)
-    : [];
-
-  const suggestedCategories = searchQuery.trim().length > 1
-    ? categories.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 3)
-    : [];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();

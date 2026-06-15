@@ -1,12 +1,39 @@
 const prisma = require('../config/prisma');
 
 class CategoryService {
-  async getAll() {
-    return await prisma.category.findMany({
-      include: {
-        _count: { select: { products: true } }
+  async getAll(query = {}) {
+    const page = Math.max(1, parseInt(query.page) || 1);
+    const requestedLimit = parseInt(query.limit) || 50;
+    const limit = Math.min(requestedLimit, 100);
+    const skip = (page - 1) * limit;
+
+    const where = {};
+    const searchTerm = (query.search || '').trim();
+    if (searchTerm) {
+      where.name = { contains: searchTerm };
+    }
+
+    const [total, data] = await prisma.$transaction([
+      prisma.category.count({ where }),
+      prisma.category.findMany({
+        where,
+        skip,
+        take: limit,
+        include: {
+          _count: { select: { products: true } }
+        }
+      })
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
       }
-    });
+    };
   }
 
   async getById(id) {
@@ -56,8 +83,7 @@ class CategoryService {
       // Якщо прийшли ID товарів - оновлюємо зв'язки
       if (productIds) {
         const ids = productIds.map(pid => parseInt(pid));
-        // Спочатку відв'язуємо всі товари, які були в цій категорії (опціонально, залежить від бізнес-логіки)
-        // Або просто додаємо нові:
+
         await tx.product.updateMany({
           where: { id: { in: ids } },
           data: { categoryId }

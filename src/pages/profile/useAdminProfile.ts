@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import api from '../../api';
-import type { Product, Order } from '../../types'; 
+import type { Product, Order, PaginatedResponse } from '../../types'; 
+import { useDebounce } from '../../hooks/useDebounce';
 
 export type TabType = 'products' | 'categories';
 
@@ -9,57 +10,69 @@ export const useAdminProfile = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [newsCount, setNewsCount] = useState(0);
-   const [bannersCount, setBannersCount] = useState(0);
+  const [bannersCount, setBannersCount] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalCategories, setTotalCategories] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const [activeTab, setActiveTab] = useState<TabType>('products');
   const [productSearch, setProductSearch] = useState('');
+  const debouncedProductSearch = useDebounce(productSearch, 400);
+  
   const [categorySearch, setCategorySearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetchData = async () => {
+  const loadStatsAndCategories = async () => {
     try {
-      setLoading(true);
-      const [prodRes, catRes, statsRes] = await Promise.all([
-        api.get('/products'),
-        api.get('/categories'),
+      const [catRes, statsRes] = await Promise.all([
+        api.get<PaginatedResponse<any>>('/categories'),
         api.get('/admin/stats'),
       ]);
-
-      setProducts(prodRes.data);
-      setCategories(catRes.data);
+      setCategories(catRes.data.data);
+      setTotalCategories(catRes.data.meta.total);
       setOrders(statsRes.data.orders);
       setNewsCount(statsRes.data.newsCount || 0);
       setBannersCount(statsRes.data.bannersCount || 0);
     } catch (err) {
-      console.error("Помилка при завантаженні даних:", err);
-    } finally {
-      setLoading(false);
+      console.error(err);
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  const loadProducts = async () => {
+    try {
+      const res = await api.get<PaginatedResponse<Product>>('/products', {
+        params: {
+          page: currentPage,
+          limit: itemsPerPage,
+          search: debouncedProductSearch || undefined
+        }
+      });
+      setProducts(res.data.data);
+      setTotalProducts(res.data.meta.total);
+      setTotalPages(res.data.meta.totalPages);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  const filteredProducts = useMemo(() => {
-    return products.filter(p => 
-      p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
-      p.category_name?.toLowerCase().includes(productSearch.toLowerCase())
-    );
-  }, [products, productSearch]);
+  useEffect(() => {
+    setLoading(true);
+    loadStatsAndCategories().finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === 'products') {
+      loadProducts();
+    }
+  }, [currentPage, itemsPerPage, debouncedProductSearch, activeTab]);
 
   const filteredCategories = useMemo(() => {
     return categories.filter(c => 
       c.name.toLowerCase().includes(categorySearch.toLowerCase())
     );
   }, [categories, categorySearch]);
-
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  
-  const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return filteredProducts.slice(start, start + itemsPerPage);
-  }, [filteredProducts, currentPage, itemsPerPage]);
 
   const stats = useMemo(() => {
     const now = new Date();
@@ -73,8 +86,8 @@ export const useAdminProfile = () => {
       ordersCount: orders.length,
       clientsCount: activeClientsCount,
       income: monthlyIncome,
-      productsCount: products.length,
-      categoriesCount: categories.length
+      productsCount: totalProducts, 
+      categoriesCount: totalCategories
     };
   }, [orders, products, categories]);
 
@@ -82,7 +95,7 @@ export const useAdminProfile = () => {
     if (window.confirm("Видалити цей товар?")) {
       try {
         await api.delete(`/products/${id}`);
-        fetchData();
+        loadProducts();
       } catch (err) { alert("Помилка при видаленні"); }
     }
   };
@@ -91,7 +104,7 @@ export const useAdminProfile = () => {
     if (confirm("Видалити категорію?")) {
       try {
         await api.delete(`/categories/${id}`);
-        fetchData();
+        loadStatsAndCategories();
       } catch (err) { alert("Помилка при видаленні"); }
     }
   };
@@ -99,37 +112,28 @@ export const useAdminProfile = () => {
   const handleToggleCategoryVisibility = async (id: number, currentStatus: boolean) => {
   try {
     await api.put(`/categories/${id}`, { isHidden: !currentStatus });
-    fetchData(); // Оновлюємо дані
+    loadStatsAndCategories();
   } catch (err) {
     alert("Помилка при зміні статусу");
   }
 };
 
   return {
-    // States
     loading,
-    activeTab,
-    setActiveTab,
-    productSearch,
-    setProductSearch,
-    categorySearch,
-    setCategorySearch,
-    currentPage,
-    setCurrentPage,
-    itemsPerPage,
-    setItemsPerPage,
+    activeTab, setActiveTab,
+    productSearch, setProductSearch,
+    categorySearch, setCategorySearch,
+    currentPage, setCurrentPage,
+    itemsPerPage, setItemsPerPage,
     handleToggleCategoryVisibility,
-    // Data
     stats,
     newsCount,
     bannersCount,
     totalContentCount: newsCount + bannersCount,
-    paginatedProducts,
+    paginatedProducts: products,
     filteredCategories,
     totalPages,
-    // Actions
     handleDeleteProduct,
-    handleDeleteCategory,
-    refreshData: fetchData
+    handleDeleteCategory
   };
 };

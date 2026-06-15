@@ -1,3 +1,13 @@
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
 // --- Користувачі ---
 export interface User {
   id: number;

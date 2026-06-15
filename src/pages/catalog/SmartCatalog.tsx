@@ -112,6 +112,7 @@ export const SmartCatalog = () => {
     filteredProducts,
     totalPages,
     currentPage,
+    meta,
     dynamicFilters,
     addToCart,
     navigate,
@@ -193,7 +194,7 @@ export const SmartCatalog = () => {
           <h2 className="text-3xl font-black text-slate-900 flex items-center gap-3">
             {selectedCategory?.name} 
             <span className="bg-slate-100 text-slate-500 text-sm py-1 px-3 rounded-full">
-              {filteredProducts.length}
+              {meta.total}
             </span>
           </h2>
         </div>

@@ -2,15 +2,42 @@ const prisma = require('../config/prisma');
 const { BASE_URL } = require('../config/constants');
 
 class NewsService {
-  async getAll() {
-    const news = await prisma.news.findMany({
-      orderBy: { date: 'desc' },
-      include: { images: { include: { image: true } } }
-    });
-    return news.map(n => ({
+  async getAll(query = {}) {
+    const page = Math.max(1, parseInt(query.page) || 1);
+    const requestedLimit = parseInt(query.limit) || 9;
+    const limit = Math.min(requestedLimit, 100);
+    const skip = (page - 1) * limit;
+
+    const where = {};
+    if (query.tag) {
+      where.tag = query.tag;
+    }
+
+    const [total, news] = await prisma.$transaction([
+      prisma.news.count({ where }),
+      prisma.news.findMany({
+        where,
+        orderBy: { date: 'desc' },
+        skip,
+        take: limit,
+        include: { images: { include: { image: true } } }
+      })
+    ]);
+
+    const formattedNews = news.map(n => ({
       ...n,
-      images: n.images.map(img => img.image.url)
+      images: n.images.map(img => img.image?.url).filter(Boolean)
     }));
+
+    return {
+      data: formattedNews,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      }
+    };
   }
 
   async getById(id) {

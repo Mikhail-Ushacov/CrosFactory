@@ -4,6 +4,8 @@ const productController = require('../controllers/product.controller');
 const { protect, restrictTo } = require('../middleware/auth');
 const upload = require('../config/multer');
 
+router.get('/filters', productController.getFilters);
+router.post('/batch', productController.getBatch);
 router.get('/', productController.getProducts);
 router.get('/:id', productController.getProduct);
 

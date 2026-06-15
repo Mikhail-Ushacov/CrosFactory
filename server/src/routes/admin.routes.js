@@ -33,7 +33,38 @@ const formatData = (data) => {
 
 router.get('/db/:model', async (req, res) => {
   if (!allowedModels.includes(req.params.model)) return res.status(400).send("Invalid model");
-  res.json(await prisma[req.params.model].findMany());
+  
+  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const limit = Math.min(parseInt(req.query.limit) || 10, 100);
+  const skip = (page - 1) * limit;
+
+  const search = (req.query.search || '').trim();
+  const where = {};
+  if (search) {
+    const textFields = {
+      user: ['login', 'email', 'phone'],
+      category: ['name', 'slug'],
+      product: ['name', 'description'],
+      order: ['customerName', 'email', 'phone', 'address'],
+    };
+    const fields = textFields[req.params.model] || ['id'];
+    where.OR = fields.map(f => ({ [f]: { contains: search } }));
+  }
+
+  const [total, data] = await prisma.$transaction([
+    prisma[req.params.model].count({ where }),
+    prisma[req.params.model].findMany({ where, skip, take: limit })
+  ]);
+
+  res.json({
+    data,
+    meta: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
+    }
+  });
 });
 
 router.post('/db/:model', async (req, res) => {

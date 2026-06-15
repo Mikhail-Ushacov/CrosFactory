@@ -6,13 +6,21 @@ import {
 import { TABLES, ROLES, PAGE_SIZES } from './types';
 import { isImageField, getDisplayValue } from './utils';
 import { useDatabaseManager } from './useDatabaseManager';
+import { LookupSearchInput } from './LookupSearchInput';
+
+const fkToModel: Record<string, string> = {
+  userId: 'user',
+  categoryId: 'category',
+  productId: 'product',
+  orderId: 'order',
+};
 
 export const AdminDatabaseManager = () => {
   const [selectedTable, setSelectedTable] = React.useState(TABLES[0].id);
   
   const {
     data, paginatedData, loading, editingId, editForm, 
-    currentPage, itemsPerPage, totalPages, lookups,
+    currentPage, itemsPerPage, totalPages, totalRecords,
     setEditingId, setEditForm, setCurrentPage, setItemsPerPage,
     handleEdit, handleSave, handleDelete, handleAddNew
   } = useDatabaseManager(selectedTable);
@@ -23,14 +31,14 @@ export const AdminDatabaseManager = () => {
   const renderFieldInput = (key: string, value: any) => {
     if (key === 'id' || key === 'createdAt' || key === 'updatedAt') return null;
 
-    const label = <label className="block text-[10px] font-black text-slate-400 uppercase mb-1.5 ml-1">{key}</label>;
+    const label = key;
     const baseInputClass = "w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all";
 
     // 1. Поля вибору ролей
     if (key === 'role') {
       return (
         <div key={key}>
-          {label}
+          <label className="block text-[10px] font-black text-slate-400 uppercase mb-1.5 ml-1">{label}</label>
           <select 
             value={value} 
             onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
@@ -42,30 +50,16 @@ export const AdminDatabaseManager = () => {
       );
     }
 
-    // 2. Foreign Keys (Lookups)
-    if (key === 'userId' || key === 'categoryId' || key === 'productId' || key === 'orderId') {
-      let options: any[] = [];
-      if (key === 'userId') options = lookups.users;
-      if (key === 'categoryId') options = lookups.categories;
-      if (key === 'productId') options = lookups.products;
-      if (key === 'orderId') options = lookups.orders;
-
+    // 2. Foreign Keys
+    if (fkToModel[key]) {
       return (
-        <div key={key}>
-          {label}
-          <select 
-            value={value} 
-            onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
-            className={baseInputClass}
-          >
-            <option value="">Оберіть...</option>
-            {options.map((opt: any) => (
-              <option key={opt.id} value={opt.id}>
-                {opt.name || opt.email || opt.firstName || `ID: ${opt.id}`}
-              </option>
-            ))}
-          </select>
-        </div>
+        <LookupSearchInput
+          key={key}
+          model={fkToModel[key]}
+          value={value}
+          onChange={(newVal) => setEditForm({ ...editForm, [key]: newVal })}
+          label={label}
+        />
       );
     }
 
@@ -152,7 +146,7 @@ export const AdminDatabaseManager = () => {
                  <div className="w-2 h-8 bg-indigo-600 rounded-full" />
                  <h1 className="text-2xl font-black text-slate-900 tracking-tight">{currentTableName}</h1>
               </div>
-              <p className="text-sm font-medium text-slate-400 ml-5">Всього записів: {data.length}</p>
+              <p className="text-sm font-medium text-slate-400 ml-5">Всього записів: {totalRecords}</p>
             </div>
             
             <div className="flex items-center gap-6">
@@ -205,7 +199,7 @@ export const AdminDatabaseManager = () => {
                                 </div>
                             </div>
                           ) : (
-                            getDisplayValue(key, item[key], selectedTable, lookups)
+                            getDisplayValue(key, item[key], selectedTable)
                           )}
                         </td>
                       ))}

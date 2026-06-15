@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ArrowLeft, ImagePlus, X, Loader2, Plus, Trash2 } from 'lucide-react';
 import api from '../../api';
 import { type ProductPreview, ProductSelector, LoadingState } from '../../context/ContentShared';
+import type { PaginatedResponse, Product } from '../../types';
+import { useDebounce } from '../../hooks/useDebounce';
 
 interface ContentBlock {
   id: string;
@@ -18,8 +20,10 @@ export const NewsForm = () => {
   
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
-  const [allProducts, setAllProducts] = useState<ProductPreview[]>([]);
+  
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<ProductPreview[]>([]);
+  const debouncedSearch = useDebounce(searchQuery, 400);
   const [activeSearchBlock, setActiveSearchBlock] = useState<string | null>(null);
 
   const [form, setForm] = useState({ title: '', description: '', tag: 'Новини' });
@@ -29,8 +33,6 @@ export const NewsForm = () => {
   ]);
 
   useEffect(() => {
-    api.get('/products').then(res => setAllProducts(res.data)).catch(console.error);
-
     if (id) {
       api.get(`/news/${id}`).then(res => {
         const data = res.data;
@@ -49,10 +51,12 @@ export const NewsForm = () => {
     }
   }, [id]);
 
-  const filteredProducts = allProducts.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    p.category?.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (activeSearchBlock) {
+      api.get<PaginatedResponse<Product>>('/products', { params: { search: debouncedSearch, limit: 10 } })
+         .then(res => setSearchResults(res.data.data));
+    }
+  }, [debouncedSearch, activeSearchBlock]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +86,6 @@ export const NewsForm = () => {
       id ? await api.put(`/news/${id}`, formData) : await api.post('/news', formData);
       navigate('/admin/content');
     } catch (err) {
-      alert("Помилка при збереженні");
       setIsSaving(false);
     }
   };
@@ -91,7 +94,7 @@ export const NewsForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto pb-20">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 mb-6 hover:text-indigo-600 transition-colors">
+      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-slate-500 mb-6 hover:text-indigo-600 transition-colors cursor-pointer">
         <ArrowLeft size={20} /> Назад
       </button>
 
@@ -111,7 +114,7 @@ export const NewsForm = () => {
             {mainImages.map((img, idx) => (
               <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border">
                 <img src={img.preview} className="w-full h-full object-cover" />
-                <button type="button" onClick={() => setMainImages(mainImages.filter((_, i) => i !== idx))} className="absolute top-1 right-1 bg-white p-1 rounded-md text-red-500"><X size={14}/></button>
+                <button type="button" onClick={() => setMainImages(mainImages.filter((_, i) => i !== idx))} className="absolute top-1 right-1 bg-white p-1 rounded-md text-red-500 cursor-pointer"><X size={14}/></button>
               </div>
             ))}
             <label className="aspect-video rounded-xl border-2 border-dashed flex items-center justify-center text-slate-400 cursor-pointer hover:bg-slate-50">
@@ -125,7 +128,7 @@ export const NewsForm = () => {
             <div key={block.id} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-6">
               <div className="flex items-center justify-between">
                 <span className="w-7 h-7 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">{index + 1}</span>
-                {blocks.length > 1 && <button type="button" onClick={() => setBlocks(blocks.filter(b => b.id !== block.id))} className="text-slate-300 hover:text-red-500"><Trash2 size={18} /></button>}
+                {blocks.length > 1 && <button type="button" onClick={() => setBlocks(blocks.filter(b => b.id !== block.id))} className="text-slate-300 hover:text-red-500 cursor-pointer"><Trash2 size={18} /></button>}
               </div>
 
               <input placeholder="Підзаголовок фрагмента" className="w-full p-3 bg-slate-50 rounded-xl font-bold" value={block.title} onChange={e => setBlocks(blocks.map(b => b.id === block.id ? {...b, title: e.target.value} : b))} />
@@ -139,14 +142,14 @@ export const NewsForm = () => {
                 setIsActive={(val) => setActiveSearchBlock(val ? block.id : null)}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                filteredProducts={filteredProducts}
+                filteredProducts={searchResults}
               />
 
               <div className="grid grid-cols-6 gap-3">
                 {block.images.map((img, imgIdx) => (
                   <div key={imgIdx} className="relative aspect-square rounded-xl overflow-hidden border">
                     <img src={img.preview} className="w-full h-full object-cover" />
-                    <button type="button" onClick={() => setBlocks(blocks.map(b => b.id === block.id ? {...b, images: b.images.filter((_, i) => i !== imgIdx)} : b))} className="absolute top-1 right-1 bg-white/90 text-red-500 p-1 rounded-md"><X size={12}/></button>
+                    <button type="button" onClick={() => setBlocks(blocks.map(b => b.id === block.id ? {...b, images: b.images.filter((_, i) => i !== imgIdx)} : b))} className="absolute top-1 right-1 bg-white/90 text-red-500 p-1 rounded-md cursor-pointer"><X size={12}/></button>
                   </div>
                 ))}
                 <label className="aspect-square rounded-xl border-2 border-dashed flex items-center justify-center text-slate-400 hover:bg-slate-50 cursor-pointer">
@@ -155,10 +158,10 @@ export const NewsForm = () => {
               </div>
             </div>
           ))}
-          <button type="button" onClick={() => setBlocks([...blocks, { id: Math.random().toString(), title: '', text: '', images: [], products: [] }])} className="w-full py-4 border-2 border-dashed border-indigo-200 rounded-2xl text-indigo-600 font-bold flex items-center justify-center gap-2 hover:bg-indigo-50"><Plus size={20} /> Додати фрагмент</button>
+          <button type="button" onClick={() => setBlocks([...blocks, { id: Math.random().toString(), title: '', text: '', images: [], products: [] }])} className="w-full py-4 border-2 border-dashed border-indigo-200 rounded-2xl text-indigo-600 font-bold flex items-center justify-center gap-2 hover:bg-indigo-50 cursor-pointer"><Plus size={20} /> Додати фрагмент</button>
         </div>
 
-        <button disabled={isSaving} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 disabled:opacity-50 shadow-xl shadow-indigo-200">
+        <button disabled={isSaving} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 disabled:opacity-50 shadow-xl shadow-indigo-200 cursor-pointer">
           {isSaving ? <Loader2 className="animate-spin" /> : <Save size={20} />} Зберегти новину
         </button>
       </form>

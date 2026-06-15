@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from 'react';
-import api from '../../api'; // Виправлено шлях (../ -> ../../)
-import type { Lookups } from './types'; // Додано type
+import { useState, useEffect } from 'react';
+import api from '../../api';
+import type { PaginatedResponse } from '../../types';
 
 export const useDatabaseManager = (selectedTable: string) => {
   const [data, setData] = useState<any[]>([]);
@@ -9,33 +9,21 @@ export const useDatabaseManager = (selectedTable: string) => {
   const [editForm, setEditForm] = useState<any>({});
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  const [lookups, setLookups] = useState<Lookups>({
-    users: [],
-    categories: [],
-    products: [],
-    orders: []
-  });
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await api.get(`/admin/db/${selectedTable}`);
-      setData(res.data);
-
-      if (selectedTable === 'order') {
-        const users = await api.get('/admin/db/user');
-        setLookups(prev => ({ ...prev, users: users.data }));
-      } else if (selectedTable === 'product') {
-        const cats = await api.get('/admin/db/category');
-        setLookups(prev => ({ ...prev, categories: cats.data }));
-      } else if (selectedTable === 'item') {
-        const [p, o] = await Promise.all([
-          api.get('/admin/db/product'),
-          api.get('/admin/db/order')
-        ]);
-        setLookups(prev => ({ ...prev, products: p.data, orders: o.data }));
-      }
+      const res = await api.get<PaginatedResponse<any>>(`/admin/db/${selectedTable}`, {
+        params: {
+          page: currentPage,
+          limit: itemsPerPage
+        }
+      });
+      setData(res.data.data);
+      setTotalPages(res.data.meta.totalPages);
+      setTotalRecords(res.data.meta.total);
     } catch (err) {
       console.error("Помилка завантаження даних:", err);
     }
@@ -43,17 +31,13 @@ export const useDatabaseManager = (selectedTable: string) => {
   };
 
   useEffect(() => {
-    fetchData();
     setEditingId(null);
     setCurrentPage(1);
   }, [selectedTable]);
 
-  const paginatedData = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return data.slice(startIndex, startIndex + itemsPerPage);
-  }, [data, currentPage, itemsPerPage]);
-
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  useEffect(() => {
+    fetchData();
+  }, [selectedTable, currentPage, itemsPerPage]);
 
   const handleEdit = (item: any) => {
     setEditingId(item.id);
@@ -101,14 +85,14 @@ export const useDatabaseManager = (selectedTable: string) => {
       }, {} as any);
       setEditForm(schema);
     } else {
-      setEditForm({ name: "" }); 
+      setEditForm({ name: "" });
     }
     setEditingId('new');
   };
 
   return {
-    data, paginatedData, loading, editingId, editForm, 
-    currentPage, itemsPerPage, totalPages, lookups,
+    data, paginatedData: data, loading, editingId, editForm,
+    currentPage, itemsPerPage, totalPages, totalRecords,
     setEditingId, setEditForm, setCurrentPage, setItemsPerPage,
     handleEdit, handleSave, handleDelete, handleAddNew
   };

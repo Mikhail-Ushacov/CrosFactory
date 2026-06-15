@@ -9,6 +9,8 @@ import {
   CategorySelector, 
   LoadingState 
 } from '../../context/ContentShared';
+import type { PaginatedResponse, Product, Category } from '../../types';
+import { useDebounce } from '../../hooks/useDebounce';
 
 export const BannerForm = () => {
   const { id } = useParams();
@@ -17,24 +19,22 @@ export const BannerForm = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
   
-  const [allProducts, setAllProducts] = useState<ProductPreview[]>([]);
-  const [allCategories, setAllCategories] = useState<CategoryPreview[]>([]);
-  
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchResults, setSearchResults] = useState<ProductPreview[]>([]);
+  const debouncedSearch = useDebounce(searchQuery, 400);
+
   const [catSearchQuery, setCatSearchQuery] = useState('');
   const [isCatSearchActive, setIsCatSearchActive] = useState(false);
+  const [catSearchResults, setCatSearchResults] = useState<CategoryPreview[]>([]);
+  const debouncedCatSearch = useDebounce(catSearchQuery, 400);
 
-  // Стан форми
   const [form, setForm] = useState({ title: '', description: '', btnText: '' });
   const [selectedProducts, setSelectedProducts] = useState<ProductPreview[]>([]); // Масив для безлічі товарів
   const [selectedCategory, setSelectedCategory] = useState<CategoryPreview | null>(null); // Одиночна категорія
   const [image, setImage] = useState<{file?: File, preview: string, isExisting?: boolean} | null>(null);
 
   useEffect(() => {
-    api.get('/products').then(res => setAllProducts(res.data)).catch(console.error);
-    api.get('/categories').then(res => setAllCategories(res.data)).catch(console.error);
-
     if (id) {
       api.get(`/banners/${id}`).then(res => {
         const data = res.data;
@@ -55,20 +55,23 @@ export const BannerForm = () => {
         }
         
         setIsLoading(false);
-      }).catch((err) => {
-        console.error(err);
-        setIsLoading(false);
-      });
+      }).catch(() => setIsLoading(false));
     }
   }, [id]);
 
-  const filteredProducts = allProducts.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (isSearchActive) {
+      api.get<PaginatedResponse<Product>>('/products', { params: { search: debouncedSearch, limit: 10 } })
+         .then(res => setSearchResults(res.data.data));
+    }
+  }, [debouncedSearch, isSearchActive]);
 
-  const filteredCategories = allCategories.filter(c => 
-    c.name.toLowerCase().includes(catSearchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (isCatSearchActive) {
+      api.get<PaginatedResponse<Category>>('/categories', { params: { search: debouncedCatSearch, limit: 10 } })
+         .then(res => setCatSearchResults(res.data.data));
+    }
+  }, [debouncedCatSearch, isCatSearchActive]);
 
   // --- ЛОГІКА ПЕРЕМИКАННЯ (АБО-АБО) ---
 
@@ -95,9 +98,8 @@ export const BannerForm = () => {
     formData.append('description', form.description);
     formData.append('text', form.btnText);
 
-    // Відправляємо масив ID товарів або порожній масив
     formData.append('productIds', JSON.stringify(selectedProducts.map(p => p.id)));
-    // Відправляємо масив з одним ID категорії або порожній масив
+    formData.append('categoryIds', JSON.stringify(selectedCategory ? [selectedCategory.id] : []));
     formData.append('categoryIds', JSON.stringify(selectedCategory ? [selectedCategory.id] : []));
     
     if (image) {
@@ -115,7 +117,6 @@ export const BannerForm = () => {
       id ? await api.put(`/banners/${id}`, formData) : await api.post('/banners', formData);
       navigate('/admin/content');
     } catch (err) {
-      alert("Помилка при збереженні");
       setIsSaving(false);
     }
   };
@@ -170,7 +171,7 @@ export const BannerForm = () => {
               setIsActive={setIsCatSearchActive}
               searchQuery={catSearchQuery}
               setSearchQuery={setCatSearchQuery}
-              filteredCategories={filteredCategories}
+              filteredCategories={catSearchResults}
             />
 
             <div className="relative flex items-center justify-center py-2">
@@ -186,7 +187,7 @@ export const BannerForm = () => {
               setIsActive={setIsSearchActive}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              filteredProducts={filteredProducts}
+              filteredProducts={searchResults}
             />
           </div>
 

@@ -41,10 +41,11 @@ export const useProductForm = () => {
 
   useEffect(() => {
     // Завантаження категорій з типізацією відповіді
-    api.get<Category[]>('/categories').then((res) => {
-      setCategories(res.data);
-      if (res.data.length > 0 && !id) {
-        setForm((prev) => ({ ...prev, category_id: res.data[0].id }));
+    api.get<PaginatedResponse<Category>>('/categories').then((res) => {
+      const cats = res.data.data;
+      setCategories(cats);
+      if (cats.length > 0 && !id) {
+        setForm((prev) => ({ ...prev, category_id: cats[0].id }));
       }
     });
 

@@ -2,22 +2,183 @@ const prisma = require('../config/prisma');
 const { BASE_URL } = require('../config/constants');
 
 class ProductService {
-  async getAll() {
+  async getAll(query = {}) {
+    const page = Math.max(1, parseInt(query.page) || 1);
+    const requestedLimit = parseInt(query.limit) || 12;
+    const limit = Math.min(requestedLimit, 100);
+    const skip = (page - 1) * limit;
+
+    const where = {};
+    const andConditions = [];
+
+    const searchTerm = (query.search || '').trim();
+    if (searchTerm) {
+      andConditions.push({
+        OR: [
+          { name: { contains: searchTerm } },
+          { description: { contains: searchTerm } },
+          { category: { name: { contains: searchTerm } } }
+        ]
+      });
+    }
+
+    if (query.category && query.category !== 'all') {
+      const catId = parseInt(query.category);
+      if (!isNaN(catId)) {
+        andConditions.push({ categoryId: catId });
+      } else {
+        andConditions.push({ category: { slug: query.category } });
+      }
+    }
+
+    if (query.isOnSale === 'true') {
+      andConditions.push({ isOnSale: true });
+    }
+
+    if (query.range_price) {
+      const [min, max] = query.range_price.split('-').map(Number);
+      if (!isNaN(min) && !isNaN(max)) {
+        andConditions.push({
+          OR: [
+            { isOnSale: false, price: { gte: min, lte: max } },
+            { isOnSale: true, salePrice: { gte: min, lte: max } }
+          ]
+        });
+      }
+    }
+
+    const charKeys = Object.keys(query).filter(k => k.startsWith('range_') && k !== 'range_price');
+    for (const key of charKeys) {
+      const charName = key.replace('range_', '').toLowerCase();
+      const [min, max] = query[key].split('-').map(Number);
+      if (!isNaN(min) && !isNaN(max)) {
+        andConditions.push({
+          characteristics: {
+            some: {
+              name: { contains: charName },
+              value: { gte: min, lte: max }
+            }
+          }
+        });
+      }
+    }
+
+    if (andConditions.length > 0) {
+      where.AND = andConditions;
+    }
+
+    let orderBy = { id: 'desc' };
+    if (query.sort === 'cheap') {
+      orderBy = { price: 'asc' };
+    } else if (query.sort === 'expensive') {
+      orderBy = { price: 'desc' };
+    }
+
+    const [total, products] = await prisma.$transaction([
+      prisma.product.count({ where }),
+      prisma.product.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy,
+        include: { 
+          category: true, 
+          images: { include: { image: true }, take: 1 },
+          characteristics: true
+        }
+      })
+    ]);
+
+    const formattedProducts = products.map(p => ({
+      ...p,
+      category_id: p.categoryId,
+      category_name: p.category?.name || '',
+      category_slug: p.category?.slug || '',
+      main_image: p.images[0]?.image.url || null,
+      characteristics: p.characteristics
+    }));
+
+    return {
+      data: formattedProducts,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      }
+    };
+  }
+
+  async getBatch(ids) {
+    if (!Array.isArray(ids) || ids.length === 0) return [];
+    
+    const numericIds = ids.map(Number).filter(id => !isNaN(id));
+    if (numericIds.length === 0) return [];
+
     const products = await prisma.product.findMany({
-      include: { 
-        category: true, 
+      where: { id: { in: numericIds } },
+      include: {
+        category: true,
         images: { include: { image: true }, take: 1 },
         characteristics: true
       }
     });
-    return products.map(p => ({
+
+    const formatted = products.map(p => ({
       ...p,
       category_id: p.categoryId,
-      category_name: p.category.name,
-      category_slug: p.category.slug,
+      category_name: p.category?.name || '',
+      category_slug: p.category?.slug || '',
       main_image: p.images[0]?.image.url || null,
       characteristics: p.characteristics
     }));
+
+    return numericIds
+      .map(id => formatted.find(p => p.id === id))
+      .filter(Boolean);
+  }
+
+  async getFilters(categoryParam) {
+    const where = {};
+    if (categoryParam && categoryParam !== 'all') {
+      const catId = parseInt(categoryParam);
+      if (!isNaN(catId)) {
+        where.categoryId = catId;
+      } else {
+        where.category = { slug: categoryParam };
+      }
+    }
+
+    const products = await prisma.product.findMany({
+      where,
+      select: { price: true, salePrice: true, isOnSale: true, characteristics: true }
+    });
+
+    const filters = {};
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+
+    products.forEach(p => {
+      const actualPrice = p.isOnSale && p.salePrice ? p.salePrice : p.price;
+      if (actualPrice < minPrice) minPrice = actualPrice;
+      if (actualPrice > maxPrice) maxPrice = actualPrice;
+
+      p.characteristics.forEach(c => {
+        const key = c.name.toLowerCase();
+        if (!filters[key]) {
+          filters[key] = { displayName: c.name, unit: c.unit, min: c.value, max: c.value };
+        } else {
+          filters[key].min = Math.min(filters[key].min, c.value);
+          filters[key].max = Math.max(filters[key].max, c.value);
+        }
+      });
+    });
+
+    if (minPrice !== Infinity && maxPrice !== -Infinity) {
+      filters['price'] = { displayName: 'Ціна', unit: '₴', min: minPrice, max: maxPrice };
+    }
+
+    return filters;
   }
 
   async getById(id) {

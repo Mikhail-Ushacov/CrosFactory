@@ -3,13 +3,6 @@ export interface TableConfig {
   name: string;
 }
 
-export interface Lookups {
-  users: any[];
-  categories: any[];
-  products: any[];
-  orders: any[];
-}
-
 export const TABLES: TableConfig[] = [
   { id: 'user', name: 'Користувачі' },
   { id: 'category', name: 'Категорії' },

@@ -17,7 +17,7 @@ export const AdminContentManager = () => {
         api.get('/news')
       ]);
       setBanners(bRes.data);
-      setNews(nRes.data);
+      setNews(nRes.data.data);
     } catch (err) {
       console.error("Помилка завантаження даних", err);
     } finally {
