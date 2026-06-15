@@ -5,6 +5,7 @@ import {
   ChevronLeft, ChevronRight, Layers, Newspaper, Eye, EyeOff 
 } from 'lucide-react';
 import { useAdminProfile } from './useAdminProfile';
+import type { Product, Category } from '../../types';
 
 export const AdminProfile = () => {
   const navigate = useNavigate();
@@ -144,7 +145,17 @@ export const AdminProfile = () => {
 
 // --- Допоміжні компоненти (можна винести в окремі файли за потреби) ---
 
-const TabCard = ({ title, count, subtitle, icon, isActive, onClick, colorClass }: any) => (
+interface TabCardProps {
+  title: string;
+  count: number;
+  subtitle: string;
+  icon: React.ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+  colorClass: string;
+}
+
+const TabCard = ({ title, count, subtitle, icon, isActive, onClick, colorClass }: TabCardProps) => (
   <button 
     onClick={onClick}
     className={`p-6 rounded-3xl border-2 transition-all text-left ${isActive ? `border-${colorClass}-600 bg-${colorClass}-50` : 'border-transparent bg-white shadow-sm hover:border-slate-200'}`}
@@ -158,7 +169,15 @@ const TabCard = ({ title, count, subtitle, icon, isActive, onClick, colorClass }
   </button>
 );
 
-const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChange }: any) => (
+interface ProductsTableProps {
+  products: Product[];
+  onDelete: (id: number) => void;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChange }: ProductsTableProps) => (
   <>
     <div className="overflow-x-auto">
       <table className="w-full text-left">
@@ -171,7 +190,7 @@ const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChan
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-50">
-          {products.map((product: any) => {
+          {products.map((product: Product) => {
             // Розрахунок відсотка для відображення
             const discountPercent = product.isOnSale && product.price > 0 && product.salePrice
               ? Math.round(((product.price - product.salePrice) / product.price) * 100)
@@ -208,7 +227,7 @@ const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChan
                       {/* Контейнер для основної ціни та знижки */}
                       <div className="flex items-center gap-2 leading-none">
                         <span className="font-black text-rose-600 whitespace-nowrap text-[15px]">
-                          {product.salePrice.toLocaleString()} ₴
+                          {(product.salePrice ?? 0).toLocaleString()} ₴
                         </span>
                         <span className="text-[10px] font-black bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded-md border border-rose-100 flex-shrink-0">
                           -{discountPercent}%
@@ -264,9 +283,15 @@ const ProductsTable = ({ products, onDelete, currentPage, totalPages, onPageChan
   </>
 );
 
-const CategoriesGrid = ({ categories, onDelete, onToggleVisibility }: any) => (
+interface CategoriesGridProps {
+  categories: Category[];
+  onDelete: (id: number) => void;
+  onToggleVisibility: (id: number, currentStatus: boolean) => void;
+}
+
+const CategoriesGrid = ({ categories, onDelete, onToggleVisibility }: CategoriesGridProps) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
-    {categories.map((cat: any) => (
+    {categories.map((cat: Category) => (
       <div key={cat.id} className={`bg-slate-50 p-4 rounded-2xl flex items-center justify-between group hover:bg-white hover:shadow-md transition-all border ${cat.isHidden ? 'border-dashed border-amber-200 opacity-75' : 'border-transparent hover:border-slate-100'}`}>
         <div className="flex items-center gap-4">
           {/* Чекбокс/Кнопка видимості */}

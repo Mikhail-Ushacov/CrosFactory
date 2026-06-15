@@ -168,7 +168,7 @@ export const useProductForm = () => {
 
   const addCharacteristic = () => setCharacteristics([...characteristics, { name: '', value: '', unit: '' }]);
   
-  const updateChar = (index: number, field: keyof Characteristic, val: any) => {
+  const updateChar = (index: number, field: keyof Characteristic, val: string | number) => {
     const updated = [...characteristics];
     let finalVal = val;
     if (field === 'value') {

@@ -4,12 +4,17 @@ import { ArrowLeft, ShoppingBag, Tag, ChevronRight } from 'lucide-react';
 import api from '../api';
 import { useCart } from '../context/CartContext';
 import { Loader2 } from 'lucide-react';
+import type { Banner, Product } from '../types';
+
+interface PromotionBanner extends Banner {
+  allLinkedProducts?: Product[];
+}
 
 export const PromotionPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [banner, setBanner] = useState<any>(null);
+  const [banner, setBanner] = useState<PromotionBanner | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +30,8 @@ export const PromotionPage = () => {
       <Loader2 className="animate-spin text-indigo-600" size={40} />
     </div>
   );
+
+  if (!banner) return null;
 
   return (
     <div className="max-w-7xl mx-auto pb-20">
@@ -82,7 +89,7 @@ export const PromotionPage = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {banner.allLinkedProducts?.map((product: any) => (
+          {banner.allLinkedProducts?.map((product: Product) => (
             <div key={product.id} className="bg-white rounded-3xl border border-slate-100 p-4 hover:shadow-xl transition-all group flex flex-col relative">
               
               {product.isOnSale && (

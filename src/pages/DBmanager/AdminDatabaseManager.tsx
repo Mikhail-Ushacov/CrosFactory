@@ -28,7 +28,7 @@ export const AdminDatabaseManager = () => {
   const currentTableName = TABLES.find(t => t.id === selectedTable)?.name;
 
   // Допоміжна функція для рендерингу полів вводу в модалці
-  const renderFieldInput = (key: string, value: any) => {
+  const renderFieldInput = (key: string, value: unknown) => {
     if (key === 'id' || key === 'createdAt' || key === 'updatedAt') return null;
 
     const label = key;
@@ -40,7 +40,7 @@ export const AdminDatabaseManager = () => {
         <div key={key}>
           <label className="block text-[10px] font-black text-slate-400 uppercase mb-1.5 ml-1">{label}</label>
           <select 
-            value={value} 
+            value={value as string} 
             onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
             className={baseInputClass}
           >
@@ -56,7 +56,7 @@ export const AdminDatabaseManager = () => {
         <LookupSearchInput
           key={key}
           model={fkToModel[key]}
-          value={value}
+          value={value as string | number}
           onChange={(newVal) => setEditForm({ ...editForm, [key]: newVal })}
           label={label}
         />
@@ -84,7 +84,7 @@ export const AdminDatabaseManager = () => {
         <div key={key} className="col-span-full">
           {label}
           <textarea 
-            value={value ?? ''} 
+            value={String(value ?? '')}
             onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
             className={`${baseInputClass} min-h-[100px]`}
           />
@@ -98,7 +98,7 @@ export const AdminDatabaseManager = () => {
         {label}
         <input 
           type={['price', 'quantity', 'oldPrice'].includes(key) ? 'number' : 'text'}
-          value={value ?? ''} 
+          value={String(value ?? '')}
           onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
           className={baseInputClass}
         />
@@ -188,12 +188,12 @@ export const AdminDatabaseManager = () => {
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {paginatedData.map((item) => (
-                    <tr key={item.id} className="hover:bg-indigo-50/30 transition-colors group">
+                    <tr key={item.id as number} className="hover:bg-indigo-50/30 transition-colors group">
                       {Object.keys(item).map(key => (
                         <td key={key} className="p-5 max-w-[250px] truncate text-sm font-semibold text-slate-600">
                           {isImageField(key, item[key]) ? (
                             <div className="relative w-12 h-12 group/img">
-                                <img src={item[key]} className="w-12 h-12 rounded-xl object-cover border-2 border-white shadow-sm bg-white" alt="" />
+                                <img src={item[key] as string} className="w-12 h-12 rounded-xl object-cover border-2 border-white shadow-sm bg-white" alt="" />
                                 <div className="absolute inset-0 bg-black/40 rounded-xl opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity">
                                     <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                                 </div>
@@ -212,7 +212,7 @@ export const AdminDatabaseManager = () => {
                             <Edit2 size={16} />
                           </button>
                           <button 
-                            onClick={() => handleDelete(item.id)} 
+                            onClick={() => handleDelete(item.id as number)} 
                             className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
                           >
                             <Trash2 size={16} />

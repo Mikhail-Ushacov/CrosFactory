@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ArrowLeft, ImagePlus, X, Loader2, Plus, Trash2 } from 'lucide-react';
 import api from '../../api';
 import { type ProductPreview, ProductSelector, LoadingState } from '../../context/ContentShared';
-import type { PaginatedResponse, Product } from '../../types';
+import type { PaginatedResponse, Product, NewsBlock } from '../../types';
 import { useDebounce } from '../../hooks/useDebounce';
 
 interface ContentBlock {
@@ -39,9 +39,9 @@ export const NewsForm = () => {
         setForm({ title: data.title || '', description: data.description || '', tag: data.tag || 'Новини' });
         setMainImages((data.images || []).map((url: string) => ({ preview: url, isExisting: true })));
         if (data.contentBlocks) {
-          setBlocks(data.contentBlocks.map((b: any) => ({
+          setBlocks(data.contentBlocks.map((b: NewsBlock) => ({
             ...b,
-            id: b.id || Math.random().toString(),
+            id: String(b.id) || Math.random().toString(),
             images: (b.images || []).map((url: string) => ({ preview: url, isExisting: true })),
             products: b.products || []
           })));

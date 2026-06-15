@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Printer, Loader2 } from 'lucide-react';
 import api from '../api';
+import type { Order, OrderItem } from '../types';
 
 const InvoiceTemplate: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [order, setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -100,14 +101,14 @@ const InvoiceTemplate: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {order.items?.map((item: any, idx: number) => (
+            {order.items?.map((item: OrderItem, idx: number) => (
               <tr key={idx}>
                 <td className="border border-black p-1 text-center">{idx + 1}</td>
-                <td className="border border-black p-1">{item.product.name}</td>
+                <td className="border border-black p-1">{item.product!.name}</td>
                 <td className="border border-black p-1 text-center">шт.</td>
                 <td className="border border-black p-1 text-center">{item.quantity}</td>
-                <td className="border border-black p-1 text-right">{item.product.price.toFixed(2)}</td>
-                <td className="border border-black p-1 text-right font-bold">{(item.product.price * item.quantity).toFixed(2)}</td>
+                <td className="border border-black p-1 text-right">{item.product!.price.toFixed(2)}</td>
+                <td className="border border-black p-1 text-right font-bold">{(item.product!.price * item.quantity).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>

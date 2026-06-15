@@ -4,6 +4,7 @@ import { UserPlus, User, Lock, Shield, ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
+import axios from 'axios';
 
 export const Register = () => {
   const [form, setForm] = useState({ 
@@ -51,8 +52,12 @@ export const Register = () => {
       // Після успішної реєстрації перенаправляємо на логін
       alert('Реєстрація успішна! Тепер увійдіть у свій акаунт.');
       navigate('/login');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Помилка при реєстрації. Можливо, логін вже зайнятий.');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || 'Помилка при реєстрації. Можливо, логін вже зайнятий.');
+      } else {
+        setError('Сталася невідома помилка.');
+      }
     } finally {
       setLoading(false);
     }

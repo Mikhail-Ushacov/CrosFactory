@@ -5,8 +5,8 @@ import { useDebounce } from '../../hooks/useDebounce';
 
 interface LookupSearchInputProps {
   model: string;
-  value: any;
-  onChange: (value: any) => void;
+  value: string | number;
+  onChange: (value: string | number) => void;
   label: string;
 }
 
@@ -20,7 +20,7 @@ const displayFields: Record<string, string> = {
 export const LookupSearchInput = ({ model, value, onChange, label }: LookupSearchInputProps) => {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<Record<string, unknown>[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +28,6 @@ export const LookupSearchInput = ({ model, value, onChange, label }: LookupSearc
   const debouncedSearch = useDebounce(searchQuery, 400);
 
   useEffect(() => {
-    const field = displayFields[model] || 'id';
     if (value && !isSearchActive) {
       setSelectedLabel(`ID: ${value}`);
     }
@@ -58,10 +57,10 @@ export const LookupSearchInput = ({ model, value, onChange, label }: LookupSearc
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSelect = (item: any) => {
-    onChange(item.id);
+  const handleSelect = (item: Record<string, unknown>) => {
+    onChange(item.id as number);
     const field = displayFields[model] || 'id';
-    setSelectedLabel(item[field] || `ID: ${item.id}`);
+    setSelectedLabel((item[field] as string) || `ID: ${item.id as number}`);
     setIsSearchActive(false);
     setSearchQuery('');
     setSearchResults([]);
@@ -119,17 +118,17 @@ export const LookupSearchInput = ({ model, value, onChange, label }: LookupSearc
 
           {(searchResults.length > 0 || isSearching) && (
             <div className="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto">
-              {searchResults.map((item: any) => {
+              {searchResults.map((item: Record<string, unknown>) => {
                 const field = displayFields[model] || 'id';
-                const display = item[field] || `ID: ${item.id}`;
+                const display = (item[field] as string) || `ID: ${item.id as number}`;
                 return (
                   <button
-                    key={item.id}
+                    key={item.id as number}
                     onClick={() => handleSelect(item)}
                     className="w-full text-left px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors cursor-pointer border-b border-slate-50 last:border-b-0"
                   >
                     {display}
-                    <span className="text-xs text-slate-400 ml-2">ID: {item.id}</span>
+                    <span className="text-xs text-slate-400 ml-2">ID: {item.id as number}</span>
                   </button>
                 );
               })}

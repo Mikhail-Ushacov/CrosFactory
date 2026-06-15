@@ -16,6 +16,7 @@ import {
   Loader2
 } from 'lucide-react';
 import api from '../api';
+import axios from 'axios';
 
 type CustomerType = 'individual' | 'business';
 
@@ -100,8 +101,12 @@ export const Checkout = () => {
       clearCart();
       setOrdered(true);
       window.scrollTo(0, 0);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Помилка при оформленні замовлення.");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Помилка при оформленні замовлення.");
+      } else {
+        setError("Сталася невідома помилка.");
+      }
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,7 @@ import api from '../../api';
 import { useCart } from '../../context/CartContext';
 import type { Product, Category, PaginatedResponse } from '../../types';
 
-interface FilterGroup {
+export interface FilterGroup {
   displayName: string;
   unit: string;
   min: number;

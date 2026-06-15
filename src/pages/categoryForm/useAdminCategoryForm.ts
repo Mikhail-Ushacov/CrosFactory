@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import slugify from '../../Slugify';
+import type { Product } from '../../types';
 
 export const useAdminCategoryForm = () => {
   const { id } = useParams();
@@ -12,13 +13,13 @@ export const useAdminCategoryForm = () => {
   const [form, setForm] = useState({ name: '', slug: '', isHidden: false });
 
   // Товари
-  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   // Стан таблиці
   const [searchTerm, setSearchTerm] = useState('');
   const [onlySale, setOnlySale] = useState(false);
-  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: keyof Product, direction: 'asc' | 'desc' } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -35,7 +36,7 @@ export const useAdminCategoryForm = () => {
             slug: catRes.data.slug,
             isHidden: !!catRes.data.isHidden 
           });
-          setSelectedIds(catRes.data.products?.map((p: any) => p.id) || []);
+          setSelectedIds(catRes.data.products?.map((p: Product) => p.id) || []);
         }
       } catch (err) {
         console.error("Помилка завантаження даних", err);
@@ -60,12 +61,12 @@ export const useAdminCategoryForm = () => {
 
     if (sortConfig) {
       result.sort((a, b) => {
-        let aValue = a[sortConfig.key];
-        let bValue = b[sortConfig.key];
+        let aValue = a[sortConfig.key] as string | number | boolean;
+        let bValue = b[sortConfig.key] as string | number | boolean;
         
         if (sortConfig.key === 'price') {
-            aValue = a.isOnSale ? a.salePrice : a.price;
-            bValue = b.isOnSale ? b.salePrice : b.price;
+            aValue = a.isOnSale ? (a.salePrice ?? 0) : a.price;
+            bValue = b.isOnSale ? (b.salePrice ?? 0) : b.price;
         }
 
         if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
@@ -86,7 +87,7 @@ export const useAdminCategoryForm = () => {
     );
   };
 
-  const requestSort = (key: string) => {
+  const requestSort = (key: keyof Product) => {
     let direction: 'asc' | 'desc' = 'asc';
     if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
       direction = 'desc';

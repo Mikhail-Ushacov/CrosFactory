@@ -3,12 +3,13 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Calendar, Tag, Loader2, ArrowLeft, Package, ChevronRight, ShoppingBag } from 'lucide-react';
 import api from '../api';
 import { useCart } from '../context/CartContext';
+import type { News, NewsBlock, Product } from '../types';
 
 export const NewsDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [item, setItem] = useState<any>(null);
+  const [item, setItem] = useState<News | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export const NewsDetails = () => {
 
         {/* ДИНАМІЧНІ БЛОКИ КОНТЕНТУ */}
         <div className="space-y-16">
-          {item.contentBlocks?.map((block: any, idx: number) => (
+          {item.contentBlocks?.map((block: NewsBlock, idx: number) => (
             <section key={block.id || idx} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
               
               {/* Текст та заголовок блоку */}
@@ -104,7 +105,7 @@ export const NewsDetails = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {block.products.map((product: any) => (
+                  {block.products.map((product: Product) => (
                     <div key={product.id} className="bg-white p-4 rounded-2xl flex items-center gap-4 border border-slate-50 hover:shadow-xl hover:border-indigo-100 transition-all group">
                       
                       {/* Посилання через зображення */}

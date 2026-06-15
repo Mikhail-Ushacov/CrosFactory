@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import api from '../../api';
 import type { PaginatedResponse } from '../../types';
+import axios from 'axios';
 
 export const useDatabaseManager = (selectedTable: string) => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<number | 'new' | null>(null);
-  const [editForm, setEditForm] = useState<any>({});
+  const [editForm, setEditForm] = useState<Record<string, unknown>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
@@ -15,7 +16,7 @@ export const useDatabaseManager = (selectedTable: string) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await api.get<PaginatedResponse<any>>(`/admin/db/${selectedTable}`, {
+      const res = await api.get<PaginatedResponse<Record<string, unknown>>>(`/admin/db/${selectedTable}`, {
         params: {
           page: currentPage,
           limit: itemsPerPage
@@ -39,8 +40,8 @@ export const useDatabaseManager = (selectedTable: string) => {
     fetchData();
   }, [selectedTable, currentPage, itemsPerPage]);
 
-  const handleEdit = (item: any) => {
-    setEditingId(item.id);
+  const handleEdit = (item: Record<string, unknown>) => {
+    setEditingId(item.id as number);
     setEditForm(item);
   };
 
@@ -62,8 +63,8 @@ export const useDatabaseManager = (selectedTable: string) => {
       }
       setEditingId(null);
       fetchData();
-    } catch (err: any) {
-      alert("Помилка при збереженні: " + (err.response?.data?.message || err.message));
+    } catch (err: unknown) {
+      alert("Помилка при збереженні: " + (axios.isAxiosError(err) ? (err.response?.data?.message || err.message) : 'Невідома помилка'));
     }
   };
 
@@ -82,7 +83,7 @@ export const useDatabaseManager = (selectedTable: string) => {
       const schema = Object.keys(data[0]).reduce((acc, key) => {
         if (!['id', 'createdAt', 'updatedAt'].includes(key)) acc[key] = "";
         return acc;
-      }, {} as any);
+      }, {} as Record<string, unknown>);
       setEditForm(schema);
     } else {
       setEditForm({ name: "" });

@@ -5,19 +5,26 @@ import {
   Package, ShoppingBag, ArrowLeft,
   X, ArrowUpDown, LayoutGrid 
 } from 'lucide-react';
-import { useSmartCatalog } from './useSmartCatalog';
+import { useSmartCatalog, type FilterGroup } from './useSmartCatalog';
 
 /**
  * Допоміжний компонент для подвійного повзунка.
  * Забезпечує плавність ходу (локальний стейт) та 
  * оновлення результатів тільки після завершення вибору.
  */
+interface RangeFilterItemProps {
+  filterKey: string;
+  data: FilterGroup;
+  initialValues: Array<number | ''>;
+  onCommit: (key: string, min: number, max: number) => void;
+}
+
 const RangeFilterItem = ({ 
   filterKey, 
   data, 
   initialValues, 
   onCommit 
-}: any) => {
+}: RangeFilterItemProps) => {
   const [tempValues, setTempValues] = useState<Array<number | ''>>(initialValues);
 
   // Оновлюємо локальні значення, якщо параметри скинуті ззовні
@@ -283,7 +290,7 @@ export const SmartCatalog = () => {
                       </Link>
                       
                       <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3">
-                        {p.characteristics?.slice(0, 3).map((c: any, i: number) => (
+                        {p.characteristics?.slice(0, 3).map((c, i: number) => (
                           <span key={i} className="text-[10px] font-bold text-slate-400 uppercase">
                             {c.name}: {c.value}{c.unit}
                           </span>
