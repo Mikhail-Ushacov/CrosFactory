@@ -5,7 +5,7 @@ import type { Product, Category, PaginatedResponse } from '../../types';
 import api from '../../api';
 import { useDebounce } from '../../hooks/useDebounce';
 
-export interface Banner {
+interface Banner {
   id: number;
   title: string;
   description: string;
@@ -15,7 +15,7 @@ export interface Banner {
   categories?: { id: number }[];
 }
 
-export interface NewsItem {
+interface NewsItem {
   id: number;
   title: string;
   description: string;
