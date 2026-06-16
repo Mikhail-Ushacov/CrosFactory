@@ -89,14 +89,7 @@ class ProductService {
       })
     ]);
 
-    const formattedProducts = products.map(p => ({
-      ...p,
-      category_id: p.categoryId,
-      category_name: p.category?.name || '',
-      category_slug: p.category?.slug || '',
-      main_image: p.images[0]?.image.url || null,
-      characteristics: p.characteristics
-    }));
+    const formattedProducts = products.map(p => this._formatProduct(p));
 
     return {
       data: formattedProducts,
@@ -124,14 +117,7 @@ class ProductService {
       }
     });
 
-    const formatted = products.map(p => ({
-      ...p,
-      category_id: p.categoryId,
-      category_name: p.category?.name || '',
-      category_slug: p.category?.slug || '',
-      main_image: p.images[0]?.image.url || null,
-      characteristics: p.characteristics
-    }));
+    const formatted = products.map(p => this._formatProduct(p));
 
     return numericIds
       .map(id => formatted.find(p => p.id === id))
@@ -215,18 +201,7 @@ class ProductService {
   }
 
   async create(data, files) {
-    const { name, price, description, category_id, existing_urls, characteristics, isOnSale, salePrice } = data;
-    
-    // 1. Очищуємо та валідуємо вхідні дані
-    const urls = JSON.parse(existing_urls || '[]');
-    const charList = JSON.parse(characteristics || '[]');
-    const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
-    
-    // ВИДАЛЯЄМО ДУБЛІКАТИ (вирішує 500 помилку)
-    const allImages = Array.from(new Set([...urls, ...fileUrls])).filter(url => url.trim() !== '');
-
-    const catId = parseInt(category_id);
-    if (isNaN(catId)) throw new Error("Невірний ID категорії");
+    const { name, price, description, catId, allImages, charList, isOnSale, salePrice } = this._parseProductData(data, files);
 
     return await prisma.product.create({
       data: {
@@ -262,17 +237,7 @@ class ProductService {
     const productId = parseInt(id);
     if (isNaN(productId)) throw new Error("Невірний ID товару");
 
-    const { name, price, description, category_id, existing_urls, characteristics, isOnSale, salePrice } = data;
-    
-    const urls = JSON.parse(existing_urls || '[]');
-    const charList = JSON.parse(characteristics || '[]');
-    const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
-    
-    // ВИДАЛЯЄМО ДУБЛІКАТИ (вирішує 500 помилку)
-    const allImages = Array.from(new Set([...urls, ...fileUrls])).filter(url => url.trim() !== '');
-
-    const catId = parseInt(category_id);
-    if (isNaN(catId)) throw new Error("Невірний ID категорії");
+    const { name, price, description, catId, allImages, charList, isOnSale, salePrice } = this._parseProductData(data, files);
 
     return await prisma.$transaction(async (tx) => {
       // Перевіряємо чи існує товар
@@ -322,6 +287,28 @@ class ProductService {
   async delete(id) {
     const productId = parseInt(id);
     return await prisma.product.delete({ where: { id: productId } });
+  }
+
+  _formatProduct(p) {
+    return {
+      ...p,
+      category_id: p.categoryId,
+      category_name: p.category?.name || '',
+      category_slug: p.category?.slug || '',
+      main_image: p.images[0]?.image.url || null,
+      characteristics: p.characteristics,
+    };
+  }
+
+  _parseProductData(data, files) {
+    const { name, price, description, category_id, existing_urls, characteristics, isOnSale, salePrice } = data;
+    const urls = JSON.parse(existing_urls || '[]');
+    const charList = JSON.parse(characteristics || '[]');
+    const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
+    const allImages = Array.from(new Set([...urls, ...fileUrls])).filter(url => url.trim() !== '');
+    const catId = parseInt(category_id);
+    if (isNaN(catId)) throw new Error("Невірний ID категорії");
+    return { name, price, description, catId, allImages, charList, isOnSale, salePrice };
   }
 }
 

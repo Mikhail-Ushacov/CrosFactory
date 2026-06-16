@@ -5,6 +5,7 @@ const upload = require('../config/multer');
 const { protect, restrictTo } = require('../middleware/auth');
 const { BASE_URL } = require('../config/constants');
 const adminController = require('../controllers/admin.controller');
+const adminService = require('../services/admin.service');
 
 // Доступ для Admin та Moderator (Статистика)
 router.get('/stats', protect, restrictTo('admin', 'moderator'), adminController.getStats);
@@ -17,19 +18,6 @@ const allowedModels = [
   'banner', 'bannerImage', 'news', 'newsImage', 'order', 'item',
   'newsBlock', 'newsBlockImage', 'newsBlockProduct', 'bannerProduct'
 ];
-
-const formatData = (data) => {
-  const skip = ['login', 'password', 'description', 'text', 'title', 'url', 'slug', 'tag', 'customerName', 'email', 'phone', 'address'];
-  return Object.keys(data).reduce((acc, key) => {
-    const val = data[key];
-    if (typeof val === 'string' && val.trim() !== '' && !isNaN(val) && !skip.includes(key)) {
-      acc[key] = val.includes('.') ? parseFloat(val) : parseInt(val);
-    } else {
-      acc[key] = val;
-    }
-    return acc;
-  }, {});
-};
 
 router.get('/db/:model', async (req, res) => {
   if (!allowedModels.includes(req.params.model)) return res.status(400).send("Invalid model");
@@ -68,14 +56,14 @@ router.get('/db/:model', async (req, res) => {
 });
 
 router.post('/db/:model', async (req, res) => {
-  const newItem = await prisma[req.params.model].create({ data: formatData(req.body) });
+  const newItem = await prisma[req.params.model].create({ data: adminService.formatData(req.body) });
   res.status(201).json(newItem);
 });
 
 router.put('/db/:model/:id', async (req, res) => {
   const updated = await prisma[req.params.model].update({
     where: { id: parseInt(req.params.id) },
-    data: formatData(req.body)
+    data: adminService.formatData(req.body)
   });
   res.json(updated);
 });

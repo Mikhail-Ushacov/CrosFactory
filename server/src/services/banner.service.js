@@ -68,13 +68,7 @@ class BannerService {
   }
 
   async create(data, files) {
-    const { title, description, text, existing_urls, productIds, categoryIds } = data;
-    const urls = JSON.parse(existing_urls || '[]');
-    const pIds = JSON.parse(productIds || '[]');
-    const cIds = JSON.parse(categoryIds || '[]');
-    
-    const fileUrls = files.map(file => `${BASE_URL}/content/${file.filename}`);
-    const allImages = [...urls, ...fileUrls];
+    const { title, description, text, pIds, cIds, allImages } = this._parseBannerData(data, files);
 
     return await prisma.banner.create({
       data: {
@@ -100,14 +94,7 @@ class BannerService {
 
   async update(id, data, files) {
     const bannerId = parseInt(id);
-    const { title, description, text, existing_urls, productIds, categoryIds } = data;
-    
-    const urls = JSON.parse(existing_urls || '[]');
-    const pIds = JSON.parse(productIds || '[]');
-    const cIds = JSON.parse(categoryIds || '[]');
-    
-    const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
-    const allImages = [...urls, ...fileUrls];
+    const { title, description, text, pIds, cIds, allImages } = this._parseBannerData(data, files);
 
     return await prisma.$transaction(async (tx) => {
       await tx.bannerImage.deleteMany({ where: { bannerId } });
@@ -161,6 +148,16 @@ class BannerService {
       // Форматуємо bannerCategories у плоский масив categories
       categories: b.bannerCategories ? b.bannerCategories.map(bc => bc.category) : []
     };
+  }
+
+  _parseBannerData(data, files) {
+    const { title, description, text, existing_urls, productIds, categoryIds } = data;
+    const urls = JSON.parse(existing_urls || '[]');
+    const pIds = JSON.parse(productIds || '[]');
+    const cIds = JSON.parse(categoryIds || '[]');
+    const fileUrls = files ? files.map(file => `${BASE_URL}/content/${file.filename}`) : [];
+    const allImages = [...urls, ...fileUrls];
+    return { title, description, text, pIds, cIds, allImages };
   }
 }
 
